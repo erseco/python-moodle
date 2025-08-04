@@ -1,14 +1,14 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/erseco/py-moodle/main/docs/images/py-moodle-icon.png" alt="py-moodle logo" width="128">
+  <img src="https://raw.githubusercontent.com/erseco/python-moodle/main/docs/images/py-moodle-icon.png" alt="py-moodle logo" width="128">
 </p>
 
-# py-moodle
+# python-moodle
 
-[![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/erseco/py-moodle/blob/main/LICENSE)
+[![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/erseco/python-moodle/blob/main/LICENSE)
 [![Python Version](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
-[![PyPI downloads](https://img.shields.io/pypi/dm/py-moodle)](https://pypi.org/project/py-moodle/)
+[![PyPI downloads](https://img.shields.io/pypi/dm/python-moodle)](https://pypi.org/project/python-moodle/)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![GitHub repository](https://img.shields.io/badge/github-repository-blue)](https://github.com/erseco/py-moodle)
+[![GitHub repository](https://img.shields.io/badge/github-repository-blue)](https://github.com/erseco/python-moodle)
 
 > **A modern Pythonic CLI and library to manage Moodle via web sessions, with full session and CAS support.**
 
@@ -38,7 +38,7 @@ You will need Python 3.8+ and `pip`.
 ### Install from PyPI (Recommended)
 
 ```bash
-pip install py-moodle
+pip install python-moodle
 ```
 
 ### Install from Source
@@ -46,8 +46,8 @@ pip install py-moodle
 Clone the repository and install:
 
 ```bash
-git clone https://github.com/erseco/py-moodle.git
-cd py-moodle
+git clone https://github.com/erseco/python-moodle.git
+cd python-moodle
 pip install .
 ```
 

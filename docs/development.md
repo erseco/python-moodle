@@ -7,7 +7,7 @@ Welcome to py-moodle development! This guide covers everything you need to contr
 ### 1. Clone and Setup
 
 ```bash
-git clone https://github.com/erseco/py-moodle.git
+git clone https://github.com/erseco/python-moodle.git
 cd py-moodle
 
 # Create virtual environment
@@ -146,7 +146,7 @@ def test_create_course_success(moodle_session):
 ## Project Structure
 
 ```
-py-moodle/
+python-moodle/
 ├── src/py_moodle/          # Main package
 │   ├── __init__.py         # Package initialization
 │   ├── cli/                # CLI commands

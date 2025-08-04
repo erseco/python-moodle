@@ -1,9 +1,9 @@
 site_name: py-moodle
 site_description: A modern Pythonic CLI and library to manage Moodle via web sessions
 site_author: Ernesto Serrano
-site_url: https://erseco.github.io/py-moodle/
-repo_name: erseco/py-moodle
-repo_url: https://github.com/erseco/py-moodle
+site_url: https://erseco.github.io/python-moodle/
+repo_name: erseco/python-moodle
+repo_url: https://github.com/erseco/python-moodle
 edit_uri: edit/main/docs/
 theme:
   name: material
@@ -90,10 +90,10 @@ plugins:
 extra:
   social:
   - icon: fontawesome/brands/github
-    link: https://github.com/erseco/py-moodle
+    link: https://github.com/erseco/python-moodle
     name: GitHub Repository
   - icon: fontawesome/brands/python
-    link: https://pypi.org/project/py-moodle/
+    link: https://pypi.org/project/python-moodle/
     name: PyPI Package
 nav:
   - Home: index.md

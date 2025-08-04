@@ -13,7 +13,7 @@ pip install py-moodle
 Clone the repository and install:
 
 ```bash
-git clone https://github.com/erseco/py-moodle.git
+git clone https://github.com/erseco/python-moodle.git
 cd py-moodle
 pip install .
 ```
@@ -25,7 +25,7 @@ This makes the `py-moodle` command available system-wide.
 For development or to get the latest features:
 
 ```bash
-git clone https://github.com/erseco/py-moodle.git
+git clone https://github.com/erseco/python-moodle.git
 cd py-moodle
 pip install -e .
 ```

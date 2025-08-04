@@ -25,7 +25,7 @@ It is designed for both human developers and AI agents that will generate, revie
 ## Project Structure
 
 ```
-py-moodle/
+python-moodle/
 ├── src/
 │   └── py_moodle/
 │       ├── __init__.py
