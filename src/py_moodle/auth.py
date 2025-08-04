@@ -107,7 +107,10 @@ class MoodleAuth:
             "anchor": "",
         }
         if self.debug:
-            print(f"[DEBUG] POST {login_url} payload={payload}")
+            redacted_payload = payload.copy()
+            if "password" in redacted_payload:
+                redacted_payload["password"] = "***REDACTED***"
+            print(f"[DEBUG] POST {login_url} payload={redacted_payload}")
         resp = self.session.post(login_url, data=payload, allow_redirects=True)
         if self.debug:
             print(f"[DEBUG] Response {resp.status_code} {resp.url}")
