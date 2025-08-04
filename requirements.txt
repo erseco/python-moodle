@@ -1,0 +1,26 @@
+# requirements.txt
+
+# main dependencies 
+requests
+beautifulsoup4
+lxml
+python-dotenv
+typer[all]
+rich
+
+# dev dependencies
+pytest
+pytest-cov
+flake8
+flake8-docstrings
+black
+mypy
+isort
+mkdocs
+mkdocstrings[python]
+pymdown-extensions
+mkdocs-material
+mkdocs-autorefs
+mkdocs-git-revision-date-localized-plugin
+mkdocs-minify-plugin
+pymdown-extensions

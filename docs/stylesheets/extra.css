@@ -1,0 +1,31 @@
+:root {
+  --md-primary-fg-color: #1976d2;
+  --md-primary-fg-color--light: #42a5f5;
+  --md-primary-fg-color--dark: #1565c0;
+}
+
+.md-typeset .admonition.warning {
+  border-color: #ff9800;
+}
+
+.md-typeset .admonition.danger {
+  border-color: #f44336;
+}
+
+/* Code styling improvements */
+.md-typeset code {
+  font-size: 0.85em;
+}
+
+/* Badge styles */
+.md-typeset .badge {
+  display: inline-block;
+  padding: 0.25em 0.5em;
+  font-size: 0.75em;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25rem;
+}

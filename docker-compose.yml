@@ -1,0 +1,79 @@
+---
+services:
+
+  postgres:
+    image: postgres:alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_PASSWORD=moodle
+      - POSTGRES_USER=moodle
+      - POSTGRES_DB=moodle
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+  moodle:
+    image: erseco/alpine-moodle:v4.5.5
+    restart: unless-stopped
+    environment:
+      DEBUG: true
+      LANG: en_US.UTF-8
+      LANGUAGE: en_US:en
+      SITE_URL: http://localhost
+      DB_TYPE: pgsql
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: moodle
+      DB_USER: moodle
+      DB_PASS: moodle
+      DB_PREFIX: mdl_
+      client_max_body_size: 1G
+      memory_limit: 1G
+      post_max_size: 1G
+      upload_max_filesize: 1G
+      REVERSEPROXY: false
+      SSLPROXY: false
+      MOODLE_EMAIL: user@example.com
+      MOODLE_LANGUAGE: en
+      MOODLE_SITENAME: New-Site
+      MOODLE_USERNAME: moodleuser
+      MOODLE_PASSWORD: PLEASE_CHANGEME
+      PRE_CONFIGURE_COMMANDS: |
+        echo 'This is a pre-configure command'
+      POST_CONFIGURE_COMMANDS: |
+        echo 'This is a post-configure command'
+        # echo "Enabling web services and REST protocol..."
+        php /var/www/html/admin/cli/cfg.php --name=enablewebservices --set=1
+        php /var/www/html/admin/cli/cfg.php --name=enablemobilewebservice --set=1      
+        php /var/www/html/admin/cli/cfg.php --name=enablewsdocumentation --set=1      
+        php /var/www/html/admin/cli/cfg.php --name=webserviceprotocols --set=rest        
+
+        echo 'Creating users...'
+        moosh user-create --password=sandbox24 --email=admin@example.com --firstname=Admin --lastname=User admin || true
+        moosh user-create --password=sandbox24 --email=manager@example.com --firstname=Manager --lastname=User manager || true
+        moosh user-create --password=sandbox24 --email=teacher@example.com --firstname=Teacher --lastname=User teacher || true
+        moosh user-create --password=sandbox24 --email=student@example.com --firstname=Student --lastname=User student || true
+        
+        echo 'Assigning roles...'
+        moosh role-list
+        moosh user-assign-system-role manager manager || true
+        # moosh user-assign-system-role teacher editingteacher || true
+        # moosh user-assign-system-role student student || true
+
+        echo 'VERY IMPORTANT! Enabling external_services...'
+        moosh sql-run "SELECT id, name, shortname, enabled FROM mdl_external_services WHERE shortname = 'moodle_mobile_app';"
+        moosh sql-run "UPDATE mdl_external_services SET enabled = 1 WHERE shortname = 'moodle_mobile_app'"
+        moosh sql-run "SELECT id, name, shortname, enabled FROM mdl_external_services WHERE shortname = 'moodle_mobile_app';"
+
+
+    ports:
+      - 80:8080
+    volumes:
+      - moodledata:/var/www/moodledata
+      - moodlehtml:/var/www/html
+    depends_on:
+      - postgres
+
+volumes:
+  postgres: null
+  moodledata: null
+  moodlehtml: null

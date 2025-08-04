@@ -1,0 +1,36 @@
+# ./.github/workflows/release.yml
+name: Publish to PyPI
+
+on:
+  release:
+    types: [published] # Triggered when a release is published, not when created as a draft
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    # Required permissions for trusted publishing (OIDC) without passwords
+    permissions:
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+
+      - name: Install dependencies and build tool
+        run: |
+          python -m pip install --upgrade pip
+          pip install build setuptools_scm
+
+      - name: Build package
+        run: python -m build
+
+      - name: Publish package to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        # No need to configure username/password.
+        # The action uses Trusted Publishing (OIDC) thanks to the permissions defined above.

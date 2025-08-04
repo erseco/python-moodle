@@ -1,0 +1,42 @@
+# ./.github/workflows/ci.yml
+name: CI
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: 'pip' # caching pip dependencies
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install -e .
+
+      - name: Lint
+        run: make lint
+
+      - name: Start Moodle with Docker Compose (in backgroud)
+        run: make upd
+
+      - name: Run tests
+        run: make test
+
+      - name: Run example_script.py
+        run: python example_script.py
+

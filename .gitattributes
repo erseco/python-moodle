@@ -1,0 +1,26 @@
+# Exclude development, CI, and documentation directories from the distributable package.
+.github/ export-ignore
+docs/ export-ignore
+scripts/ export-ignore
+tests/ export-ignore
+.pytest_cache/ export-ignore
+
+# Exclude development configuration files.
+.env export-ignore
+.env.* export-ignore
+docker-compose.yml export-ignore
+Makefile export-ignore
+mkdocs.yml export-ignore
+.DS_Store export-ignore
+
+# Exclude example scripts that are not part of the main library.
+example_*.py export-ignore
+script_*.py export-ignore
+
+# Exclude Python cache and compiled files.
+*.pyc export-ignore
+__pycache__/ export-ignore
+
+# Exclude contribution guides and other Markdown documents.
+# README.md and LICENSE are included by default, which is correct.
+AGENTS.md export-ignore

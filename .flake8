@@ -1,0 +1,4 @@
+[flake8]
+ignore = E501,W503,D100,D101,D102,D103,D104,D105,D107,D200,D202,D205,D212,D400,D401,D415
+docstring-convention = google
+exclude = env/,.venv/,build/,dist/,script_*.py

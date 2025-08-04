@@ -1,0 +1,31 @@
+# ./.github/workflows/docs.yml
+name: Docs
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+
+      - name: Install Python deps
+        run: |
+          pip install -r requirements.txt
+          pip install -e .
+
+      - name: Build MkDocs site
+        run: make docs
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: site
+
