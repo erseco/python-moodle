@@ -1,11 +1,15 @@
 # ./.github/workflows/docs.yml
 name: Docs
+permissions:
+  contents: read
 on:
   push:
     branches: [main]
 
 jobs:
   build:
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
