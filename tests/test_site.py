@@ -1,4 +1,5 @@
 """Tests for the site module."""
+
 from py_moodle.session import MoodleSession
 from py_moodle.site import SiteInfo, get_site_info
 
