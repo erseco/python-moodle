@@ -17,6 +17,7 @@ from . import (
     pages,
     resources,
     sections,
+    site,
     urls,
     users,
 )
@@ -61,6 +62,7 @@ app.add_typer(folders.app, name="folders")
 app.add_typer(pages.app, name="pages")
 app.add_typer(resources.app, name="resources")
 app.add_typer(urls.app, name="urls")
+app.add_typer(site.app, name="site")
 
 # ...and so on for each new command group you create.
 
