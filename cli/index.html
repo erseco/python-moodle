@@ -1112,6 +1112,30 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#py-moodle-site" class="md-nav__link">
+    <span class="md-ellipsis">
+      py-moodle site
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="py-moodle site">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#py-moodle-site-info" class="md-nav__link">
+    <span class="md-ellipsis">
+      py-moodle site info
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2381,6 +2405,30 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#py-moodle-site" class="md-nav__link">
+    <span class="md-ellipsis">
+      py-moodle site
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="py-moodle site">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#py-moodle-site-info" class="md-nav__link">
+    <span class="md-ellipsis">
+      py-moodle site info
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2424,6 +2472,7 @@
 <li><code>pages</code>: Manage page modules: create and delete...</li>
 <li><code>resources</code>: Manage resource modules: create and delete...</li>
 <li><code>urls</code>: Manage URL modules: create and delete...</li>
+<li><code>site</code>: Get site information.</li>
 </ul>
 <h2 id="py-moodle-courses"><code>py-moodle courses</code><a class="headerlink" href="#py-moodle-courses" title="Permanent link">&para;</a></h2>
 <p>Manage courses: list, show, create, delete.</p>
@@ -3062,6 +3111,29 @@ This uses the centralized delete function from the library.</p>
 <p><strong>Options</strong>:</p>
 <ul>
 <li><code>-f, --force</code>: Delete without confirmation.</li>
+<li><code>--help</code>: Show this message and exit.</li>
+</ul>
+<h2 id="py-moodle-site"><code>py-moodle site</code><a class="headerlink" href="#py-moodle-site" title="Permanent link">&para;</a></h2>
+<p>Get site information.</p>
+<p><strong>Usage</strong>:</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-48-1"><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>site<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
+</span></code></pre></div>
+<p><strong>Options</strong>:</p>
+<ul>
+<li><code>--help</code>: Show this message and exit.</li>
+</ul>
+<p><strong>Commands</strong>:</p>
+<ul>
+<li><code>info</code>: Get site info.</li>
+</ul>
+<h3 id="py-moodle-site-info"><code>py-moodle site info</code><a class="headerlink" href="#py-moodle-site-info" title="Permanent link">&para;</a></h3>
+<p>Get site info.</p>
+<p><strong>Usage</strong>:</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-49-1"><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>site<span class="w"> </span>info<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</span></code></pre></div>
+<p><strong>Options</strong>:</p>
+<ul>
+<li><code>--json</code>: Output as JSON.</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 
