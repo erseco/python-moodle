@@ -37,10 +37,10 @@ docs:
 	mkdocs build --strict
 
 test-local: ensure-env
-	pytest --moodle-env local
+	pytest --moodle-env local -n auto
 
 test-staging: ensure-env
-	pytest --moodle-env staging
+	pytest --moodle-env staging -n auto
 
 test: upd test-local
 
@@ -63,8 +63,8 @@ help:
 	@echo "  docs               - Build documentation with mkdocs"
 	@echo ""
 	@echo "Testing:"
-	@echo "  test-local         - Run local tests using pytest with moodle-env=local"
-	@echo "  test-staging       - Run tests using moodle-env=staging"
+	@echo "  test-local         - Run local tests (in parallel) using pytest with moodle-env=local"
+	@echo "  test-staging       - Run tests using (in parallel) moodle-env=staging"
 	@echo "  test               - Start containers (detached) and run local tests"
 	@echo ""
 	@echo "  help               - Show this help message"

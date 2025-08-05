@@ -15,7 +15,26 @@ dependencies = [
     "lxml",
     "python-dotenv",
     "typer[all]",
-    "rich==14.1.0",
+    "rich",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "pytest-xdist",
+    "flake8",
+    "flake8-docstrings",
+    "black",
+    "mypy",
+    "isort",
+    "mkdocs",
+    "mkdocstrings[python]",
+    "pymdown-extensions",
+    "mkdocs-material",
+    "mkdocs-autorefs",
+    "mkdocs-git-revision-date-localized-plugin",
+    "mkdocs-minify-plugin"
 ]
 
 [project.scripts]

@@ -11,6 +11,7 @@ rich
 # dev dependencies
 pytest
 pytest-cov
+pytest-xdist
 flake8
 flake8-docstrings
 black
