@@ -37,10 +37,10 @@ docs:
 	mkdocs build --strict
 
 test-local: ensure-env
-	pytest --moodle-env local
+	python -m pytest --moodle-env local
 
 test-staging: ensure-env
-	pytest --moodle-env staging
+	python -m pytest --moodle-env staging
 
 test: upd test-local
 
