@@ -12,7 +12,9 @@ import requests
 if TYPE_CHECKING:
     from .settings import Settings
 
-from .auth import login
+from typing import Any, Dict, Optional
+
+from .auth import LoginError, login
 
 
 class MoodleSessionError(RuntimeError):
@@ -95,6 +97,45 @@ class MoodleSession:
         """Return the webservice token, or None if not available."""
         self._login()
         return self._token
+
+    def call(
+        self,
+        wsfunction: str,
+        params: Optional[Dict[str, Any]] = None,
+    ) -> Any:
+        """Makes a call to the Moodle webservice API."""
+        if not self.token:
+            raise LoginError(
+                "Cannot make a webservice call without a token. "
+                "Did you login correctly?"
+            )
+
+        if params is None:
+            params = {}
+
+        request_params = {
+            "moodlewsrestformat": "json",
+            "wsfunction": wsfunction,
+            "wstoken": self.token,
+            **params,
+        }
+
+        response = self.session.post(
+            f"{self.settings.url}/webservice/rest/server.php",
+            params=request_params,
+            timeout=30,
+        )
+        response.raise_for_status()
+        data = response.json()
+        # Check for Moodle-specific error response
+        if isinstance(data, dict) and (
+            "exception" in data or "errorcode" in data or "message" in data
+        ):
+            raise MoodleSessionError(
+                f"Moodle API error: {data.get('message', 'Unknown error')} "
+                f"(errorcode: {data.get('errorcode', 'N/A')}, exception: {data.get('exception', 'N/A')})"
+            )
+        return data
 
     # ------------- factory -------------
     @classmethod
