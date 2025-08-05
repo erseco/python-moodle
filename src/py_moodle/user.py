@@ -13,6 +13,8 @@ from typing import Any, Dict, List, Optional
 import requests
 from bs4 import BeautifulSoup
 
+from .permissions import requires_role
+
 
 class MoodleUserError(Exception):
     """Exception raised for errors in user operations."""
@@ -242,6 +244,7 @@ def create_user(
         raise MoodleUserError(f"Failed to parse user creation response: {e}")
 
 
+@requires_role("admin")
 def delete_user(
     session: requests.Session,
     base_url: str,

@@ -12,6 +12,8 @@ from typing import Any, Dict, List
 
 import requests
 
+from .permissions import requires_role
+
 
 class MoodleCourseError(Exception):
     """Exception raised for errors in course operations."""
@@ -149,6 +151,7 @@ def list_courses(
         raise MoodleCourseError(f"Failed to parse courses: {e}")
 
 
+@requires_role("manager")
 def create_course(
     session: requests.Session,
     base_url: str,
