@@ -148,9 +148,8 @@ def test_detect_upload_repo_scraping(moodle, request, temporary_course_for_draft
         # 1. Verify that the result is an integer
         assert isinstance(repo_id, int), "The returned repo_id should be an integer."
 
-        # 2. In a standard Moodle installation, the upload repository ID is 5.
-        #    This is a good check to ensure we are not getting a random value.
-        assert repo_id == 5, "The detected repo_id for 'upload' should typically be 5."
+        # 2. The upload repository ID is site-specific but should be positive.
+        assert repo_id > 0, "The detected repo_id for 'upload' must be positive."
 
     except MoodleDraftFileError as e:
         pytest.fail(f"detect_upload_repo failed with an exception: {e}")
