@@ -125,7 +125,9 @@ def detect_upload_repo(session: requests.Session, base_url: str, course_id: int)
         if repo_data.get("type") == "upload":
             repo_id = int(repo_data["id"])
             if repo_id <= 0:
-                raise MoodleDraftFileError(f"Invalid repository ID detected: {repo_id}")
+                raise MoodleDraftFileError(
+                    f"Invalid repository ID detected: {repo_id}. Repository ID must be a positive integer."
+                )
             return repo_id
 
     raise MoodleDraftFileError(
