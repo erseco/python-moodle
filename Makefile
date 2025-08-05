@@ -64,7 +64,7 @@ help:
 	@echo ""
 	@echo "Testing:"
 	@echo "  test-local         - Run local tests (in parallel) using pytest with moodle-env=local"
-	@echo "  test-staging       - Run tests using (in parallel) moodle-env=staging"
+	@echo "  test-staging       - Run tests (in parallel) using moodle-env=staging"
 	@echo "  test               - Start containers (detached) and run local tests"
 	@echo ""
 	@echo "  help               - Show this help message"
