@@ -126,8 +126,16 @@ class MoodleSession:
             timeout=30,
         )
         response.raise_for_status()
-        # TODO: Add better error handling here
-        return response.json()
+        data = response.json()
+        # Check for Moodle-specific error response
+        if isinstance(data, dict) and (
+            "exception" in data or "errorcode" in data or "message" in data
+        ):
+            raise MoodleSessionError(
+                f"Moodle API error: {data.get('message', 'Unknown error')} "
+                f"(errorcode: {data.get('errorcode', 'N/A')}, exception: {data.get('exception', 'N/A')})"
+            )
+        return data
 
     # ------------- factory -------------
     @classmethod
