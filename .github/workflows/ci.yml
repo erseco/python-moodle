@@ -33,6 +33,17 @@ jobs:
       - name: Lint
         run: make lint
 
+      - name: Cache Docker images
+        uses: actions/cache@v4
+        with:
+          path: /tmp/docker-cache
+          key: ${{ runner.os }}-docker-${{ hashFiles('docker-compose.yml') }}
+
+      - name: Load cached Docker images
+        run: |
+          if [ -f /tmp/docker-cache/postgres.tar ]; then docker load -i /tmp/docker-cache/postgres.tar; fi
+          if [ -f /tmp/docker-cache/moodle.tar ]; then docker load -i /tmp/docker-cache/moodle.tar; fi
+
       - name: Start Moodle with Docker Compose (in backgroud)
         run: make upd
 
@@ -41,4 +52,11 @@ jobs:
 
       - name: Run example_script.py
         run: python example_script.py
+
+      - name: Save Docker images to cache
+        if: always()
+        run: |
+          mkdir -p /tmp/docker-cache
+          docker save postgres:alpine -o /tmp/docker-cache/postgres.tar
+          docker save erseco/alpine-moodle:v4.5.5 -o /tmp/docker-cache/moodle.tar
 
