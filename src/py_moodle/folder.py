@@ -8,6 +8,7 @@ web forms and AJAX endpoints.
 
 All code and comments are in English.
 """
+
 import json
 import re
 import time

@@ -4,6 +4,7 @@
 Provides functions to create and delete "url" modules linking to external resources.
 All code and comments are in English.
 """
+
 from __future__ import annotations
 
 import time
