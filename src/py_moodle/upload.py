@@ -12,6 +12,8 @@ from typing import Callable, Optional
 
 import requests
 
+from .config import DEFAULT_UPLOAD_TIMEOUT
+
 
 class MoodleUploadError(Exception):
     """Exception for webservice upload errors."""
@@ -52,7 +54,7 @@ def upload_file_webservice(
     base_url: str,
     token: str,
     file_path: str,
-    timeout: tuple = (30, 3600),
+    timeout: tuple = DEFAULT_UPLOAD_TIMEOUT,
     progress_callback: Optional[Callable[[int], None]] = None,
 ) -> int:
     """
@@ -63,8 +65,8 @@ def upload_file_webservice(
         base_url: The base URL of the Moodle instance.
         token: A valid Moodle webservice token.
         file_path: The local path to the file to upload.
-        timeout: Request timeout in seconds. default (30, 3600)
-            30s to connect, 1h to upload
+        timeout: Request timeout in seconds. Defaults to the shared upload
+            timeout policy (30s to connect, 1h to upload).
         progress_callback: Optional function to call with bytes uploaded.
 
     Returns:

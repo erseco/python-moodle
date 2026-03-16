@@ -15,6 +15,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from py_moodle.compat import get_session_compatibility
+from py_moodle.config import DEFAULT_SCRAPE_TIMEOUT
 from py_moodle.course import MoodleCourseError, get_course_with_sections_and_modules
 
 # --- Cache for module IDs ---
@@ -488,7 +489,7 @@ def _maybe_add_intro(
     if modname == "label" and "intro" not in module:
         try:
             view_url = f"{base_url}/mod/label/view.php?id={cm.get('id')}"
-            r2 = session.get(view_url, timeout=15)
+            r2 = session.get(view_url, timeout=DEFAULT_SCRAPE_TIMEOUT)
             if r2.status_code == 200:
                 soup = BeautifulSoup(r2.text, "lxml")
                 div = soup.select_one("div.contentwithoutlink")

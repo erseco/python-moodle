@@ -19,6 +19,7 @@ import requests
 
 from py_moodle.module import MoodleModuleError
 
+from .config import DEFAULT_LARGE_UPLOAD_TIMEOUT, DEFAULT_REQUEST_TIMEOUT
 from .upload import ProgressTracker
 
 
@@ -37,7 +38,7 @@ def get_new_draft_itemid(session: requests.Session, base_url: str, sesskey: str)
     ]
 
     try:
-        response = session.post(url, json=payload)
+        response = session.post(url, json=payload, timeout=DEFAULT_REQUEST_TIMEOUT)
         response.raise_for_status()
         data = response.json()
 
@@ -106,7 +107,7 @@ def detect_upload_repo(session: requests.Session, base_url: str, course_id: int)
     """
     page_url = f"{base_url}/course/edit.php?id={course_id}"
     try:
-        response = session.get(page_url)
+        response = session.get(page_url, timeout=DEFAULT_REQUEST_TIMEOUT)
         response.raise_for_status()
     except requests.RequestException as e:
         raise MoodleDraftFileError(
@@ -144,7 +145,7 @@ def upload_file_to_draft_area(
     file_path: str,
     itemid: Optional[int] = None,
     savepath: str = "/",
-    timeout: tuple = (300, 3600),
+    timeout: tuple = DEFAULT_LARGE_UPLOAD_TIMEOUT,
     progress_callback: Optional[Callable[[int], None]] = None,
 ) -> Tuple[int, str]:
     """

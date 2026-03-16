@@ -10,6 +10,8 @@ from typing import Optional
 import requests
 from bs4 import BeautifulSoup, Tag
 
+from .config import DEFAULT_REQUEST_TIMEOUT
+
 
 @dataclass(frozen=True)
 class MoodleVersion:
@@ -266,7 +268,7 @@ def detect_moodle_compatibility(
             response = session.post(
                 f"{base_url}/webservice/rest/server.php",
                 params=request_params,
-                timeout=30,
+                timeout=DEFAULT_REQUEST_TIMEOUT,
             )
             response.raise_for_status()
             data = response.json()
@@ -278,7 +280,10 @@ def detect_moodle_compatibility(
 
     if version.major is None:
         try:
-            response = session.get(f"{base_url}/my/")
+            response = session.get(
+                f"{base_url}/my/",
+                timeout=DEFAULT_REQUEST_TIMEOUT,
+            )
             response.raise_for_status()
             version = extract_version_from_dashboard(response.text)
         except requests.RequestException:
