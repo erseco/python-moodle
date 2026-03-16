@@ -1,8 +1,9 @@
-# src/moodle/module.py
 """
 Generic Moodle module management helpers.
 All code and comments are in English.
 """
+
+from __future__ import annotations
 
 import json
 import re

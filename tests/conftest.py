@@ -7,11 +7,6 @@ import pytest
 import requests
 from dotenv import load_dotenv
 
-from py_moodle.auth import LoginError, login
-from py_moodle.course import (
-    get_course_with_sections_and_modules,
-)
-
 # Load environment variables from .env file at the start
 load_dotenv()
 
@@ -135,6 +130,8 @@ def pytest_collection_modifyitems(config, items):
 @pytest.fixture(scope="function")
 def moodle(request):
     """Provides an authenticated Moodle session for the target environment."""
+    from py_moodle.auth import LoginError, login
+
     target = request.config.moodle_target
     try:
         session = login(
@@ -184,6 +181,8 @@ def temporary_course_for_labels(request):
 @pytest.fixture
 def first_section_id(moodle, request, temporary_course_for_labels) -> int:
     """Gets the ID of the first thematic section (position 1) of the temporary course."""
+    from py_moodle.course import get_course_with_sections_and_modules
+
     base_url = request.config.moodle_target.url
     course_id = temporary_course_for_labels["id"]
     token = getattr(moodle, "webservice_token", None)

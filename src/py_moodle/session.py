@@ -1,8 +1,9 @@
-# src/moodle/session.py
 """Reusable, thread-safe Moodle session.
 
 Lazy login on first access and cache sessions per environment.
 """
+
+from __future__ import annotations
 
 import threading
 from typing import TYPE_CHECKING

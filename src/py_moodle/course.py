@@ -1,10 +1,11 @@
-# src/moodle/course.py
 """
 Course management module for Moodle.
 
 Provides functions to list courses, retrieve course details,
 and enumerate course sections using AJAX endpoints.
 """
+
+from __future__ import annotations
 
 import json
 import time
