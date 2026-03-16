@@ -5,6 +5,7 @@ Course management module for Moodle.
 Provides functions to list courses, retrieve course details,
 and enumerate course sections using AJAX endpoints.
 """
+
 import json
 import time
 import urllib.parse

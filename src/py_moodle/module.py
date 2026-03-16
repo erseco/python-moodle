@@ -3,6 +3,7 @@
 Generic Moodle module management helpers.
 All code and comments are in English.
 """
+
 import json
 import re
 import time
