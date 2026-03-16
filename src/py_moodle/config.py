@@ -1,4 +1,12 @@
-"""Shared timeout defaults for HTTP operations."""
+"""Shared timeout defaults for HTTP operations.
+
+``DEFAULT_REQUEST_TIMEOUT`` is the standard timeout for routine Moodle GET/POST
+requests. ``DEFAULT_SCRAPE_TIMEOUT`` is shorter for quick HTML fetches used as
+fallback probes. Upload helpers use ``(connect_timeout, read_timeout)`` tuples:
+``DEFAULT_UPLOAD_TIMEOUT`` for typical uploads and
+``DEFAULT_LARGE_UPLOAD_TIMEOUT`` for larger package transfers such as SCORM and
+draft-file uploads.
+"""
 
 DEFAULT_REQUEST_TIMEOUT = 30
 DEFAULT_SCRAPE_TIMEOUT = 15
