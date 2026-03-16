@@ -43,7 +43,7 @@ docs:
 	mkdocs build --strict
 
 test-unit:
-	pytest -m "not integration" tests/unit
+	pytest tests/unit
 
 test-local: ensure-env
 	pytest --integration --moodle-env local -m integration -n auto

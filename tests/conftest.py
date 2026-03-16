@@ -1,6 +1,7 @@
 import os
 import random
 from dataclasses import dataclass
+from pathlib import Path
 
 import pytest
 import requests
@@ -13,6 +14,8 @@ from py_moodle.course import (
 
 # Load environment variables from .env file at the start
 load_dotenv()
+
+UNIT_TESTS_DIR = (Path(__file__).parent / "unit").resolve()
 
 
 @dataclass(frozen=True)
@@ -121,7 +124,8 @@ def pytest_collection_modifyitems(config, items):
     )
 
     for item in items:
-        if "unit" in item.path.parts:
+        item_path = Path(item.path).resolve()
+        if item_path == UNIT_TESTS_DIR or UNIT_TESTS_DIR in item_path.parents:
             continue
         item.add_marker(pytest.mark.integration)
         if not run_integration:
