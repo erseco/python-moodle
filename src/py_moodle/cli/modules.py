@@ -1,11 +1,11 @@
 """Module-related commands for ``py-moodle``."""
 
-import json
 from typing import Optional
 
 import typer
 
 from py_moodle.assign import MoodleAssignError, add_assign
+from py_moodle.cli.output import OutputFormat, emit
 from py_moodle.label import MoodleLabelError, add_label, update_label
 
 # Import functions from the library directly
@@ -64,7 +64,9 @@ def delete_a_module(
 def show_a_module(
     ctx: typer.Context,
     cmid: int = typer.Argument(..., help="ID of the module (cmid) to show."),
-    json_flag: bool = typer.Option(False, "--json", help="Output in JSON format."),
+    output: OutputFormat = typer.Option(
+        OutputFormat.TABLE, "--output", help="Output format: table, json, or yaml."
+    ),
 ):
     """
     Shows detailed information for a specific module.
@@ -73,11 +75,11 @@ def show_a_module(
     try:
         # This function is also generic and doesn't need changes.
         module_info = get_module_info(ms.session, ms.settings.url, ms.sesskey, cmid)
-        if json_flag:
-            typer.echo(json.dumps(module_info, indent=2, ensure_ascii=False))
-        else:
-            table_str = format_module_table(module_info)
-            typer.echo(table_str)
+
+        def _render_table(data):
+            typer.echo(format_module_table(data))
+
+        emit(module_info, output, table_fn=_render_table)
 
     except MoodleModuleError as e:
         typer.echo(f"Error getting module info: {e}", err=True)
@@ -256,7 +258,9 @@ def list_available_module_types(
         "--course-id",
         help="Course ID to check available modules for. Defaults to 1.",
     ),
-    json_flag: bool = typer.Option(False, "--json", help="Output in JSON format."),
+    output: OutputFormat = typer.Option(
+        OutputFormat.TABLE, "--output", help="Output format: table, json, or yaml."
+    ),
 ):
     """
     Lists all available module types (activities/resources) that can be added to a course.
@@ -273,9 +277,7 @@ def list_available_module_types(
             ms.session, ms.settings.url, ms.sesskey, course_id
         )
 
-        if json_flag:
-            typer.echo(json.dumps(module_types, indent=2, ensure_ascii=False))
-        else:
+        def _render_table(data):
             table = Table(
                 title=f"Available Module Types in Course ID {course_id}",
                 show_header=True,
@@ -285,7 +287,7 @@ def list_available_module_types(
             table.add_column("Name (modname)", width=20)
             table.add_column("Title (Translated)", justify="left")
 
-            for module in module_types:
+            for module in data:
                 table.add_row(
                     str(module.get("id")),
                     f"[bold green]{module.get('name')}[/bold green]",
@@ -293,6 +295,8 @@ def list_available_module_types(
                 )
 
             Console().print(table)
+
+        emit(module_types, output, table_fn=_render_table)
 
     except MoodleModuleError as e:
         typer.echo(f"Error listing module types: {e}", err=True)

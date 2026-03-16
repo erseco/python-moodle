@@ -1,11 +1,10 @@
 """Course-related commands for ``py-moodle``."""
 
-import json
-
 import typer
 from rich.console import Console
 from rich.table import Table
 
+from py_moodle.cli.output import OutputFormat, emit
 from py_moodle.course import (
     MoodleCourseError,
     create_course,
@@ -32,8 +31,8 @@ def main(ctx: typer.Context):
 @app.command("list")
 def list_all_courses(
     ctx: typer.Context,
-    json_flag: bool = typer.Option(
-        False, "--json", help="Display output in JSON format."
+    output: OutputFormat = typer.Option(
+        OutputFormat.TABLE, "--output", help="Output format: table, json, or yaml."
     ),
 ):
     """
@@ -44,11 +43,9 @@ def list_all_courses(
         ms.session, ms.settings.url, token=ms.token, sesskey=ms.sesskey
     )
 
-    if json_flag:
-        typer.echo(json.dumps(courses, indent=2, ensure_ascii=False))
-    else:
+    def _render_table(data):
         table = Table("ID", "Shortname", "Fullname", "Category", "Visible")
-        for course in courses:
+        for course in data:
             table.add_row(
                 str(course.get("id", "")),
                 course.get("shortname", ""),
@@ -57,6 +54,8 @@ def list_all_courses(
                 str(course.get("visible", "")),
             )
         Console().print(table)
+
+    emit(courses, output, table_fn=_render_table)
 
 
 def _print_course_summary_table(course_data: dict):
@@ -99,7 +98,9 @@ def _print_course_summary_table(course_data: dict):
 def show_course(
     ctx: typer.Context,
     course_id: int = typer.Argument(..., help="ID of the course to show."),
-    json_flag: bool = typer.Option(False, "--json", help="Output in JSON format."),
+    output: OutputFormat = typer.Option(
+        OutputFormat.TABLE, "--output", help="Output format: table, json, or yaml."
+    ),
 ):
     """
     Shows a detailed summary of a specific course, including its sections and modules.
@@ -111,10 +112,7 @@ def show_course(
             ms.session, ms.settings.url, ms.sesskey, course_id, token=ms.token
         )
 
-        if json_flag:
-            typer.echo(json.dumps(course_data, indent=2, ensure_ascii=False))
-        else:
-            _print_course_summary_table(course_data)
+        emit(course_data, output, table_fn=_print_course_summary_table)
 
     except MoodleCourseError as e:
         typer.echo(f"Error getting course details: {e}", err=True)
