@@ -475,6 +475,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#moodle-compatibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Moodle Compatibility
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#installation" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1790,6 +1801,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#moodle-compatibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Moodle Compatibility
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#installation" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2021,6 +2043,16 @@
 <li><strong>Extensible</strong>: Designed to be easily extended with new modules and commands. See <code>AGENTS.md</code>.</li>
 <li><strong>English-only codebase</strong>: For clear, global collaboration.</li>
 </ul>
+<hr />
+<h2 id="moodle-compatibility">Moodle Compatibility<a class="headerlink" href="#moodle-compatibility" title="Permanent link">&para;</a></h2>
+<p><code>py-moodle</code> interacts with Moodle through authenticated web sessions, HTML forms, and page parsing. To make those flows more resilient across Moodle releases, the library now centralizes version-sensitive logic in <code>py_moodle.compat</code>.</p>
+<ul>
+<li><strong>Version detection</strong> happens during login/session initialization. The library first tries <code>core_webservice_get_site_info</code> when a webservice token is available, then falls back to probing the dashboard HTML (<code>/my/</code>) for Moodle release metadata.</li>
+<li><strong>Version-aware strategies</strong> are grouped into compatibility ranges instead of scattering selectors throughout the codebase. The current built-in strategies cover legacy Moodle 3.x layouts and modern Moodle 4.x/5.x layouts.</li>
+<li><strong>Feature probing remains in place</strong> when version detection is not enough. Each strategy can try multiple selectors or form patterns before failing.</li>
+<li><strong>Fragile flows should read selectors from the compatibility layer</strong> so future Moodle HTML changes are isolated to one module.</li>
+</ul>
+<p>At the moment, representative compatibility handling has been wired into login/session bootstrap, generic module form parsing, and folder page scraping. When a new Moodle release changes one of these flows, the recommended fix is to update <code>py_moodle.compat</code> and add a regression test for the new selector or workflow.</p>
 <hr />
 <h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
 <p>You will need Python 3.8+ and <code>pip</code>.</p>
