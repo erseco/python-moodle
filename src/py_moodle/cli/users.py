@@ -1,11 +1,10 @@
 """User management commands for ``py-moodle``."""
 
-import json
-
 import typer
 from rich.console import Console
 from rich.table import Table
 
+from py_moodle.cli.output import OutputFormat, emit
 from py_moodle.session import MoodleSession
 from py_moodle.user import MoodleUserError, create_user, delete_user, list_course_users
 
@@ -25,8 +24,8 @@ def list_users_in_course(
     course_id: int = typer.Option(
         ..., "--course-id", help="ID of the course to list users from."
     ),
-    json_flag: bool = typer.Option(
-        False, "--json", help="Display output in JSON format."
+    output: OutputFormat = typer.Option(
+        OutputFormat.TABLE, "--output", help="Output format: table, json, or yaml."
     ),
 ):
     """Lists users enrolled in a specific course."""
@@ -39,17 +38,18 @@ def list_users_in_course(
 
     try:
         users = list_course_users(ms.session, ms.settings.url, ms.token, course_id)
-        if json_flag:
-            typer.echo(json.dumps(users, indent=2, ensure_ascii=False))
-        else:
+
+        def _render_table(data):
             table = Table("ID", "Full Name", "Email")
-            for user in users:
+            for user in data:
                 table.add_row(
                     str(user.get("id", "")),
                     user.get("fullname", ""),
                     user.get("email", ""),
                 )
             Console().print(table)
+
+        emit(users, output, table_fn=_render_table)
     except MoodleUserError as e:
         typer.echo(f"Error listing users: {e}", err=True)
         raise typer.Exit(1)

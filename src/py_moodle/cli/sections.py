@@ -1,13 +1,12 @@
 """Section management commands for ``py-moodle``."""
 
-import json
-
 import typer
 from rich.box import SQUARE
 from rich.console import Console
 from rich.table import Table
 
 # Import the new centralized function and corresponding error
+from py_moodle.cli.output import OutputFormat, emit
 from py_moodle.course import MoodleCourseError, get_course_with_sections_and_modules
 
 # Keep the action functions (create/delete) that are still valid
@@ -34,8 +33,8 @@ def list_course_sections(
     course_id: int = typer.Option(
         ..., "--course-id", help="ID of the course to list sections from."
     ),
-    json_flag: bool = typer.Option(
-        False, "--json", help="Display output in JSON format."
+    output: OutputFormat = typer.Option(
+        OutputFormat.TABLE, "--output", help="Output format: table, json, or yaml."
     ),
 ):
     """
@@ -49,9 +48,7 @@ def list_course_sections(
         )
         sections = course_data.get("sections", [])
 
-        if json_flag:
-            typer.echo(json.dumps(sections, indent=2, ensure_ascii=False))
-        else:
+        def _render_table(data):
             table = Table(
                 title=f"Sections in Course: '{course_data.get('fullname')}'",
                 show_header=True,
@@ -63,8 +60,7 @@ def list_course_sections(
             table.add_column("Modules (Count)", justify="center")
             table.add_column("Visible", justify="center")
 
-            for section in sections:
-                # Visibility is found in the main section object
+            for section in data:
                 visible_text = (
                     "[green]Yes[/green]"
                     if section.get("visible", True)
@@ -79,6 +75,8 @@ def list_course_sections(
                 )
             Console().print(table)
 
+        emit(sections, output, table_fn=_render_table)
+
     except MoodleCourseError as e:
         typer.echo(f"Error listing sections: {e}", err=True)
         raise typer.Exit(1)
@@ -91,7 +89,9 @@ def show_section_details(
     course_id: int = typer.Option(
         ..., "--course-id", help="ID of the course the section belongs to."
     ),
-    json_flag: bool = typer.Option(False, "--json", help="Output in JSON format."),
+    output: OutputFormat = typer.Option(
+        OutputFormat.TABLE, "--output", help="Output format: table, json, or yaml."
+    ),
 ):
     """
     Shows detailed information of a specific section, including its modules.
@@ -120,13 +120,9 @@ def show_section_details(
             )
             raise typer.Exit(1)
 
-        if json_flag:
-            typer.echo(json.dumps(target_section, indent=2, ensure_ascii=False))
-        else:
+        def _render_table(data):
             console = Console()
-            section_name = (
-                target_section.get("name") or f"Section {target_section.get('section')}"
-            )
+            section_name = data.get("name") or f"Section {data.get('section')}"
             console.print(
                 f"\n[bold cyan]Details for Section: '{section_name}'[/bold cyan]"
             )
@@ -135,25 +131,24 @@ def show_section_details(
             details_table = Table(box=SQUARE, show_header=False)
             details_table.add_column("Field", style="dim")
             details_table.add_column("Value")
-            details_table.add_row("ID", str(target_section.get("id")))
-            details_table.add_row("Position", str(target_section.get("section")))
+            details_table.add_row("ID", str(data.get("id")))
+            details_table.add_row("Position", str(data.get("section")))
             details_table.add_row(
                 "Visible",
                 (
                     "[green]Yes[/green]"
-                    if target_section.get("visible", True)
+                    if data.get("visible", True)
                     else "[red]No[/red]"
                 ),
             )
-            # The summary may contain HTML, so we show it as is.
-            summary = target_section.get("summary", "[dim]No summary[/dim]")
+            summary = data.get("summary", "[dim]No summary[/dim]")
             details_table.add_row(
                 "Summary", summary if summary.strip() else "[dim]No summary[/dim]"
             )
             console.print(details_table)
 
             # Module table within the section
-            modules = target_section.get("modules", [])
+            modules = data.get("modules", [])
             modules_table = Table(
                 title="Modules in this Section", header_style="bold magenta"
             )
@@ -171,6 +166,8 @@ def show_section_details(
                         f"[green]{module.get('modname', 'unknown')}[/green]",
                     )
                 console.print(modules_table)
+
+        emit(target_section, output, table_fn=_render_table)
 
     except MoodleCourseError as e:
         typer.echo(f"Error showing section details: {e}", err=True)

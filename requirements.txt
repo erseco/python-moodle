@@ -7,6 +7,7 @@ lxml
 python-dotenv
 typer[all]
 rich
+pyyaml
 
 # dev dependencies
 pytest

@@ -1,7 +1,5 @@
 """Category management commands for ``py-moodle``."""
 
-import json
-
 import typer
 from rich.console import Console
 from rich.table import Table
@@ -12,6 +10,7 @@ from py_moodle.category import (
     delete_category,
     list_categories,
 )
+from py_moodle.cli.output import OutputFormat, emit
 from py_moodle.session import MoodleSession
 
 app = typer.Typer(help="Manage course categories: list, create, delete.")
@@ -30,7 +29,9 @@ def main(ctx: typer.Context):
 @app.command("list")
 def list_all_categories(
     ctx: typer.Context,
-    json_flag: bool = typer.Option(False, "--json", help="Output in JSON format."),
+    output: OutputFormat = typer.Option(
+        OutputFormat.TABLE, "--output", help="Output format: table, json, or yaml."
+    ),
 ):
     """
     Lists all available course categories.
@@ -46,11 +47,10 @@ def list_all_categories(
 
     try:
         categories = list_categories(ms.session, ms.settings.url, ms.token)
-        if json_flag:
-            typer.echo(json.dumps(categories, indent=2, ensure_ascii=False))
-        else:
+
+        def _render_table(data):
             table = Table("ID", "Name", "Parent ID", "Course Count")
-            for category in categories:
+            for category in data:
                 table.add_row(
                     str(category.get("id", "")),
                     category.get("name", ""),
@@ -58,6 +58,8 @@ def list_all_categories(
                     str(category.get("coursecount", "")),
                 )
             Console().print(table)
+
+        emit(categories, output, table_fn=_render_table)
     except MoodleCategoryError as e:
         typer.echo(f"Error listing categories: {e}", err=True)
         raise typer.Exit(1)
