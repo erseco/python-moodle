@@ -17,6 +17,7 @@ from typing import Any, Dict, Optional
 
 from .auth import LoginError, login
 from .compat import DEFAULT_COMPATIBILITY, get_session_compatibility
+from .config import DEFAULT_REQUEST_TIMEOUT
 
 
 class MoodleSessionError(RuntimeError):
@@ -64,7 +65,10 @@ class MoodleSession:
 
             # Fallback extraction if sesskey was not attached by login()
             if not self._sesskey:
-                resp = session.get(f"{self.settings.url}/my/")
+                resp = session.get(
+                    f"{self.settings.url}/my/",
+                    timeout=DEFAULT_REQUEST_TIMEOUT,
+                )
                 self._sesskey = self._compatibility.extract_sesskey(resp.text)
 
             # Validate we have at least one usable token
@@ -134,7 +138,7 @@ class MoodleSession:
         response = self.session.post(
             f"{self.settings.url}/webservice/rest/server.php",
             params=request_params,
-            timeout=30,
+            timeout=DEFAULT_REQUEST_TIMEOUT,
         )
         response.raise_for_status()
         data = response.json()

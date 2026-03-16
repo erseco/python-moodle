@@ -8,6 +8,7 @@ from typing import Any, Callable, Optional
 
 import requests
 
+from .config import DEFAULT_LARGE_UPLOAD_TIMEOUT
 from .draftfile import MoodleDraftFileError, upload_file_to_draft_area
 from .module import MoodleModuleError, add_generic_module
 from .upload import MoodleUploadError, upload_file_webservice
@@ -63,7 +64,11 @@ def add_scorm(
     # 2. Upload the SCORM package using the webservice.
     try:
         package_draft_itemid = upload_file_webservice(
-            base_url, token, file_path, (300, 3600), progress_callback
+            base_url,
+            token,
+            file_path,
+            DEFAULT_LARGE_UPLOAD_TIMEOUT,
+            progress_callback,
         )
     except MoodleUploadError as e:
         raise MoodleScormError(f"Failed to upload SCORM package via webservice: {e}")
