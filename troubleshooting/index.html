@@ -12,31 +12,31 @@
         <meta name="author" content="Ernesto Serrano">
       
       
-        <link rel="canonical" href="https://erseco.github.io/python-moodle/getting-started/quickstart/">
+        <link rel="canonical" href="https://erseco.github.io/python-moodle/troubleshooting/">
       
       
-        <link rel="prev" href="../configuration/">
+        <link rel="prev" href="../development/">
       
       
-        <link rel="next" href="../../cli/">
+        <link rel="next" href="../roadmap-plan/">
       
       
         
       
       
-      <link rel="icon" href="../../images/favicon.png">
+      <link rel="icon" href="../images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.5">
     
     
       
-        <title>Quick Start - py-moodle</title>
+        <title>Troubleshooting - py-moodle</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -55,9 +55,9 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#quick-start" class="md-skip">
+        <a href="#troubleshooting" class="md-skip">
           Skip to content
         </a>
       
@@ -96,7 +96,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="py-moodle" class="md-header__button md-logo" aria-label="py-moodle" data-md-component="logo">
+    <a href=".." title="py-moodle" class="md-header__button md-logo" aria-label="py-moodle" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Quick Start
+              Troubleshooting
             
           </span>
         </div>
@@ -232,7 +232,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../.." class="md-tabs__link">
+      <a href=".." class="md-tabs__link">
         
   
   
@@ -249,13 +249,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../getting-started/" class="md-tabs__link">
           
   
   
@@ -273,7 +271,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../cli/" class="md-tabs__link">
+      <a href="../cli/" class="md-tabs__link">
         
   
   
@@ -301,7 +299,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../api/session/" class="md-tabs__link">
+        <a href="../api/session/" class="md-tabs__link">
           
   
   
@@ -322,7 +320,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../examples/" class="md-tabs__link">
+      <a href="../examples/" class="md-tabs__link">
         
   
   
@@ -341,7 +339,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../development/" class="md-tabs__link">
+      <a href="../development/" class="md-tabs__link">
         
   
   
@@ -358,9 +356,11 @@
   
   
   
+    
   
-    <li class="md-tabs__item">
-      <a href="../../troubleshooting/" class="md-tabs__link">
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
         
   
   
@@ -379,7 +379,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../roadmap-plan/" class="md-tabs__link">
+      <a href="../roadmap-plan/" class="md-tabs__link">
         
   
   
@@ -414,7 +414,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="py-moodle" class="md-nav__button md-logo" aria-label="py-moodle" data-md-component="logo">
+    <a href=".." title="py-moodle" class="md-nav__button md-logo" aria-label="py-moodle" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -444,7 +444,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
+      <a href=".." class="md-nav__link">
         
   
   
@@ -468,31 +468,26 @@
       
   
   
-    
   
   
-  
     
     
     
     
-      
-        
-        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
             
   
   
@@ -510,7 +505,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -528,7 +523,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../" class="md-nav__link">
+      <a href="../getting-started/" class="md-nav__link">
         
   
   
@@ -556,7 +551,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../installation/" class="md-nav__link">
+      <a href="../getting-started/installation/" class="md-nav__link">
         
   
   
@@ -584,7 +579,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../configuration/" class="md-nav__link">
+      <a href="../getting-started/configuration/" class="md-nav__link">
         
   
   
@@ -609,37 +604,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Quick Start
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../getting-started/quickstart/" class="md-nav__link">
         
   
   
@@ -655,92 +623,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#prerequisites" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Prerequisites
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#1-install-py-moodle" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. Install py-moodle
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2-configure-credentials" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. Configure Credentials
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#3-test-your-setup" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Test Your Setup
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#4-try-some-commands" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. Try Some Commands
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#next-steps" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Next Steps
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -760,7 +642,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../cli/" class="md-nav__link">
+      <a href="../cli/" class="md-nav__link">
         
   
   
@@ -891,7 +773,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/session/" class="md-nav__link">
+      <a href="../api/session/" class="md-nav__link">
         
   
   
@@ -919,7 +801,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/settings/" class="md-nav__link">
+      <a href="../api/settings/" class="md-nav__link">
         
   
   
@@ -947,7 +829,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/auth/" class="md-nav__link">
+      <a href="../api/auth/" class="md-nav__link">
         
   
   
@@ -1035,7 +917,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/course/" class="md-nav__link">
+      <a href="../api/course/" class="md-nav__link">
         
   
   
@@ -1063,7 +945,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/category/" class="md-nav__link">
+      <a href="../api/category/" class="md-nav__link">
         
   
   
@@ -1091,7 +973,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/section/" class="md-nav__link">
+      <a href="../api/section/" class="md-nav__link">
         
   
   
@@ -1179,7 +1061,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/module/" class="md-nav__link">
+      <a href="../api/module/" class="md-nav__link">
         
   
   
@@ -1207,7 +1089,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/label/" class="md-nav__link">
+      <a href="../api/label/" class="md-nav__link">
         
   
   
@@ -1235,7 +1117,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/page/" class="md-nav__link">
+      <a href="../api/page/" class="md-nav__link">
         
   
   
@@ -1263,7 +1145,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/resource/" class="md-nav__link">
+      <a href="../api/resource/" class="md-nav__link">
         
   
   
@@ -1291,7 +1173,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/folder/" class="md-nav__link">
+      <a href="../api/folder/" class="md-nav__link">
         
   
   
@@ -1319,7 +1201,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/url/" class="md-nav__link">
+      <a href="../api/url/" class="md-nav__link">
         
   
   
@@ -1347,7 +1229,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/scorm/" class="md-nav__link">
+      <a href="../api/scorm/" class="md-nav__link">
         
   
   
@@ -1375,7 +1257,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/assign/" class="md-nav__link">
+      <a href="../api/assign/" class="md-nav__link">
         
   
   
@@ -1463,7 +1345,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/upload/" class="md-nav__link">
+      <a href="../api/upload/" class="md-nav__link">
         
   
   
@@ -1491,7 +1373,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/draftfile/" class="md-nav__link">
+      <a href="../api/draftfile/" class="md-nav__link">
         
   
   
@@ -1579,7 +1461,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/user/" class="md-nav__link">
+      <a href="../api/user/" class="md-nav__link">
         
   
   
@@ -1622,7 +1504,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/" class="md-nav__link">
+      <a href="../examples/" class="md-nav__link">
         
   
   
@@ -1649,7 +1531,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../development/" class="md-nav__link">
+      <a href="../development/" class="md-nav__link">
         
   
   
@@ -1673,10 +1555,37 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../troubleshooting/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1692,6 +1601,165 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#authentication-and-session-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Authentication and Session Errors
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Authentication and Session Errors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#moodle-login-failed-invalid-username-or-password" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Moodle login failed: invalid username or password
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authenticated-to-moodle-but-no-webservice-token-or-sesskey-was-available" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Authenticated to Moodle, but no webservice token or sesskey was available
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cannot-call-moodle-webservice-without-a-webservice-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cannot call Moodle webservice ... without a webservice token
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#moodle-login-succeeded-but-no-sesskey-was-found-on-the-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Moodle login succeeded, but no sesskey was found on the dashboard
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#course-listing-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Course Listing Errors
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Course Listing Errors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#listing-courses-requires-a-valid-webservice-token-or-sesskey" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Listing courses requires a valid webservice token or sesskey
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#test-environment-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test Environment Issues
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Test Environment Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#integration-tests-are-skipped-unexpectedly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integration tests are skipped unexpectedly
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pytest-exits-before-collection-because-configuration-is-incomplete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pytest exits before collection because configuration is incomplete
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-local-moodle-host-is-unreachable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The local Moodle host is unreachable
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1703,7 +1771,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../roadmap-plan/" class="md-nav__link">
+      <a href="../roadmap-plan/" class="md-nav__link">
         
   
   
@@ -1750,68 +1818,141 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#prerequisites" class="md-nav__link">
+  <a href="#authentication-and-session-errors" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Prerequisites
+        Authentication and Session Errors
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Authentication and Session Errors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#moodle-login-failed-invalid-username-or-password" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Moodle login failed: invalid username or password
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#1-install-py-moodle" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#authenticated-to-moodle-but-no-webservice-token-or-sesskey-was-available" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Install py-moodle
+        Authenticated to Moodle, but no webservice token or sesskey was available
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#2-configure-credentials" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#cannot-call-moodle-webservice-without-a-webservice-token" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Configure Credentials
+        Cannot call Moodle webservice ... without a webservice token
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#3-test-your-setup" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#moodle-login-succeeded-but-no-sesskey-was-found-on-the-dashboard" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. Test Your Setup
+        Moodle login succeeded, but no sesskey was found on the dashboard
       
     </span>
   </a>
   
 </li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
-  <a href="#4-try-some-commands" class="md-nav__link">
+  <a href="#course-listing-errors" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. Try Some Commands
+        Course Listing Errors
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Course Listing Errors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#listing-courses-requires-a-valid-webservice-token-or-sesskey" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Listing courses requires a valid webservice token or sesskey
       
     </span>
   </a>
   
 </li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
-  <a href="#next-steps" class="md-nav__link">
+  <a href="#test-environment-issues" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Next Steps
+        Test Environment Issues
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Test Environment Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#integration-tests-are-skipped-unexpectedly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integration tests are skipped unexpectedly
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pytest-exits-before-collection-because-configuration-is-incomplete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pytest exits before collection because configuration is incomplete
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-local-moodle-host-is-unreachable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The local Moodle host is unreachable
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1835,62 +1976,70 @@
   
 
 
-<h1 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h1>
-<p>Get up and running with py-moodle in minutes!</p>
-<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
+<h1 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h1>
+<p>This guide covers the most common authentication, session, and test setup
+problems when working with <code>py-moodle</code>.</p>
+<h2 id="authentication-and-session-errors">Authentication and Session Errors<a class="headerlink" href="#authentication-and-session-errors" title="Permanent link">&para;</a></h2>
+<h3 id="moodle-login-failed-invalid-username-or-password"><code>Moodle login failed: invalid username or password</code><a class="headerlink" href="#moodle-login-failed-invalid-username-or-password" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Python 3.8+ installed</li>
-<li>Access to a Moodle instance</li>
-<li>Valid Moodle credentials</li>
+<li>Verify <code>MOODLE_URL</code>, <code>MOODLE_USERNAME</code>, and <code>MOODLE_PASSWORD</code>.</li>
+<li>Confirm the Moodle site accepts direct login for that account.</li>
+<li>If the site uses CAS or another single sign-on flow, enable the matching CLI
+  settings before retrying.</li>
 </ul>
-<h2 id="1-install-py-moodle">1. Install py-moodle<a class="headerlink" href="#1-install-py-moodle" title="Permanent link">&para;</a></h2>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>py-moodle
-</span></code></pre></div>
-<h2 id="2-configure-credentials">2. Configure Credentials<a class="headerlink" href="#2-configure-credentials" title="Permanent link">&para;</a></h2>
-<p>Create a <code>.env</code> file with your Moodle credentials:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>cp<span class="w"> </span>.env.example<span class="w"> </span>.env
-</span></code></pre></div>
-<p>Edit the <code>.env</code> file (replace <code>PROD</code> with your target environment name):</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>MOODLE_PROD_URL=https://your-moodle-site.com
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>MOODLE_PROD_USERNAME=your-username
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>MOODLE_PROD_PASSWORD=your-password
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a># Optional: CAS URL and token
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a># MOODLE_PROD_CAS_URL=https://cas.your-institution.org/cas
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a># MOODLE_PROD_WS_TOKEN=your_webservice_token
-</span></code></pre></div>
-<p>Select this environment by running commands with <code>--env prod</code> or by setting <code>MOODLE_ENV=prod</code>.</p>
-<h2 id="3-test-your-setup">3. Test Your Setup<a class="headerlink" href="#3-test-your-setup" title="Permanent link">&para;</a></h2>
-<p>List all available courses:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>py-moodle<span class="w"> </span>courses<span class="w"> </span>list
-</span></code></pre></div>
-<p>You should see output like:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>┏━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>┃ ID ┃ Shortname                    ┃ Fullname                          ┃
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>┡━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>│ 2  │ my-first-course              │ My first course                   │
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>│ 4  │ my-second-course             │ My second course                  │
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>└────┴──────────────────────────────┴───────────────────────────────────┘
-</span></code></pre></div>
-<h2 id="4-try-some-commands">4. Try Some Commands<a class="headerlink" href="#4-try-some-commands" title="Permanent link">&para;</a></h2>
-<p><strong>Show course details:</strong>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>py-moodle<span class="w"> </span>courses<span class="w"> </span>show<span class="w"> </span><span class="m">2</span>
-</span></code></pre></div></p>
-<p><strong>Create a new course:</strong>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>py-moodle<span class="w"> </span>courses<span class="w"> </span>create<span class="w"> </span>--fullname<span class="w"> </span><span class="s2">&quot;Test Course&quot;</span><span class="w"> </span>--shortname<span class="w"> </span><span class="s2">&quot;test-001&quot;</span>
-</span></code></pre></div></p>
-<p><strong>Add content to a course:</strong>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>py-moodle<span class="w"> </span>modules<span class="w"> </span>add<span class="w"> </span>label<span class="w"> </span>--course-id<span class="w"> </span><span class="m">2</span><span class="w"> </span>--section-id<span class="w"> </span><span class="m">1</span><span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;Welcome&quot;</span><span class="w"> </span>--intro<span class="w"> </span><span class="s2">&quot;Welcome to the course!&quot;</span>
-</span></code></pre></div></p>
-<h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
+<h3 id="authenticated-to-moodle-but-no-webservice-token-or-sesskey-was-available"><code>Authenticated to Moodle, but no webservice token or sesskey was available</code><a class="headerlink" href="#authenticated-to-moodle-but-no-webservice-token-or-sesskey-was-available" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Check out the <a href="../../cli/">CLI Reference</a> for all available commands</li>
-<li>Read the <a href="../configuration/">Configuration</a> guide for advanced setup</li>
-<li>Browse <a href="../../api/session/">API Reference</a> to use py-moodle as a library</li>
+<li>Confirm the user can open the Moodle dashboard in a browser after logging in.</li>
+<li>Enable the Moodle mobile web service, or provide a pre-configured token when
+  the site blocks automatic token creation.</li>
+<li>If the site uses CAS, confirm the session is returning to Moodle correctly
+  after authentication.</li>
 </ul>
-<div class="admonition tip">
-<p class="admonition-title">Need Help?</p>
-<p>Use <code>py-moodle --help</code> or <code>py-moodle COMMAND --help</code> for detailed command information.</p>
-</div>
+<h3 id="cannot-call-moodle-webservice-without-a-webservice-token"><code>Cannot call Moodle webservice ... without a webservice token</code><a class="headerlink" href="#cannot-call-moodle-webservice-without-a-webservice-token" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Use a user that can access the Moodle mobile web service.</li>
+<li>Provide a pre-configured token through configuration when the site does not
+  allow token discovery.</li>
+<li>Prefer session-based helpers that accept a <code>sesskey</code> when a webservice token
+  is not available.</li>
+</ul>
+<h3 id="moodle-login-succeeded-but-no-sesskey-was-found-on-the-dashboard"><code>Moodle login succeeded, but no sesskey was found on the dashboard</code><a class="headerlink" href="#moodle-login-succeeded-but-no-sesskey-was-found-on-the-dashboard" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Open the Moodle dashboard manually and confirm it loads after login.</li>
+<li>Check whether the site immediately redirects back to the login page or an SSO
+  prompt.</li>
+<li>Review reverse-proxy or CAS configuration if authenticated sessions are not
+  preserved.</li>
+</ul>
+<h2 id="course-listing-errors">Course Listing Errors<a class="headerlink" href="#course-listing-errors" title="Permanent link">&para;</a></h2>
+<h3 id="listing-courses-requires-a-valid-webservice-token-or-sesskey"><code>Listing courses requires a valid webservice token or sesskey</code><a class="headerlink" href="#listing-courses-requires-a-valid-webservice-token-or-sesskey" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Re-authenticate so the session can refresh its <code>sesskey</code>.</li>
+<li>Use a Moodle account with permission to access the Moodle mobile web service
+  if you need the REST listing path.</li>
+</ul>
+<h2 id="test-environment-issues">Test Environment Issues<a class="headerlink" href="#test-environment-issues" title="Permanent link">&para;</a></h2>
+<h3 id="integration-tests-are-skipped-unexpectedly">Integration tests are skipped unexpectedly<a class="headerlink" href="#integration-tests-are-skipped-unexpectedly" title="Permanent link">&para;</a></h3>
+<p>Tests outside <code>tests/unit/</code> are marked as integration tests and are skipped
+unless you pass <code>--integration</code>.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pytest<span class="w"> </span>--integration<span class="w"> </span>--moodle-env<span class="w"> </span><span class="nb">local</span><span class="w"> </span>-m<span class="w"> </span>integration<span class="w"> </span>-n<span class="w"> </span>auto
+</span></code></pre></div>
+<h3 id="pytest-exits-before-collection-because-configuration-is-incomplete">Pytest exits before collection because configuration is incomplete<a class="headerlink" href="#pytest-exits-before-collection-because-configuration-is-incomplete" title="Permanent link">&para;</a></h3>
+<p>Add the required environment variables for the selected target to <code>.env</code>:</p>
+<ul>
+<li><code>MOODLE_&lt;ENV&gt;_URL</code></li>
+<li><code>MOODLE_&lt;ENV&gt;_USERNAME</code></li>
+<li><code>MOODLE_&lt;ENV&gt;_PASSWORD</code></li>
+</ul>
+<p>For example, the local target uses <code>MOODLE_LOCAL_URL</code>,
+<code>MOODLE_LOCAL_USERNAME</code>, and <code>MOODLE_LOCAL_PASSWORD</code>.</p>
+<h3 id="the-local-moodle-host-is-unreachable">The local Moodle host is unreachable<a class="headerlink" href="#the-local-moodle-host-is-unreachable" title="Permanent link">&para;</a></h3>
+<p>Start the local stack before retrying:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>make<span class="w"> </span>upd
+</span></code></pre></div>
+<p>or:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
+</span></code></pre></div>
 
 
 
@@ -1967,10 +2116,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "content.code.annotate", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.copy", "content.code.annotate", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>

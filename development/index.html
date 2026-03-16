@@ -18,7 +18,7 @@
         <link rel="prev" href="../examples/">
       
       
-        <link rel="next" href="../roadmap-plan/">
+        <link rel="next" href="../troubleshooting/">
       
       
         
@@ -348,6 +348,25 @@
     
   
   Development
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../troubleshooting/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Troubleshooting
 
       </a>
     </li>
@@ -1694,6 +1713,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#troubleshooting-test-runs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting Test Runs
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1914,6 +1944,33 @@
   
   
     <li class="md-nav__item">
+      <a href="../troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../roadmap-plan/" class="md-nav__link">
         
   
@@ -2077,6 +2134,17 @@
     <span class="md-ellipsis">
       
         Writing Tests
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#troubleshooting-test-runs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting Test Runs
       
     </span>
   </a>
@@ -2385,25 +2453,39 @@
 </span></code></pre></div>
 <h2 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">&para;</a></h2>
 <h3 id="running-tests">Running Tests<a class="headerlink" href="#running-tests" title="Permanent link">&para;</a></h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Run all tests</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>make<span class="w"> </span><span class="nb">test</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># Run specific test file</span>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>pytest<span class="w"> </span>tests/test_course.py
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># Run with coverage</span>
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>pytest<span class="w"> </span>--cov<span class="o">=</span>src/py_moodle<span class="w"> </span>tests/
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Fast smoke tests that do not require Moodle</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>make<span class="w"> </span>test-unit
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>pytest<span class="w"> </span>tests/unit
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1"># Moodle-backed integration tests (opt in)</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>make<span class="w"> </span>test-local
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>make<span class="w"> </span>test-staging
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>pytest<span class="w"> </span>--integration<span class="w"> </span>--moodle-env<span class="w"> </span><span class="nb">local</span><span class="w"> </span>-m<span class="w"> </span>integration<span class="w"> </span>-n<span class="w"> </span>auto
 </span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>
-</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="c1"># Run against different environments</span>
-</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>make<span class="w"> </span>test-local<span class="w">    </span><span class="c1"># Local Moodle instance</span>
-</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>make<span class="w"> </span>test-staging<span class="w">  </span><span class="c1"># Staging environment</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="c1"># Full local workflow (starts Docker, then runs integration tests)</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>make<span class="w"> </span><span class="nb">test</span>
 </span></code></pre></div>
 <h3 id="writing-tests">Writing Tests<a class="headerlink" href="#writing-tests" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Tests go in the <code>tests/</code> directory</li>
+<li>Place fast, Moodle-free coverage in <code>tests/unit/</code></li>
+<li>Integration tests outside <code>tests/unit/</code> are automatically marked with
+  <code>@pytest.mark.integration</code> and skipped unless <code>--integration</code> is passed</li>
 <li>Use descriptive test names: <code>test_create_course_with_valid_data</code></li>
 <li>Test both success and failure cases</li>
 <li>Use fixtures from <code>conftest.py</code></li>
+</ul>
+<h3 id="troubleshooting-test-runs">Troubleshooting Test Runs<a class="headerlink" href="#troubleshooting-test-runs" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>make test-unit</code> is the fastest way to confirm a change did not break the
+  smoke-test layer.</li>
+<li>If an integration run exits before collecting tests, verify the required
+  <code>MOODLE_&lt;ENV&gt;_URL</code>, <code>MOODLE_&lt;ENV&gt;_USERNAME</code>, and <code>MOODLE_&lt;ENV&gt;_PASSWORD</code>
+  variables exist in <code>.env</code>.</li>
+<li>If the <code>local</code> integration environment is unreachable, start it with
+  <code>docker compose up -d</code> or <code>make upd</code> before retrying.</li>
+<li>For authentication and session issues during test setup, see
+  <a href="../troubleshooting/">Troubleshooting</a>.</li>
 </ul>
 <p>Example test:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">def</span> <span class="nf">test_create_course_success</span><span class="p">(</span><span class="n">moodle_session</span><span class="p">):</span>
