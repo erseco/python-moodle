@@ -12,31 +12,31 @@
         <meta name="author" content="Ernesto Serrano">
       
       
-        <link rel="canonical" href="https://erseco.github.io/python-moodle/getting-started/configuration/">
+        <link rel="canonical" href="https://erseco.github.io/python-moodle/recipes/">
       
       
-        <link rel="prev" href="../installation/">
+        <link rel="prev" href="../examples/">
       
       
-        <link rel="next" href="../quickstart/">
+        <link rel="next" href="../development/">
       
       
         
       
       
-      <link rel="icon" href="../../images/favicon.png">
+      <link rel="icon" href="../images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.5">
     
     
       
-        <title>Configuration - py-moodle</title>
+        <title>Recipes - py-moodle</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -55,9 +55,9 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#configuration" class="md-skip">
+        <a href="#recipes" class="md-skip">
           Skip to content
         </a>
       
@@ -96,7 +96,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="py-moodle" class="md-header__button md-logo" aria-label="py-moodle" data-md-component="logo">
+    <a href=".." title="py-moodle" class="md-header__button md-logo" aria-label="py-moodle" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Configuration
+              Recipes
             
           </span>
         </div>
@@ -232,7 +232,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../.." class="md-tabs__link">
+      <a href=".." class="md-tabs__link">
         
   
   
@@ -249,13 +249,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../getting-started/" class="md-tabs__link">
           
   
   
@@ -273,7 +271,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../cli/" class="md-tabs__link">
+      <a href="../cli/" class="md-tabs__link">
         
   
   
@@ -301,7 +299,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../api/session/" class="md-tabs__link">
+        <a href="../api/session/" class="md-tabs__link">
           
   
   
@@ -322,7 +320,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../examples/" class="md-tabs__link">
+      <a href="../examples/" class="md-tabs__link">
         
   
   
@@ -339,9 +337,11 @@
   
   
   
+    
   
-    <li class="md-tabs__item">
-      <a href="../../recipes/" class="md-tabs__link">
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
         
   
   
@@ -360,7 +360,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../development/" class="md-tabs__link">
+      <a href="../development/" class="md-tabs__link">
         
   
   
@@ -379,7 +379,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../troubleshooting/" class="md-tabs__link">
+      <a href="../troubleshooting/" class="md-tabs__link">
         
   
   
@@ -398,7 +398,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../roadmap-plan/" class="md-tabs__link">
+      <a href="../roadmap-plan/" class="md-tabs__link">
         
   
   
@@ -433,7 +433,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="py-moodle" class="md-nav__button md-logo" aria-label="py-moodle" data-md-component="logo">
+    <a href=".." title="py-moodle" class="md-nav__button md-logo" aria-label="py-moodle" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -463,7 +463,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
+      <a href=".." class="md-nav__link">
         
   
   
@@ -487,31 +487,26 @@
       
   
   
-    
   
   
-  
     
     
     
     
-      
-        
-        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
             
   
   
@@ -529,7 +524,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -547,7 +542,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../" class="md-nav__link">
+      <a href="../getting-started/" class="md-nav__link">
         
   
   
@@ -575,7 +570,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../installation/" class="md-nav__link">
+      <a href="../getting-started/installation/" class="md-nav__link">
         
   
   
@@ -600,37 +595,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Configuration
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../getting-started/configuration/" class="md-nav__link">
         
   
   
@@ -646,98 +614,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#setting-up-credentials" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Setting Up Credentials
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuration-options" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Configuration Options
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#selecting-the-environment" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Selecting the Environment
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#testing-your-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Testing Your Configuration
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Troubleshooting
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Troubleshooting">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#common-issues" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Common Issues
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -750,7 +626,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../quickstart/" class="md-nav__link">
+      <a href="../getting-started/quickstart/" class="md-nav__link">
         
   
   
@@ -785,7 +661,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../cli/" class="md-nav__link">
+      <a href="../cli/" class="md-nav__link">
         
   
   
@@ -916,7 +792,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/session/" class="md-nav__link">
+      <a href="../api/session/" class="md-nav__link">
         
   
   
@@ -944,7 +820,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/settings/" class="md-nav__link">
+      <a href="../api/settings/" class="md-nav__link">
         
   
   
@@ -972,7 +848,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/auth/" class="md-nav__link">
+      <a href="../api/auth/" class="md-nav__link">
         
   
   
@@ -1060,7 +936,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/course/" class="md-nav__link">
+      <a href="../api/course/" class="md-nav__link">
         
   
   
@@ -1088,7 +964,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/category/" class="md-nav__link">
+      <a href="../api/category/" class="md-nav__link">
         
   
   
@@ -1116,7 +992,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/section/" class="md-nav__link">
+      <a href="../api/section/" class="md-nav__link">
         
   
   
@@ -1204,7 +1080,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/module/" class="md-nav__link">
+      <a href="../api/module/" class="md-nav__link">
         
   
   
@@ -1232,7 +1108,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/label/" class="md-nav__link">
+      <a href="../api/label/" class="md-nav__link">
         
   
   
@@ -1260,7 +1136,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/page/" class="md-nav__link">
+      <a href="../api/page/" class="md-nav__link">
         
   
   
@@ -1288,7 +1164,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/resource/" class="md-nav__link">
+      <a href="../api/resource/" class="md-nav__link">
         
   
   
@@ -1316,7 +1192,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/folder/" class="md-nav__link">
+      <a href="../api/folder/" class="md-nav__link">
         
   
   
@@ -1344,7 +1220,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/url/" class="md-nav__link">
+      <a href="../api/url/" class="md-nav__link">
         
   
   
@@ -1372,7 +1248,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/scorm/" class="md-nav__link">
+      <a href="../api/scorm/" class="md-nav__link">
         
   
   
@@ -1400,7 +1276,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/assign/" class="md-nav__link">
+      <a href="../api/assign/" class="md-nav__link">
         
   
   
@@ -1488,7 +1364,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/upload/" class="md-nav__link">
+      <a href="../api/upload/" class="md-nav__link">
         
   
   
@@ -1516,7 +1392,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/draftfile/" class="md-nav__link">
+      <a href="../api/draftfile/" class="md-nav__link">
         
   
   
@@ -1604,7 +1480,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/user/" class="md-nav__link">
+      <a href="../api/user/" class="md-nav__link">
         
   
   
@@ -1647,7 +1523,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../examples/" class="md-nav__link">
+      <a href="../examples/" class="md-nav__link">
         
   
   
@@ -1671,10 +1547,37 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../recipes/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recipes
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1690,6 +1593,81 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#verify-your-environment-and-login" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify your environment and login
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inspect-a-course-before-changing-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inspect a course before changing it
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-course-and-add-a-welcome-label" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create a course and add a welcome label
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#upload-materials-into-a-folder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Upload materials into a folder
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-the-fastest-contributor-validation-loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Run the fastest contributor validation loop
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1701,7 +1679,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../development/" class="md-nav__link">
+      <a href="../development/" class="md-nav__link">
         
   
   
@@ -1728,7 +1706,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../troubleshooting/" class="md-nav__link">
+      <a href="../troubleshooting/" class="md-nav__link">
         
   
   
@@ -1755,7 +1733,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../roadmap-plan/" class="md-nav__link">
+      <a href="../roadmap-plan/" class="md-nav__link">
         
   
   
@@ -1802,10 +1780,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#setting-up-credentials" class="md-nav__link">
+  <a href="#verify-your-environment-and-login" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Setting Up Credentials
+        Verify your environment and login
       
     </span>
   </a>
@@ -1813,10 +1791,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#configuration-options" class="md-nav__link">
+  <a href="#inspect-a-course-before-changing-it" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Configuration Options
+        Inspect a course before changing it
       
     </span>
   </a>
@@ -1824,10 +1802,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#selecting-the-environment" class="md-nav__link">
+  <a href="#create-a-course-and-add-a-welcome-label" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Selecting the Environment
+        Create a course and add a welcome label
       
     </span>
   </a>
@@ -1835,10 +1813,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#testing-your-configuration" class="md-nav__link">
+  <a href="#upload-materials-into-a-folder" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Testing Your Configuration
+        Upload materials into a folder
       
     </span>
   </a>
@@ -1846,30 +1824,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
+  <a href="#run-the-fastest-contributor-validation-loop" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Troubleshooting
+        Run the fastest contributor validation loop
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Troubleshooting">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#common-issues" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Common Issues
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1893,97 +1854,89 @@
   
 
 
-<h1 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h1>
-<p>py-moodle uses environment variables for configuration, typically stored in a <code>.env</code> file.</p>
-<h2 id="setting-up-credentials">Setting Up Credentials<a class="headerlink" href="#setting-up-credentials" title="Permanent link">&para;</a></h2>
-<ol>
-<li>
-<p><strong>Copy the example file:</strong>
-   <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>cp<span class="w"> </span>.env.example<span class="w"> </span>.env
-</span></code></pre></div></p>
-</li>
-<li>
-<p><strong>Edit the <code>.env</code> file:</strong> Replace <code>PROD</code> with the environment name you want to configure (<code>LOCAL</code>, <code>STAGING</code>, etc.).
-   <div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a># Production environment
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>MOODLE_PROD_URL=https://sandbox.moodledemo.net
+<h1 id="recipes">Recipes<a class="headerlink" href="#recipes" title="Permanent link">&para;</a></h1>
+<p>This page collects task-oriented workflows for common <code>py-moodle</code> jobs.
+Use these recipes when you want a copy/paste starting point instead of a full
+command reference.</p>
+<h2 id="verify-your-environment-and-login">Verify your environment and login<a class="headerlink" href="#verify-your-environment-and-login" title="Permanent link">&para;</a></h2>
+<p>Use this recipe first when setting up a new <code>.env</code> profile or switching to a
+different Moodle environment.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Use the environment from MOODLE_ENV or pass one explicitly.</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>py-moodle<span class="w"> </span>--env<span class="w"> </span><span class="nb">local</span><span class="w"> </span>site<span class="w"> </span>info
+</span></code></pre></div>
+<p>If the command succeeds, your credentials, session bootstrap, and base URL are
+working together.</p>
+<p>If it fails:</p>
+<ul>
+<li>confirm the selected environment name matches your <code>.env</code> keys</li>
+<li>verify <code>MOODLE_&lt;ENV&gt;_URL</code>, <code>MOODLE_&lt;ENV&gt;_USERNAME</code>, and
+  <code>MOODLE_&lt;ENV&gt;_PASSWORD</code></li>
+<li>review the <a href="../troubleshooting/">Troubleshooting</a> guide for common login and
+  session failures</li>
+</ul>
+<h2 id="inspect-a-course-before-changing-it">Inspect a course before changing it<a class="headerlink" href="#inspect-a-course-before-changing-it" title="Permanent link">&para;</a></h2>
+<p>Use these commands together when you need to confirm IDs and current state
+before creating or deleting content.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Find the course ID you want to work with.</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>py-moodle<span class="w"> </span>courses<span class="w"> </span>list
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a># Your Moodle credentials
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>MOODLE_PROD_USERNAME=admin
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>MOODLE_PROD_PASSWORD=sandbox24
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a># Optional: for SSO/CAS authentication
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a># MOODLE_PROD_CAS_URL=https://cas.myuni.edu/cas
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a># Optional: predefined webservice token (required for CAS)
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a># MOODLE_PROD_WS_TOKEN=your_webservice_token
-</span></code></pre></div></p>
-</li>
-</ol>
-<div class="admonition danger">
-<p class="admonition-title">Security Warning</p>
-<p>The <code>.env</code> file contains sensitive credentials. Never commit it to version control or share it publicly.</p>
-</div>
-<h2 id="configuration-options">Configuration Options<a class="headerlink" href="#configuration-options" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Variable Pattern</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>MOODLE_&lt;ENV&gt;_URL</code></td>
-<td>Base URL of the <code>&lt;ENV&gt;</code> Moodle instance</td>
-<td>✅ Yes</td>
-</tr>
-<tr>
-<td><code>MOODLE_&lt;ENV&gt;_USERNAME</code></td>
-<td>Username for the <code>&lt;ENV&gt;</code> instance</td>
-<td>✅ Yes</td>
-</tr>
-<tr>
-<td><code>MOODLE_&lt;ENV&gt;_PASSWORD</code></td>
-<td>Password for the <code>&lt;ENV&gt;</code> instance</td>
-<td>✅ Yes</td>
-</tr>
-<tr>
-<td><code>MOODLE_&lt;ENV&gt;_CAS_URL</code></td>
-<td>CAS server URL for SSO</td>
-<td>❌ Optional</td>
-</tr>
-<tr>
-<td><code>MOODLE_&lt;ENV&gt;_WS_TOKEN</code></td>
-<td>Predefined webservice token (required for CAS)</td>
-<td>❌ Optional</td>
-</tr>
-</tbody>
-</table>
-<h2 id="selecting-the-environment">Selecting the Environment<a class="headerlink" href="#selecting-the-environment" title="Permanent link">&para;</a></h2>
-<p>Choose which environment configuration to use with the <code>--env</code> option or by setting <code>MOODLE_ENV</code>.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nv">MOODLE_ENV</span><span class="o">=</span>prod<span class="w"> </span>py-moodle<span class="w"> </span>courses<span class="w"> </span>list
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1"># or</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>py-moodle<span class="w"> </span>--env<span class="w"> </span>prod<span class="w"> </span>courses<span class="w"> </span>list
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Inspect one course in detail.</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>py-moodle<span class="w"> </span>courses<span class="w"> </span>show<span class="w"> </span><span class="m">2</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1"># List its sections before adding modules.</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>py-moodle<span class="w"> </span>sections<span class="w"> </span>list<span class="w"> </span><span class="m">2</span>
 </span></code></pre></div>
-<p>If omitted, the environment defaults to <code>local</code>.</p>
-<h2 id="testing-your-configuration">Testing Your Configuration<a class="headerlink" href="#testing-your-configuration" title="Permanent link">&para;</a></h2>
-<p>Verify your credentials work:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>py-moodle<span class="w"> </span>courses<span class="w"> </span>list
+<p>This flow is useful for scripts and manual operations because it reduces the
+chance of targeting the wrong course or section.</p>
+<h2 id="create-a-course-and-add-a-welcome-label">Create a course and add a welcome label<a class="headerlink" href="#create-a-course-and-add-a-welcome-label" title="Permanent link">&para;</a></h2>
+<p>This is a minimal end-to-end content bootstrap workflow.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># 1. Create the course.</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>py-moodle<span class="w"> </span>courses<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span>--fullname<span class="w"> </span><span class="s2">&quot;Automation Demo&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span>--shortname<span class="w"> </span><span class="s2">&quot;automation-demo&quot;</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="c1"># 2. Create a section if you need one beyond the default course layout.</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>py-moodle<span class="w"> </span>sections<span class="w"> </span>create<span class="w"> </span><span class="m">2</span><span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;Getting Started&quot;</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="c1"># 3. Add a welcome label to the first section.</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>py-moodle<span class="w"> </span>modules<span class="w"> </span>add<span class="w"> </span>label<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">  </span>--course-id<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">  </span>--section-id<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">  </span>--name<span class="w"> </span><span class="s2">&quot;Welcome&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">  </span>--intro<span class="w"> </span><span class="s2">&quot;&lt;p&gt;Welcome to the course.&lt;/p&gt;&quot;</span>
 </span></code></pre></div>
-<p>If configured correctly, you should see a list of available courses.</p>
-<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
-<h3 id="common-issues">Common Issues<a class="headerlink" href="#common-issues" title="Permanent link">&para;</a></h3>
-<p><strong>Invalid credentials error:</strong>
-- Double-check your username and password
-- Ensure the <code>MOODLE_&lt;ENV&gt;_URL</code> is correct and accessible
-- Try logging in through the web interface first</p>
-<p><strong>SSL/TLS errors:</strong>
-- Some development instances use self-signed certificates
-- For testing only, you might need to disable SSL verification</p>
-<p><strong>CAS authentication not working:</strong>
-- Ensure <code>MOODLE_&lt;ENV&gt;_CAS_URL</code> points to your institution's CAS server
-- Check that your credentials work through the CAS web interface
-- Verify that <code>MOODLE_&lt;ENV&gt;_WS_TOKEN</code> is set when CAS is enabled</p>
+<p>Replace the example course ID with the ID returned by the create command in
+your environment.</p>
+<h2 id="upload-materials-into-a-folder">Upload materials into a folder<a class="headerlink" href="#upload-materials-into-a-folder" title="Permanent link">&para;</a></h2>
+<p>Use the dedicated folder commands when you want to manage a reusable course
+materials area.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Create a folder activity in the course.</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>py-moodle<span class="w"> </span>folders<span class="w"> </span>add<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span>--course-id<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span>--section-id<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span>--name<span class="w"> </span><span class="s2">&quot;Course Materials&quot;</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="c1"># Upload a file into the folder activity.</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>py-moodle<span class="w"> </span>folders<span class="w"> </span>add-file<span class="w"> </span><span class="m">15</span><span class="w"> </span>./docs/syllabus.pdf
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="c1"># Confirm the folder contents.</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>py-moodle<span class="w"> </span>folders<span class="w"> </span>list-content<span class="w"> </span><span class="m">15</span>
+</span></code></pre></div>
+<p>In this recipe, <code>15</code> is the folder module ID returned by the add command.</p>
+<h2 id="run-the-fastest-contributor-validation-loop">Run the fastest contributor validation loop<a class="headerlink" href="#run-the-fastest-contributor-validation-loop" title="Permanent link">&para;</a></h2>
+<p>When you are changing code or documentation, this sequence gives the quickest
+feedback with the existing repository tooling.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Fast smoke tests with no live Moodle requirement.</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>make<span class="w"> </span>test-unit
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># Static checks used by CI.</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>make<span class="w"> </span>lint
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1"># Rebuild the documentation site, including generated CLI docs.</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>make<span class="w"> </span>docs
+</span></code></pre></div>
+<p>Use <code>make test-local</code> only when you need Docker-backed integration coverage
+against the local Moodle environment.</p>
 
 
 
@@ -2060,10 +2013,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "content.code.annotate", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.copy", "content.code.annotate", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>
