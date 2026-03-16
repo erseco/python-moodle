@@ -127,6 +127,7 @@ nav:
     - User Management:
       - User: api/user.md
   - Examples: examples.md
+  - Recipes: recipes.md
   - Development: development.md
   - Troubleshooting: troubleshooting.md
   - Improvement Roadmap: roadmap-plan.md
