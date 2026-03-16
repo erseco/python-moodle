@@ -163,7 +163,18 @@ LEGACY_COMPATIBILITY = LegacyCompatibilityStrategy()
 def parse_moodle_version(
     raw_version: Optional[str], source: str = "unknown"
 ) -> MoodleVersion:
-    """Parse Moodle version text into a normalized structure."""
+    """Parse Moodle version text into a normalized structure.
+
+    Args:
+        raw_version: Moodle release text, such as
+            ``"4.5.2+ (Build: 20241001)"``.
+        source: Human-readable description of where the version was found.
+
+    Returns:
+        MoodleVersion: Parsed version information. When no numeric version can
+        be extracted, the returned object keeps the raw text and leaves the
+        numeric fields unset.
+    """
     cleaned = (raw_version or "").strip()
     match = re.search(r"(\d+)(?:\.(\d+))?(?:\.(\d+))?", cleaned)
     if not match:
@@ -179,7 +190,16 @@ def parse_moodle_version(
 
 
 def extract_version_from_dashboard(html: str) -> MoodleVersion:
-    """Extract Moodle version information from dashboard HTML."""
+    """Extract Moodle version information from dashboard HTML.
+
+    Args:
+        html: Rendered Moodle dashboard HTML.
+
+    Returns:
+        MoodleVersion: Version parsed from dashboard metadata or embedded
+        JavaScript configuration. If no version marker is found, returns an
+        ``unknown`` version placeholder.
+    """
     soup = BeautifulSoup(html, "lxml")
     generator = soup.find("meta", attrs={"name": re.compile("^generator$", re.I)})
     if generator and generator.get("content"):
@@ -202,7 +222,15 @@ def extract_version_from_dashboard(html: str) -> MoodleVersion:
 
 
 def get_strategy_for_version(version: MoodleVersion) -> BaseCompatibilityStrategy:
-    """Return the selector strategy matching a Moodle version."""
+    """Return the selector strategy matching a Moodle version.
+
+    Args:
+        version: Detected Moodle version information.
+
+    Returns:
+        BaseCompatibilityStrategy: Legacy selectors for Moodle 3.x and modern
+        selectors for Moodle 4.x and newer releases.
+    """
     if version.major is not None and version.major < 4:
         return LEGACY_COMPATIBILITY
     return DEFAULT_COMPATIBILITY
@@ -211,7 +239,19 @@ def get_strategy_for_version(version: MoodleVersion) -> BaseCompatibilityStrateg
 def detect_moodle_compatibility(
     session: requests.Session, base_url: str, token: Optional[str] = None
 ) -> MoodleCompatibilityContext:
-    """Detect the Moodle version and return the matching compatibility strategy."""
+    """Detect the Moodle version and return the matching strategy.
+
+    Args:
+        session: Authenticated Moodle session.
+        base_url: Base URL of the Moodle instance.
+        token: Optional webservice token. When available, detection first tries
+            ``core_webservice_get_site_info`` before falling back to dashboard
+            HTML probing.
+
+    Returns:
+        MoodleCompatibilityContext: Detected version metadata together with the
+        strategy that should be used for selector and parsing fallbacks.
+    """
     if token is None:
         token = getattr(session, "webservice_token", None)
 
@@ -251,7 +291,16 @@ def detect_moodle_compatibility(
 
 
 def get_session_compatibility(session: requests.Session) -> BaseCompatibilityStrategy:
-    """Return the compatibility strategy attached to a session."""
+    """Return the compatibility strategy attached to a session.
+
+    Args:
+        session: Requests session that may carry compatibility metadata.
+
+    Returns:
+        BaseCompatibilityStrategy: Strategy attached during login when present,
+        otherwise a version-derived fallback, or the default modern strategy
+        when no metadata is available.
+    """
     compatibility = getattr(session, "moodle_compat", None)
     if compatibility is not None:
         return compatibility

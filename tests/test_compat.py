@@ -28,7 +28,13 @@ class FakeResponse:
 
 
 class FakeSession:
-    """Minimal requests.Session-like object for compatibility tests."""
+    """Minimal requests.Session-like object for compatibility tests.
+
+    The compatibility layer only needs a small subset of ``requests.Session``
+    behavior. This fake stores queued GET/POST responses so unit tests can
+    exercise compatibility detection and selector fallbacks without real HTTP
+    traffic.
+    """
 
     def __init__(self, get_responses=None, post_responses=None):
         self.get_responses = list(get_responses or [])
