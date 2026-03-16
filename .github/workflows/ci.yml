@@ -12,7 +12,7 @@ on:
       - main
 
 jobs:
-  test:
+  lint:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,40 +23,98 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.13'
-          cache: 'pip' # caching pip dependencies
+          cache: 'pip'
 
       - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
-          pip install -e .
+        run: python -m pip install -e ".[dev]"
 
       - name: Lint
         run: make lint
 
+  unit:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12', '3.13']
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: python -m pip install -e ".[dev]"
+
+      - name: Run smoke tests
+        run: make test-unit
+
+  integration:
+    runs-on: ubuntu-latest
+    needs:
+      - lint
+      - unit
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - python-version: '3.8'
+            moodle-image: erseco/alpine-moodle:v4.5.5
+            moodle-label: Moodle 4.5.5
+            moodle-cache-key: moodle-4-5-5
+            run-examples: false
+          - python-version: '3.13'
+            moodle-image: erseco/alpine-moodle:v5.0.1
+            moodle-label: Moodle 5.0.1
+            moodle-cache-key: moodle-5-0-1
+            run-examples: true
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: python -m pip install -e ".[dev]"
+
       - name: Cache Docker images
         uses: actions/cache@v4
         with:
-          path: /tmp/docker-cache
-          key: ${{ runner.os }}-docker-${{ hashFiles('docker-compose.yml') }}
+          path: /tmp/docker-cache/${{ matrix.moodle-cache-key }}
+          key: ${{ runner.os }}-docker-${{ matrix.moodle-cache-key }}-${{ hashFiles('docker-compose.yml') }}
 
       - name: Load cached Docker images
         run: |
-          if [ -f /tmp/docker-cache/postgres.tar ]; then docker load -i /tmp/docker-cache/postgres.tar; fi
-          if [ -f /tmp/docker-cache/moodle.tar ]; then docker load -i /tmp/docker-cache/moodle.tar; fi
+          if [ -f /tmp/docker-cache/${{ matrix.moodle-cache-key }}/postgres.tar ]; then
+            docker load -i /tmp/docker-cache/${{ matrix.moodle-cache-key }}/postgres.tar
+          fi
+          if [ -f /tmp/docker-cache/${{ matrix.moodle-cache-key }}/moodle.tar ]; then
+            docker load -i /tmp/docker-cache/${{ matrix.moodle-cache-key }}/moodle.tar
+          fi
 
-      - name: Start Moodle with Docker Compose (in backgroud)
-        run: make upd
+      - name: Start ${{ matrix.moodle-label }} with Docker Compose
+        run: MOODLE_DOCKER_IMAGE="${{ matrix.moodle-image }}" make upd
 
       - name: Run tests
-        run: make test
+        run: make test-local
 
       - name: Run example_script.py
+        if: matrix.run-examples
         run: python example_script.py
 
       - name: Save Docker images to cache
         if: always()
         run: |
-          mkdir -p /tmp/docker-cache
-          docker save postgres:alpine -o /tmp/docker-cache/postgres.tar
-          docker save erseco/alpine-moodle:v4.5.5 -o /tmp/docker-cache/moodle.tar
-
+          mkdir -p /tmp/docker-cache/${{ matrix.moodle-cache-key }}
+          docker save postgres:16-alpine -o /tmp/docker-cache/${{ matrix.moodle-cache-key }}/postgres.tar
+          docker save "${{ matrix.moodle-image }}" -o /tmp/docker-cache/${{ matrix.moodle-cache-key }}/moodle.tar

@@ -1,6 +1,6 @@
 ENV_FILE=.env
 
-.PHONY: ensure-env check-docker up format lint docs docs-generate test test-local test-staging
+.PHONY: ensure-env check-docker up format lint docs docs-generate test test-unit test-local test-staging
 
 ensure-env:
 	@if [ ! -f $(ENV_FILE) ]; then cp .env.example $(ENV_FILE); fi
@@ -15,13 +15,19 @@ up: check-docker ensure-env
 upd: check-docker ensure-env
 	docker compose up -d
 	@echo "Waiting for Moodle to be ready..."
-	@for i in $$(seq 1 60); do \
-	  if curl -s --head http://localhost | grep "200 OK" > /dev/null; then \
+	@ready=0; \
+	for i in $$(seq 1 60); do \
+	  if curl -fsSL http://localhost/login/index.php > /dev/null; then \
 	    echo "Moodle is up!"; \
+	    ready=1; \
 	    break; \
 	  fi; \
 	  sleep 5; \
-	done
+	done; \
+	if [ $$ready -ne 1 ]; then \
+	  echo "Moodle did not become ready in time."; \
+	  exit 1; \
+	fi
 
 format:
 	black .
@@ -36,11 +42,14 @@ docs:
 	python -m typer py_moodle.cli.app utils docs --output docs/cli.md --name py-moodle
 	mkdocs build --strict
 
+test-unit:
+	pytest -m "not integration" tests/unit
+
 test-local: ensure-env
-	pytest --moodle-env local -n auto
+	pytest --integration --moodle-env local -m integration -n auto
 
 test-staging: ensure-env
-	pytest --moodle-env staging -n auto
+	pytest --integration --moodle-env staging -m integration -n auto
 
 test: upd test-local
 
@@ -63,6 +72,7 @@ help:
 	@echo "  docs               - Build documentation with mkdocs"
 	@echo ""
 	@echo "Testing:"
+	@echo "  test-unit          - Run fast smoke tests that do not require Moodle"
 	@echo "  test-local         - Run local tests (in parallel) using pytest with moodle-env=local"
 	@echo "  test-staging       - Run tests (in parallel) using moodle-env=staging"
 	@echo "  test               - Start containers (detached) and run local tests"

@@ -33,6 +33,12 @@ def pytest_addoption(parser):
         default="local",
         help="Moodle environment to target: local | staging | prod",
     )
+    parser.addoption(
+        "--integration",
+        action="store_true",
+        default=False,
+        help="Run tests that require a live Moodle instance.",
+    )
 
 
 def _env(name: str) -> str:
@@ -43,15 +49,10 @@ def _env(name: str) -> str:
     return val
 
 
-def pytest_configure(config):
-    """
-    Configures the test target and checks for both configuration validity and
-    host availability before tests run.
-    """
-    env = config.getoption("--moodle-env")
+def _build_target(env: str) -> Target:
+    """Builds the Moodle target configuration for the requested environment."""
     prefix = f"MOODLE_{env.upper()}"
 
-    # --- 1. Validate that the environment is fully configured in .env ---
     required_suffixes = ("URL", "USERNAME", "PASSWORD")
     missing_vars = []
     for suffix in required_suffixes:
@@ -65,24 +66,22 @@ def pytest_configure(config):
             "Please ensure the following environment variables are set in your .env file:\n\n"
             f"  {', '.join(missing_vars)}\n"
         )
-        # Use pytest.exit() to stop the session cleanly from a hook
         pytest.exit(message)
 
-    # --- If configuration is valid, create the Target object ---
-    target = Target(
+    return Target(
         name=env,
         url=_env(f"{prefix}_URL"),
         username=_env(f"{prefix}_USERNAME"),
         password=_env(f"{prefix}_PASSWORD"),
     )
-    # Store the target globally so all tests can access it via request.config
-    config.moodle_target = target
 
-    # --- 2. Check if the host is available before running tests ---
+
+def _ensure_target_available(target: Target):
+    """Checks that the configured Moodle host is reachable before tests run."""
     try:
         requests.get(target.url, timeout=5).raise_for_status()
     except requests.RequestException:
-        if env == "local":
+        if target.name == "local":
             message = (
                 f"Host '{target.url}' for environment 'local' is not available.\n"
                 "You may need to start the local Moodle instance. Try running:\n\n"
@@ -90,11 +89,43 @@ def pytest_configure(config):
             )
         else:
             message = (
-                f"Host '{target.url}' for environment '{env}' is not available. "
+                f"Host '{target.url}' for environment '{target.name}' is not available. "
                 "Please check the host and your network connection."
             )
-        # Use pytest.exit() here as well for a clean stop
         pytest.exit(message)
+
+
+def pytest_configure(config):
+    """
+    Configures markers and, when requested, the Moodle target for integration
+    tests.
+    """
+    config.addinivalue_line(
+        "markers", "integration: tests that require a live Moodle instance"
+    )
+
+    if not config.getoption("--integration"):
+        return
+
+    env = config.getoption("--moodle-env")
+    target = _build_target(env)
+    config.moodle_target = target
+    _ensure_target_available(target)
+
+
+def pytest_collection_modifyitems(config, items):
+    """Marks Moodle-backed tests as integration tests and skips them by default."""
+    run_integration = config.getoption("--integration")
+    skip_integration = pytest.mark.skip(
+        reason="Use --integration to run tests that require a live Moodle instance."
+    )
+
+    for item in items:
+        if "unit" in item.path.parts:
+            continue
+        item.add_marker(pytest.mark.integration)
+        if not run_integration:
+            item.add_marker(skip_integration)
 
 
 @pytest.fixture(scope="function")

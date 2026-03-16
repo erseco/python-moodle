@@ -6,6 +6,7 @@
 
 [![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/erseco/python-moodle/blob/main/LICENSE)
 [![Python Version](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![CI](https://github.com/erseco/python-moodle/actions/workflows/ci.yml/badge.svg)](https://github.com/erseco/python-moodle/actions/workflows/ci.yml)
 [![PyPI downloads](https://img.shields.io/pypi/dm/python-moodle)](https://pypi.org/project/python-moodle/)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![GitHub repository](https://img.shields.io/badge/github-repository-blue)](https://github.com/erseco/python-moodle)
@@ -178,7 +179,13 @@ This script is the best starting point for understanding how to use the library'
 
 The project uses `pytest` and provides a `Makefile` with convenient targets.
 
-Run the default test suite against the local environment:
+Run the fast smoke test suite (no Moodle service required):
+
+```bash
+make test-unit
+```
+
+Run the Docker-backed integration suite against the local environment:
 
 ```bash
 make test-local
@@ -195,6 +202,14 @@ Run all configured environments:
 ```bash
 make test
 ```
+
+GitHub Actions automatically runs:
+
+- linting on Python 3.13
+- smoke tests on Python 3.8 through 3.13
+- Docker-backed integration tests on representative Python/Moodle combinations:
+  - Python 3.8 with Moodle 4.5.5
+  - Python 3.13 with Moodle 5.0.1
 
 ## Development
 
