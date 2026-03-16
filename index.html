@@ -2021,6 +2021,7 @@
 <h1 id="python-moodle">python-moodle<a class="headerlink" href="#python-moodle" title="Permanent link">&para;</a></h1>
 <p><a href="https://github.com/erseco/python-moodle/blob/main/LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/License-MIT-blue.svg" /></a>
 <a href="https://www.python.org/downloads/"><img alt="Python Version" src="https://img.shields.io/badge/python-3.8+-blue.svg" /></a>
+<a href="https://github.com/erseco/python-moodle/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/erseco/python-moodle/actions/workflows/ci.yml/badge.svg" /></a>
 <a href="https://pypi.org/project/python-moodle/"><img alt="PyPI downloads" src="https://img.shields.io/pypi/dm/python-moodle" /></a>
 <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg" /></a>
 <a href="https://github.com/erseco/python-moodle"><img alt="GitHub repository" src="https://img.shields.io/badge/github-repository-blue" /></a></p>
@@ -2147,28 +2148,39 @@
 <hr />
 <h2 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">&para;</a></h2>
 <p>The project uses <code>pytest</code> and provides a <code>Makefile</code> with convenient targets.</p>
-<p>Run the default test suite against the local environment:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>make<span class="w"> </span>test-local
+<p>Run the fast smoke test suite (no Moodle service required):</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>make<span class="w"> </span>test-unit
+</span></code></pre></div>
+<p>Run the Docker-backed integration suite against the local environment:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>make<span class="w"> </span>test-local
 </span></code></pre></div>
 <p>Run tests against the staging environment:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>make<span class="w"> </span>test-staging
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>make<span class="w"> </span>test-staging
 </span></code></pre></div>
 <p>Run all configured environments:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>make<span class="w"> </span><span class="nb">test</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>make<span class="w"> </span><span class="nb">test</span>
 </span></code></pre></div>
+<p>GitHub Actions automatically runs:</p>
+<ul>
+<li>linting on Python 3.13</li>
+<li>smoke tests on Python 3.8 through 3.13</li>
+<li>Docker-backed integration tests on representative Python/Moodle combinations:</li>
+<li>Python 3.8 with Moodle 4.5.5</li>
+<li>Python 3.13 with Moodle 5.0.1</li>
+</ul>
 <h2 id="development">Development<a class="headerlink" href="#development" title="Permanent link">&para;</a></h2>
 <p>Use the Makefile to format code, run linters, or build the documentation:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>make<span class="w"> </span>format<span class="w">   </span><span class="c1"># run black and isort</span>
-</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>make<span class="w"> </span>lint<span class="w">     </span><span class="c1"># run static analysis</span>
-</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>make<span class="w"> </span>docs<span class="w">     </span><span class="c1"># build the MkDocs site</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>make<span class="w"> </span>format<span class="w">   </span><span class="c1"># run black and isort</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>make<span class="w"> </span>lint<span class="w">     </span><span class="c1"># run static analysis</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>make<span class="w"> </span>docs<span class="w">     </span><span class="c1"># build the MkDocs site</span>
 </span></code></pre></div>
 <hr />
 <h2 id="documentation">Documentation<a class="headerlink" href="#documentation" title="Permanent link">&para;</a></h2>
 <p>Documentation is generated with <a href="https://www.mkdocs.org/">MkDocs</a> using the Read the Docs theme and published automatically to the <code>gh-pages</code> branch.
 Every push to <code>main</code> builds the API reference and CLI guide from the source code and makes it available via GitHub Pages.</p>
 <p>To build the documentation locally:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>pip<span class="w"> </span>install<span class="w"> </span>mkdocs<span class="w"> </span><span class="s1">&#39;mkdocstrings[python]&#39;</span>
-</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>mkdocs<span class="w"> </span>build<span class="w"> </span>--strict
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>pip<span class="w"> </span>install<span class="w"> </span>mkdocs<span class="w"> </span><span class="s1">&#39;mkdocstrings[python]&#39;</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>mkdocs<span class="w"> </span>build<span class="w"> </span>--strict
 </span></code></pre></div>
 <p>The rendered site will be available under the <code>site/</code> directory.</p>
 <hr />
