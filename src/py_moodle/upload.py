@@ -4,6 +4,7 @@ File uploading module for Moodle CLI using the webservice endpoint.
 
 This method requires a webservice token with 'core_files_upload' capability.
 """
+
 import mimetypes
 import os
 from pathlib import Path
