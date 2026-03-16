@@ -32,6 +32,19 @@
 
 ---
 
+## Moodle Compatibility
+
+`py-moodle` interacts with Moodle through authenticated web sessions, HTML forms, and page parsing. To make those flows more resilient across Moodle releases, the library now centralizes version-sensitive logic in `py_moodle.compat`.
+
+-   **Version detection** happens during login/session initialization. The library first tries `core_webservice_get_site_info` when a webservice token is available, then falls back to probing the dashboard HTML (`/my/`) for Moodle release metadata.
+-   **Version-aware strategies** are grouped into compatibility ranges instead of scattering selectors throughout the codebase. The current built-in strategies cover legacy Moodle 3.x layouts and modern Moodle 4.x/5.x layouts.
+-   **Feature probing remains in place** when version detection is not enough. Each strategy can try multiple selectors or form patterns before failing.
+-   **Fragile flows should read selectors from the compatibility layer** so future Moodle HTML changes are isolated to one module.
+
+At the moment, representative compatibility handling has been wired into login/session bootstrap, generic module form parsing, and folder page scraping. When a new Moodle release changes one of these flows, the recommended fix is to update `py_moodle.compat` and add a regression test for the new selector or workflow.
+
+---
+
 ## Installation
 
 You will need Python 3.8+ and `pip`.

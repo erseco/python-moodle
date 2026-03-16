@@ -17,6 +17,7 @@ from typing import Any, Callable, Dict, List, Optional, Tuple
 import requests
 from bs4 import BeautifulSoup
 
+from .compat import get_session_compatibility
 from .course import get_course_context_id
 from .draftfile import upload_file_to_draft_area
 
@@ -100,9 +101,10 @@ def _get_current_user_fullname(session: requests.Session, base_url: str) -> str:
         my_page_resp = session.get(f"{base_url}/my/")
         my_page_resp.raise_for_status()
         soup = BeautifulSoup(my_page_resp.text, "lxml")
-        user_menu = soup.select_one(".usermenu .usertext")
-        if user_menu:
-            return user_menu.get_text(strip=True)
+        compatibility = get_session_compatibility(session)
+        fullname = compatibility.extract_user_fullname(soup)
+        if fullname:
+            return fullname
     except Exception:
         # Fallback if scraping fails
         return "Admin User"
@@ -280,15 +282,8 @@ def list_folder_content(
         resp = session.get(view_url)
         resp.raise_for_status()
         soup = BeautifulSoup(resp.text, "lxml")
-        file_links = soup.select(
-            '.folder_tree a[href*="/pluginfile.php/"], .foldertree a[href*="/pluginfile.php/"]'
-        )
-        filenames = [
-            link.text.strip()
-            for link in file_links
-            if "pluginfile.php" in link.get("href", "")
-        ]
-        return sorted(list(set(filenames)))
+        compatibility = get_session_compatibility(session)
+        return compatibility.extract_folder_filenames(soup)
     except requests.RequestException as e:
         raise MoodleFolderError(
             f"Failed to load folder content page (cmid={cmid}): {e}"
