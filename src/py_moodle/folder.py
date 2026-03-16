@@ -1,4 +1,3 @@
-# src/moodle/folder.py
 """
 Folder module management for Moodle CLI.
 
@@ -8,6 +7,8 @@ web forms and AJAX endpoints.
 
 All code and comments are in English.
 """
+
+from __future__ import annotations
 
 import json
 import re
