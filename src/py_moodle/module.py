@@ -13,6 +13,7 @@ from typing import Any, Dict, Optional
 import requests
 from bs4 import BeautifulSoup
 
+from py_moodle.compat import get_session_compatibility
 from py_moodle.course import MoodleCourseError, get_course_with_sections_and_modules
 
 # --- Cache for module IDs ---
@@ -118,6 +119,7 @@ def add_generic_module(
     url = f"{base_url}/course/modedit.php"
     headers = {"Content-Type": "application/x-www-form-urlencoded"}
     encoded_payload = urllib.parse.urlencode(full_payload)
+    compatibility = get_session_compatibility(session)
     resp = session.post(
         url, data=encoded_payload, headers=headers, allow_redirects=False
     )
@@ -127,12 +129,9 @@ def add_generic_module(
         # A 200 OK status almost always means a silent failure.
         # Parse the HTML to find Moodle's error message.
         soup = BeautifulSoup(resp.text, "lxml")
-        error_div = soup.select_one(
-            ".error, .errormessage, .alert-danger, div[data-fieldtype=error]"
-        )
-        if error_div:
+        error_message = compatibility.extract_error_message(soup)
+        if error_message:
             # Found a specific error message.
-            error_message = error_div.get_text(strip=True)
             raise MoodleModuleError(
                 f"Form submission failed. Moodle error: {error_message}"
             )
@@ -192,7 +191,8 @@ def update_generic_module(
         raise MoodleModuleError(f"Failed to load module edit page for cmid {cmid}: {e}")
 
     # 2. Parse the form and extract all input, textarea, and select fields
-    form = soup.select_one('form[action*="modedit.php"]')
+    compatibility = get_session_compatibility(session)
+    form = compatibility.find_modedit_form(soup)
     if not form:
         raise MoodleModuleError("Could not find the edit form on the page.")
 
@@ -235,13 +235,9 @@ def update_generic_module(
     else:
         # If we get a 200, it's likely an error page. Check for Moodle error notifications.
         error_soup = BeautifulSoup(resp.text, "lxml")
-        error_div = error_soup.select_one(
-            ".error, .errormessage, .alert-danger, div[data-fieldtype=error]"
-        )
-        if error_div:
-            raise MoodleModuleError(
-                f"Failed to update module: {error_div.get_text(strip=True)}"
-            )
+        error_message = compatibility.extract_error_message(error_soup)
+        if error_message:
+            raise MoodleModuleError(f"Failed to update module: {error_message}")
         raise MoodleModuleError(
             f"Failed to update module. Status: {resp.status_code}. Response: {resp.text[:500]}"
         )
