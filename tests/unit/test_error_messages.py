@@ -8,7 +8,7 @@ from py_moodle.session import MoodleSession, MoodleSessionError
 from py_moodle.settings import Settings
 
 
-class FakeResponse:
+class StubResponse:
     """Minimal HTTP response object for error-message tests."""
 
     def __init__(self, *, text="", url="https://moodle.example.test/", json_data=None):
@@ -26,12 +26,12 @@ class FakeResponse:
         return None
 
 
-class FakeSession:
+class StubSession:
     """Minimal session object for deterministic unit tests."""
 
     def __init__(self, *, get_response=None, post_response=None):
-        self.get_response = get_response or FakeResponse()
-        self.post_response = post_response or FakeResponse(json_data={})
+        self.get_response = get_response or StubResponse()
+        self.post_response = post_response or StubResponse(json_data={})
         self.sesskey = None
         self.webservice_token = None
 
@@ -44,7 +44,7 @@ class FakeSession:
         return self.post_response
 
 
-class FakeCompatibility:
+class StubCompatibility:
     """Minimal compatibility helper that never finds a sesskey."""
 
     @staticmethod
@@ -78,9 +78,9 @@ def test_standard_login_error_mentions_credentials_and_cas():
         (),
         {"extract_login_token": staticmethod(lambda text: "token")},
     )()
-    auth.session = FakeSession(
-        get_response=FakeResponse(text="<input name='logintoken' value='token'>"),
-        post_response=FakeResponse(
+    auth.session = StubSession(
+        get_response=StubResponse(text="<input name='logintoken' value='token'>"),
+        post_response=StubResponse(
             text="Invalid login",
             url="https://moodle.example.test/login/index.php",
         ),
@@ -97,11 +97,11 @@ def test_standard_login_error_mentions_credentials_and_cas():
 
 def test_session_login_error_mentions_webservice_and_cas(monkeypatch):
     """Missing token and sesskey errors should point to the likely fixes."""
-    fake_session = FakeSession(get_response=FakeResponse(text="<html></html>"))
-    monkeypatch.setattr("py_moodle.session.login", lambda *args, **kwargs: fake_session)
+    stub_session = StubSession(get_response=StubResponse(text="<html></html>"))
+    monkeypatch.setattr("py_moodle.session.login", lambda *args, **kwargs: stub_session)
     monkeypatch.setattr(
         "py_moodle.session.get_session_compatibility",
-        lambda session: FakeCompatibility(),
+        lambda session: StubCompatibility(),
     )
 
     moodle_session = MoodleSession(build_settings())
@@ -118,7 +118,7 @@ def test_session_login_error_mentions_webservice_and_cas(monkeypatch):
 def test_session_call_without_token_mentions_wsfunction():
     """Missing-token errors should explain how to restore webservice access."""
     moodle_session = MoodleSession(build_settings())
-    moodle_session._session = FakeSession()
+    moodle_session._session = StubSession()
 
     with pytest.raises(LoginError) as excinfo:
         moodle_session.call("core_webservice_get_site_info")
@@ -132,8 +132,8 @@ def test_session_call_without_token_mentions_wsfunction():
 def test_session_call_api_error_mentions_wsfunction():
     """API errors should include the failing Moodle webservice function name."""
     moodle_session = MoodleSession(build_settings())
-    moodle_session._session = FakeSession(
-        post_response=FakeResponse(
+    moodle_session._session = StubSession(
+        post_response=StubResponse(
             json_data={
                 "message": "Access control exception",
                 "errorcode": "accessexception",
