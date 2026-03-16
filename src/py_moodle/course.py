@@ -121,7 +121,9 @@ def list_courses(
 
     if not sesskey:
         raise MoodleCourseError(
-            "No valid token or sesskey provided for listing courses."
+            "Listing courses requires a valid webservice token or sesskey. "
+            "Log in again, or use a user that can access the Moodle mobile "
+            "web service."
         )
     url = f"{base_url}/lib/ajax/service.php?sesskey={sesskey}"
 

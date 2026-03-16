@@ -99,26 +99,40 @@ def create_course(session: requests.Session, url: str, course_data: dict, token:
 ### Running Tests
 
 ```bash
-# Run all tests
+# Fast smoke tests that do not require Moodle
+make test-unit
+pytest tests/unit
+
+# Moodle-backed integration tests (opt in)
+make test-local
+make test-staging
+pytest --integration --moodle-env local -m integration -n auto
+
+# Full local workflow (starts Docker, then runs integration tests)
 make test
-
-# Run specific test file
-pytest tests/test_course.py
-
-# Run with coverage
-pytest --cov=src/py_moodle tests/
-
-# Run against different environments
-make test-local    # Local Moodle instance
-make test-staging  # Staging environment
 ```
 
 ### Writing Tests
 
 - Tests go in the `tests/` directory
+- Place fast, Moodle-free coverage in `tests/unit/`
+- Integration tests outside `tests/unit/` are automatically marked with
+  `@pytest.mark.integration` and skipped unless `--integration` is passed
 - Use descriptive test names: `test_create_course_with_valid_data`
 - Test both success and failure cases
 - Use fixtures from `conftest.py`
+
+### Troubleshooting Test Runs
+
+- `make test-unit` is the fastest way to confirm a change did not break the
+  smoke-test layer.
+- If an integration run exits before collecting tests, verify the required
+  `MOODLE_<ENV>_URL`, `MOODLE_<ENV>_USERNAME`, and `MOODLE_<ENV>_PASSWORD`
+  variables exist in `.env`.
+- If the `local` integration environment is unreachable, start it with
+  `docker compose up -d` or `make upd` before retrying.
+- For authentication and session issues during test setup, see
+  [Troubleshooting](troubleshooting.md).
 
 Example test:
 

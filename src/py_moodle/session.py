@@ -74,8 +74,9 @@ class MoodleSession:
             # Validate we have at least one usable token
             if not self._token and not self._sesskey:
                 raise MoodleSessionError(
-                    "Could not obtain webservice token nor sesskey. "
-                    "Check REST protocol permissions or CAS config."
+                    "Authenticated to Moodle, but no webservice token or sesskey "
+                    "was available. Confirm the Moodle mobile web service is "
+                    "enabled for this user, or review CAS/session configuration."
                 )
 
             self._session = session
@@ -121,8 +122,10 @@ class MoodleSession:
         """Makes a call to the Moodle webservice API."""
         if not self.token:
             raise LoginError(
-                "Cannot make a webservice call without a token. "
-                "Did you login correctly?"
+                "Cannot call Moodle webservice "
+                f"{wsfunction!r} without a webservice token. Use a pre-configured "
+                "token or log in with a user allowed to access the Moodle mobile "
+                "web service."
             )
 
         if params is None:
@@ -147,7 +150,8 @@ class MoodleSession:
             "exception" in data or "errorcode" in data or "message" in data
         ):
             raise MoodleSessionError(
-                f"Moodle API error: {data.get('message', 'Unknown error')} "
+                f"Moodle API call {wsfunction!r} failed: "
+                f"{data.get('message', 'Unknown error')} "
                 f"(errorcode: {data.get('errorcode', 'N/A')}, exception: {data.get('exception', 'N/A')})"
             )
         return data
