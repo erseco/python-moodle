@@ -9,7 +9,8 @@ import re
 from typing import Optional
 
 import requests
-from bs4 import BeautifulSoup
+
+from .compat import DEFAULT_COMPATIBILITY, detect_moodle_compatibility
 
 
 class LoginError(Exception):
@@ -50,6 +51,8 @@ class MoodleAuth:
         self.pre_configured_token = pre_configured_token
         self.debug = debug
         self.webservice_token = None
+        self.compatibility = DEFAULT_COMPATIBILITY
+        self.moodle_version = None
 
     def login(self) -> requests.Session:
         """Authenticate the user and return a Moodle session.
@@ -86,6 +89,18 @@ class MoodleAuth:
             if self.debug:
                 print(f"[DEBUG] Could not obtain webservice token: {e}")
             self.webservice_token = None
+        compatibility_context = detect_moodle_compatibility(
+            self.session, self.base_url, token=self.webservice_token
+        )
+        self.compatibility = compatibility_context.strategy
+        self.moodle_version = compatibility_context.version
+        if self.debug:
+            print(
+                "[DEBUG] Moodle compatibility:"
+                f" version={self.moodle_version.raw}"
+                f" source={self.moodle_version.source}"
+                f" strategy={self.compatibility.version_range}"
+            )
         return self.session
 
     def _standard_login(self):
@@ -96,9 +111,7 @@ class MoodleAuth:
         resp = self.session.get(login_url)
         if self.debug:
             print(f"[DEBUG] Response {resp.status_code} {resp.url}")
-        soup = BeautifulSoup(resp.text, "lxml")
-        logintoken_input = soup.find("input", {"name": "logintoken"})
-        logintoken = logintoken_input["value"] if logintoken_input else ""
+        logintoken = self.compatibility.extract_login_token(resp.text)
 
         payload = {
             "username": self.username,
@@ -123,8 +136,6 @@ class MoodleAuth:
         Perform CAS login flow programmatically (no browser interaction).
         Maintains cookies and follows the CAS ticket flow.
         """
-        import re
-
         # Step 1: Get CAS login page to extract execution token
         service_url = f"{self.base_url}/login/index.php"
         from urllib.parse import quote
@@ -219,12 +230,10 @@ class MoodleAuth:
         """
         dashboard_url = f"{self.base_url}/my/"
         resp = self.session.get(dashboard_url)
-        match = re.search(r'"sesskey":"([^"]+)"', resp.text)
-        if not match:
-            match = re.search(r"M\.cfg\.sesskey\s*=\s*[\"']([^\"']+)[\"']", resp.text)
-        if not match:
+        sesskey = self.compatibility.extract_sesskey(resp.text)
+        if not sesskey:
             raise LoginError("Could not extract sesskey after login.")
-        return match.group(1)
+        return sesskey
 
     def _get_webservice_token(self) -> Optional[str]:
         """
@@ -345,6 +354,8 @@ def login(
     # Attach tokens to session for convenience
     session.sesskey = getattr(auth, "sesskey", None)
     session.webservice_token = getattr(auth, "webservice_token", None)
+    session.moodle_version = getattr(auth, "moodle_version", None)
+    session.moodle_compat = getattr(auth, "compatibility", DEFAULT_COMPATIBILITY)
     return session
 
 

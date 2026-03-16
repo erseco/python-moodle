@@ -15,6 +15,7 @@ if TYPE_CHECKING:
 from typing import Any, Dict, Optional
 
 from .auth import LoginError, login
+from .compat import DEFAULT_COMPATIBILITY, get_session_compatibility
 
 
 class MoodleSessionError(RuntimeError):
@@ -33,6 +34,8 @@ class MoodleSession:
         self._session: requests.Session | None = None
         self._sesskey: str | None = None
         self._token: str | None = None
+        self._compatibility = DEFAULT_COMPATIBILITY
+        self._moodle_version = None
 
     # ------------- internal helpers -------------
     def _login(self) -> None:
@@ -55,18 +58,13 @@ class MoodleSession:
             )
             self._token = getattr(session, "webservice_token", None)
             self._sesskey = getattr(session, "sesskey", None)
+            self._compatibility = get_session_compatibility(session)
+            self._moodle_version = getattr(session, "moodle_version", None)
 
             # Fallback extraction if sesskey was not attached by login()
             if not self._sesskey:
-                import re
-
                 resp = session.get(f"{self.settings.url}/my/")
-                m = re.search(r'"sesskey":"([a-zA-Z0-9]+)"', resp.text)
-                if not m:
-                    m = re.search(
-                        r"M\.cfg\.sesskey\s*=\s*['\"]([a-zA-Z0-9]+)['\"]", resp.text
-                    )
-                self._sesskey = m.group(1) if m else None
+                self._sesskey = self._compatibility.extract_sesskey(resp.text)
 
             # Validate we have at least one usable token
             if not self._token and not self._sesskey:
@@ -97,6 +95,18 @@ class MoodleSession:
         """Return the webservice token, or None if not available."""
         self._login()
         return self._token
+
+    @property
+    def compatibility(self):
+        """Return the compatibility strategy selected for the current session."""
+        self._login()
+        return self._compatibility
+
+    @property
+    def moodle_version(self):
+        """Return detected Moodle version information when available."""
+        self._login()
+        return self._moodle_version
 
     def call(
         self,
