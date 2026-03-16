@@ -521,6 +521,62 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#why-python-moodle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why python-moodle?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Why python-moodle?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#python-moodle-vs-moodle-webservice-wrappers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        python-moodle vs. Moodle webservice wrappers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-minute-quickstart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3-Minute Quickstart
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3-Minute Quickstart">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#typical-automation-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Typical automation tasks
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#features" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1928,6 +1984,62 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#why-python-moodle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why python-moodle?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Why python-moodle?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#python-moodle-vs-moodle-webservice-wrappers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        python-moodle vs. Moodle webservice wrappers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-minute-quickstart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3-Minute Quickstart
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3-Minute Quickstart">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#typical-automation-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Typical automation tasks
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#features" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2164,8 +2276,92 @@
 <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg" /></a>
 <a href="https://github.com/erseco/python-moodle"><img alt="GitHub repository" src="https://img.shields.io/badge/github-repository-blue" /></a></p>
 <blockquote>
-<p><strong>A modern Pythonic CLI and library to manage Moodle via web sessions, with full session and CAS support.</strong></p>
+<p><strong>Python CLI and library for automating Moodle through real web sessions, with CAS/SSO support and no custom plugins required.</strong></p>
 </blockquote>
+<h2 id="why-python-moodle">Why python-moodle?<a class="headerlink" href="#why-python-moodle" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>No API token required</strong> — works with standard Moodle login and CAS/SSO</li>
+<li><strong>Works with web sessions</strong> — simulates a real user browser session, no Moodle plugins needed</li>
+<li><strong>CLI for admins</strong> and <strong>library for automation scripts</strong></li>
+<li><strong>Handles courses, sections, labels, folders, assignments and SCORM</strong> out of the box</li>
+<li><strong>Tested against Moodle 4.x and 5.x</strong> on Python 3.8–3.13</li>
+</ul>
+<h3 id="python-moodle-vs-moodle-webservice-wrappers">python-moodle vs. Moodle webservice wrappers<a class="headerlink" href="#python-moodle-vs-moodle-webservice-wrappers" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Capability</th>
+<th style="text-align: center;">python-moodle</th>
+<th style="text-align: center;">Moodle webservice wrappers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No custom plugin required</td>
+<td style="text-align: center;">✅ Yes</td>
+<td style="text-align: center;">Usually yes/no</td>
+</tr>
+<tr>
+<td>Works with real web sessions</td>
+<td style="text-align: center;">✅ Yes</td>
+<td style="text-align: center;">❌ No</td>
+</tr>
+<tr>
+<td>CAS/SSO support</td>
+<td style="text-align: center;">✅ Yes</td>
+<td style="text-align: center;">Usually limited</td>
+</tr>
+<tr>
+<td>CLI included</td>
+<td style="text-align: center;">✅ Yes</td>
+<td style="text-align: center;">Often no</td>
+</tr>
+<tr>
+<td>SCORM/course admin workflows</td>
+<td style="text-align: center;">✅ Yes</td>
+<td style="text-align: center;">Varies</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3-minute-quickstart">3-Minute Quickstart<a class="headerlink" href="#3-minute-quickstart" title="Permanent link">&para;</a></h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>python-moodle
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>cp<span class="w"> </span>.env.example<span class="w"> </span>.env
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># Edit .env with your Moodle URL and credentials</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>py-moodle<span class="w"> </span>courses<span class="w"> </span>list
+</span></code></pre></div>
+<h3 id="typical-automation-tasks">Typical automation tasks<a class="headerlink" href="#typical-automation-tasks" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Task</th>
+<th>Command / Use case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bulk course creation</td>
+<td><code>py-moodle courses create</code></td>
+</tr>
+<tr>
+<td>SCORM upload pipelines</td>
+<td><code>py-moodle modules add scorm</code></td>
+</tr>
+<tr>
+<td>Content migration</td>
+<td>Script with <code>list_courses</code> + <code>create_course</code></td>
+</tr>
+<tr>
+<td>Moodle smoke tests in CI</td>
+<td><code>pytest</code> + <code>MoodleSession</code> fixture</td>
+</tr>
+<tr>
+<td>Admin scripting across instances</td>
+<td><code>--env</code> flag with multiple <code>.env</code> profiles</td>
+</tr>
+</tbody>
+</table>
+<hr />
 <div class="admonition warning">
 <p class="admonition-title">Experimental</p>
 <p>This library is under active development. Use a test Moodle instance and back up data before running commands that create, modify, or delete content.</p>
@@ -2196,32 +2392,32 @@
 <h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
 <p>You will need Python 3.8+ and <code>pip</code>.</p>
 <h3 id="install-from-pypi-recommended">Install from PyPI (Recommended)<a class="headerlink" href="#install-from-pypi-recommended" title="Permanent link">&para;</a></h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>python-moodle
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>pip<span class="w"> </span>install<span class="w"> </span>python-moodle
 </span></code></pre></div>
 <h3 id="install-from-source">Install from Source<a class="headerlink" href="#install-from-source" title="Permanent link">&para;</a></h3>
 <p>Clone the repository and install:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/erseco/python-moodle.git
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">cd</span><span class="w"> </span>python-moodle
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>pip<span class="w"> </span>install<span class="w"> </span>.
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/erseco/python-moodle.git
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nb">cd</span><span class="w"> </span>python-moodle
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>pip<span class="w"> </span>install<span class="w"> </span>.
 </span></code></pre></div>
 <h3 id="configure-your-environment">Configure your environment<a class="headerlink" href="#configure-your-environment" title="Permanent link">&para;</a></h3>
 <p>Copy the example <code>.env.example</code> file to <code>.env</code> and add your Moodle instance credentials.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>cp<span class="w"> </span>.env.example<span class="w"> </span>.env
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1"># Now, edit the .env file with your credentials</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>cp<span class="w"> </span>.env.example<span class="w"> </span>.env
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1"># Now, edit the .env file with your credentials</span>
 </span></code></pre></div>
 <div class="admonition danger">
 <p class="admonition-title">Danger</p>
 <p>The <code>.env</code> file stores real credentials. Keep it out of version control and share it with no one.</p>
 </div>
 <p>Your <code>.env</code> file should look like this:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a># Production environment credentials
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>MOODLE_PROD_URL=https://your.moodle.site
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>MOODLE_PROD_USERNAME=your_admin_user
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>MOODLE_PROD_PASSWORD=your_super_secret_password
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a># Optional: CAS SSO URL
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a># MOODLE_PROD_CAS_URL=https://cas.your-institution.org/cas
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a># Optional: Predefined webservice token (required for CAS)
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a># MOODLE_PROD_WS_TOKEN=your_webservice_token
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a># Production environment credentials
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>MOODLE_PROD_URL=https://your.moodle.site
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>MOODLE_PROD_USERNAME=your_admin_user
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>MOODLE_PROD_PASSWORD=your_super_secret_password
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a># Optional: CAS SSO URL
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a># MOODLE_PROD_CAS_URL=https://cas.your-institution.org/cas
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a># Optional: Predefined webservice token (required for CAS)
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a># MOODLE_PROD_WS_TOKEN=your_webservice_token
 </span></code></pre></div>
 <p>Use the <code>--env</code> flag or the <code>MOODLE_ENV</code> variable to select the environment, e.g. <code>py-moodle --env prod courses list</code>.</p>
 <blockquote>
@@ -2233,40 +2429,40 @@
 <h3 id="common-commands">Common Commands<a class="headerlink" href="#common-commands" title="Permanent link">&para;</a></h3>
 <p>Here are a few examples of common commands:</p>
 <p><strong>List all available courses:</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>py-moodle<span class="w"> </span>courses<span class="w"> </span>list
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>py-moodle<span class="w"> </span>courses<span class="w"> </span>list
 </span></code></pre></div>
 <p><em>Output:</em></p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>┏━━━━┳━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━┓
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>┃ ID ┃ Shortname          ┃ Fullname           ┃ Category ┃ Visible ┃
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>┡━━━━╇━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━┩
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>│ 2  │ my-first-course    │ My first course    │ 1        │ 1       │
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>│ 4  │ my-second-course   │ My second course   │ 1        │ 1       │
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>└────┴────────────────────┴────────────────────┴──────────┴─────────┘
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>┏━━━━┳━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━┓
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>┃ ID ┃ Shortname          ┃ Fullname           ┃ Category ┃ Visible ┃
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>┡━━━━╇━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━┩
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>│ 2  │ my-first-course    │ My first course    │ 1        │ 1       │
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>│ 4  │ my-second-course   │ My second course   │ 1        │ 1       │
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>└────┴────────────────────┴────────────────────┴──────────┴─────────┘
 </span></code></pre></div>
 <p><strong>Show the structure of a single course:</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>py-moodle<span class="w"> </span>courses<span class="w"> </span>show<span class="w"> </span><span class="m">2</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>py-moodle<span class="w"> </span>courses<span class="w"> </span>show<span class="w"> </span><span class="m">2</span>
 </span></code></pre></div>
 <p><strong>Create a new course:</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>py-moodle<span class="w"> </span>courses<span class="w"> </span>create<span class="w"> </span>--fullname<span class="w"> </span><span class="s2">&quot;My New Automated Course&quot;</span><span class="w"> </span>--shortname<span class="w"> </span><span class="s2">&quot;auto-course-01&quot;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>py-moodle<span class="w"> </span>courses<span class="w"> </span>create<span class="w"> </span>--fullname<span class="w"> </span><span class="s2">&quot;My New Automated Course&quot;</span><span class="w"> </span>--shortname<span class="w"> </span><span class="s2">&quot;auto-course-01&quot;</span>
 </span></code></pre></div>
 <p><strong>Add a label to a course section:</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>py-moodle<span class="w"> </span>modules<span class="w"> </span>add<span class="w"> </span>label<span class="w"> </span>--course-id<span class="w"> </span><span class="m">2</span><span class="w"> </span>--section-id<span class="w"> </span><span class="m">1</span><span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;Welcome&quot;</span><span class="w"> </span>--intro<span class="w"> </span><span class="s2">&quot;&lt;h1&gt;Welcome to the course!&lt;/h1&gt;&quot;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>py-moodle<span class="w"> </span>modules<span class="w"> </span>add<span class="w"> </span>label<span class="w"> </span>--course-id<span class="w"> </span><span class="m">2</span><span class="w"> </span>--section-id<span class="w"> </span><span class="m">1</span><span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;Welcome&quot;</span><span class="w"> </span>--intro<span class="w"> </span><span class="s2">&quot;&lt;h1&gt;Welcome to the course!&lt;/h1&gt;&quot;</span>
 </span></code></pre></div>
 <p><strong>Upload a SCORM package to a course:</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>py-moodle<span class="w"> </span>modules<span class="w"> </span>add<span class="w"> </span>scorm<span class="w"> </span>--course-id<span class="w"> </span><span class="m">2</span><span class="w"> </span>--section-id<span class="w"> </span><span class="m">1</span><span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;My SCORM Package&quot;</span><span class="w"> </span>--path<span class="w"> </span><span class="s2">&quot;path/to/your/scorm.zip&quot;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>py-moodle<span class="w"> </span>modules<span class="w"> </span>add<span class="w"> </span>scorm<span class="w"> </span>--course-id<span class="w"> </span><span class="m">2</span><span class="w"> </span>--section-id<span class="w"> </span><span class="m">1</span><span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;My SCORM Package&quot;</span><span class="w"> </span>--path<span class="w"> </span><span class="s2">&quot;path/to/your/scorm.zip&quot;</span>
 </span></code></pre></div>
 <hr />
 <h2 id="library-usage-automation-scripting">Library Usage (Automation Scripting)<a class="headerlink" href="#library-usage-automation-scripting" title="Permanent link">&para;</a></h2>
 <p>You can also import <code>py-moodle</code>'s functions into your own Python scripts to automate complex workflows. The <code>example_script.py</code> file provides a comprehensive tutorial.</p>
 <h3 id="quick-example">Quick Example<a class="headerlink" href="#quick-example" title="Permanent link">&para;</a></h3>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kn">from</span> <span class="nn">py_moodle</span> <span class="kn">import</span> <span class="n">MoodleSession</span>
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kn">from</span> <span class="nn">py_moodle.course</span> <span class="kn">import</span> <span class="n">list_courses</span>
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
-</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="c1"># Credentials are loaded automatically from your .env file</span>
-</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="n">ms</span> <span class="o">=</span> <span class="n">MoodleSession</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="n">courses</span> <span class="o">=</span> <span class="n">list_courses</span><span class="p">(</span><span class="n">ms</span><span class="o">.</span><span class="n">session</span><span class="p">,</span> <span class="n">ms</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="n">token</span><span class="o">=</span><span class="n">ms</span><span class="o">.</span><span class="n">token</span><span class="p">)</span>
-</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="k">for</span> <span class="n">course</span> <span class="ow">in</span> <span class="n">courses</span><span class="p">:</span>
-</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">course</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">course</span><span class="p">[</span><span class="s2">&quot;fullname&quot;</span><span class="p">])</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kn">from</span> <span class="nn">py_moodle</span> <span class="kn">import</span> <span class="n">MoodleSession</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kn">from</span> <span class="nn">py_moodle.course</span> <span class="kn">import</span> <span class="n">list_courses</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1"># Credentials are loaded automatically from your .env file</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="n">ms</span> <span class="o">=</span> <span class="n">MoodleSession</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="n">courses</span> <span class="o">=</span> <span class="n">list_courses</span><span class="p">(</span><span class="n">ms</span><span class="o">.</span><span class="n">session</span><span class="p">,</span> <span class="n">ms</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="n">token</span><span class="o">=</span><span class="n">ms</span><span class="o">.</span><span class="n">token</span><span class="p">)</span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="k">for</span> <span class="n">course</span> <span class="ow">in</span> <span class="n">courses</span><span class="p">:</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">course</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">course</span><span class="p">[</span><span class="s2">&quot;fullname&quot;</span><span class="p">])</span>
 </span></code></pre></div>
 <h3 id="how-the-example-script-works">How the Example Script Works<a class="headerlink" href="#how-the-example-script-works" title="Permanent link">&para;</a></h3>
 <p>The script is a self-contained demonstration that:</p>
@@ -2280,23 +2476,23 @@
 </ol>
 <h3 id="running-the-example">Running the Example<a class="headerlink" href="#running-the-example" title="Permanent link">&para;</a></h3>
 <p>Make sure you have a valid <code>.env</code> file and have installed the dependencies. Then, simply run:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>python<span class="w"> </span>example_script.py
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>python<span class="w"> </span>example_script.py
 </span></code></pre></div>
 <p>This script is the best starting point for understanding how to use the library's functions for your own automation needs.</p>
 <hr />
 <h2 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">&para;</a></h2>
 <p>The project uses <code>pytest</code> and provides a <code>Makefile</code> with convenient targets.</p>
 <p>Run the fast smoke test suite (no Moodle service required):</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>make<span class="w"> </span>test-unit
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>make<span class="w"> </span>test-unit
 </span></code></pre></div>
 <p>Run the Docker-backed integration suite against the local environment:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>make<span class="w"> </span>test-local
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>make<span class="w"> </span>test-local
 </span></code></pre></div>
 <p>Run tests against the staging environment:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>make<span class="w"> </span>test-staging
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>make<span class="w"> </span>test-staging
 </span></code></pre></div>
 <p>Run all configured environments:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>make<span class="w"> </span><span class="nb">test</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>make<span class="w"> </span><span class="nb">test</span>
 </span></code></pre></div>
 <p>GitHub Actions automatically runs:</p>
 <ul>
@@ -2308,17 +2504,17 @@
 </ul>
 <h2 id="development">Development<a class="headerlink" href="#development" title="Permanent link">&para;</a></h2>
 <p>Use the Makefile to format code, run linters, or build the documentation:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>make<span class="w"> </span>format<span class="w">   </span><span class="c1"># run black and isort</span>
-</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>make<span class="w"> </span>lint<span class="w">     </span><span class="c1"># run static analysis</span>
-</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>make<span class="w"> </span>docs<span class="w">     </span><span class="c1"># build the MkDocs site</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>make<span class="w"> </span>format<span class="w">   </span><span class="c1"># run black and isort</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>make<span class="w"> </span>lint<span class="w">     </span><span class="c1"># run static analysis</span>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>make<span class="w"> </span>docs<span class="w">     </span><span class="c1"># build the MkDocs site</span>
 </span></code></pre></div>
 <hr />
 <h2 id="documentation">Documentation<a class="headerlink" href="#documentation" title="Permanent link">&para;</a></h2>
 <p>Documentation is generated with <a href="https://www.mkdocs.org/">MkDocs</a> using the Read the Docs theme and published automatically to the <code>gh-pages</code> branch.
 Every push to <code>main</code> builds the API reference and CLI guide from the source code and makes it available via GitHub Pages.</p>
 <p>To build the documentation locally:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>pip<span class="w"> </span>install<span class="w"> </span>mkdocs<span class="w"> </span><span class="s1">&#39;mkdocstrings[python]&#39;</span>
-</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>mkdocs<span class="w"> </span>build<span class="w"> </span>--strict
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>pip<span class="w"> </span>install<span class="w"> </span>mkdocs<span class="w"> </span><span class="s1">&#39;mkdocstrings[python]&#39;</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>mkdocs<span class="w"> </span>build<span class="w"> </span>--strict
 </span></code></pre></div>
 <p>The rendered site will be available under the <code>site/</code> directory.</p>
 <hr />
