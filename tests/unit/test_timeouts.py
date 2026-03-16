@@ -15,9 +15,9 @@ from py_moodle.upload import upload_file_webservice
 class FakeResponse:
     """Minimal response object for timeout tests."""
 
-    def __init__(self, text="", json_data_value=None, status_code=200):
+    def __init__(self, text="", json_data=None, status_code=200):
         self.text = text
-        self._json_data = json_data_value
+        self.json_data = json_data
         self.status_code = status_code
 
     def raise_for_status(self):
@@ -27,7 +27,7 @@ class FakeResponse:
 
     def json(self):
         """Return the configured JSON payload."""
-        return self._json_data
+        return self.json_data
 
 
 class RecordingSession:
@@ -35,7 +35,7 @@ class RecordingSession:
 
     def __init__(self, get_response=None, post_response=None):
         self.get_response = get_response or FakeResponse()
-        self.post_response = post_response or FakeResponse(json_data_value={})
+        self.post_response = post_response or FakeResponse(json_data={})
         self.get_calls = []
         self.post_calls = []
 
@@ -61,7 +61,7 @@ def test_session_call_uses_shared_default_request_timeout():
         cas_url=None,
         webservice_token=None,
     )
-    session = RecordingSession(post_response=FakeResponse(json_data_value={"ok": True}))
+    session = RecordingSession(post_response=FakeResponse(json_data={"ok": True}))
     moodle_session = MoodleSession(settings)
     moodle_session._session = session
     moodle_session._token = "token"
@@ -78,7 +78,7 @@ def test_detect_moodle_compatibility_uses_shared_default_request_timeout():
         get_response=FakeResponse(
             text='<meta name="generator" content="Moodle 4.5.2+ (Build: 20241001)">'
         ),
-        post_response=FakeResponse(json_data_value={"exception": "disabled"}),
+        post_response=FakeResponse(json_data={"exception": "disabled"}),
     )
 
     compatibility = detect_moodle_compatibility(
@@ -99,7 +99,7 @@ def test_upload_helpers_use_shared_default_timeouts(tmp_path, monkeypatch):
 
     def mock_requests_post(url, **kwargs):
         upload_calls.append({"url": url, "kwargs": kwargs})
-        return FakeResponse(json_data_value=[{"itemid": 7}])
+        return FakeResponse(json_data=[{"itemid": 7}])
 
     monkeypatch.setattr("py_moodle.upload.requests.post", mock_requests_post)
 
@@ -112,7 +112,7 @@ def test_upload_helpers_use_shared_default_timeouts(tmp_path, monkeypatch):
 
     monkeypatch.setattr("py_moodle.draftfile.detect_upload_repo", lambda *args: 9)
     draft_session = RecordingSession(
-        post_response=FakeResponse(json_data_value={"id": 99, "filename": "demo.txt"})
+        post_response=FakeResponse(json_data={"id": 99, "filename": "demo.txt"})
     )
 
     draft_itemid, filename = upload_file_to_draft_area(
