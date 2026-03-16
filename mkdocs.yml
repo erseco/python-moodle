@@ -128,4 +128,5 @@ nav:
       - User: api/user.md
   - Examples: examples.md
   - Development: development.md
+  - Troubleshooting: troubleshooting.md
   - Improvement Roadmap: roadmap-plan.md

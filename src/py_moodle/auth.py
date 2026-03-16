@@ -129,7 +129,11 @@ class MoodleAuth:
             print(f"[DEBUG] Response {resp.status_code} {resp.url}")
         # Authentication failed if redirected back to login page
         if "/login/index.php" in resp.url or "Invalid login" in resp.text:
-            raise LoginError("Invalid Moodle username or password.")
+            raise LoginError(
+                "Moodle login failed: invalid username or password. "
+                "Verify MOODLE_USERNAME and MOODLE_PASSWORD, and enable CAS "
+                "login if your site requires single sign-on."
+            )
 
     def _cas_login(self):
         """
@@ -232,7 +236,11 @@ class MoodleAuth:
         resp = self.session.get(dashboard_url)
         sesskey = self.compatibility.extract_sesskey(resp.text)
         if not sesskey:
-            raise LoginError("Could not extract sesskey after login.")
+            raise LoginError(
+                "Moodle login succeeded, but no sesskey was found on the dashboard. "
+                "Confirm the account can open the site in a browser and that the "
+                "session is not being redirected back to the login page."
+            )
         return sesskey
 
     def _get_webservice_token(self) -> Optional[str]:
@@ -312,7 +320,8 @@ def enable_webservice(
 
     if resp.status_code != 200:
         raise LoginError(
-            "Failed to enable the webservice. Check user permissions and if you are logged in as admin."
+            "Failed to enable the Moodle webservice. Confirm the current user has "
+            "site administration permissions and that the session is still logged in."
         )
 
     return True
