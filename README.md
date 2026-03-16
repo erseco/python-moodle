@@ -11,7 +11,48 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![GitHub repository](https://img.shields.io/badge/github-repository-blue)](https://github.com/erseco/python-moodle)
 
-> **A modern Pythonic CLI and library to manage Moodle via web sessions, with full session and CAS support.**
+> **Python CLI and library for automating Moodle through real web sessions, with CAS/SSO support and no custom plugins required.**
+
+## Why python-moodle?
+
+- **No API token required** — works with standard Moodle login and CAS/SSO
+- **Works with web sessions** — simulates a real user browser session, no Moodle plugins needed
+- **CLI for admins** and **library for automation scripts**
+- **Handles courses, sections, labels, folders, assignments and SCORM** out of the box
+- **Tested against Moodle 4.x and 5.x** on Python 3.8–3.13
+
+### python-moodle vs. Moodle webservice wrappers
+
+| Capability                    | python-moodle | Moodle webservice wrappers |
+| ----------------------------- | :-----------: | :------------------------: |
+| No custom plugin required     | ✅ Yes        | Usually yes/no             |
+| Works with real web sessions  | ✅ Yes        | ❌ No                      |
+| CAS/SSO support               | ✅ Yes        | Usually limited            |
+| CLI included                  | ✅ Yes        | Often no                   |
+| SCORM/course admin workflows  | ✅ Yes        | Varies                     |
+
+---
+
+## 3-Minute Quickstart
+
+```bash
+pip install python-moodle
+cp .env.example .env
+# Edit .env with your Moodle URL and credentials
+py-moodle courses list
+```
+
+### Typical automation tasks
+
+| Task                          | Command / Use case                            |
+| ----------------------------- | --------------------------------------------- |
+| Bulk course creation          | `py-moodle courses create`                    |
+| SCORM upload pipelines        | `py-moodle modules add scorm`                 |
+| Content migration             | Script with `list_courses` + `create_course`  |
+| Moodle smoke tests in CI      | `pytest` + `MoodleSession` fixture            |
+| Admin scripting across instances | `--env` flag with multiple `.env` profiles |
+
+---
 
 !!! warning "Experimental"
     This library is under active development. Use a test Moodle instance and back up data before running commands that create, modify, or delete content.

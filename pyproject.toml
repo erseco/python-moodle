@@ -5,10 +5,28 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "python-moodle"
 dynamic = ["version"]
-description = "Modern Moodle CLI tool"
+description = "Python CLI and library to automate Moodle via web sessions, CAS/SSO, course management and SCORM uploads"
 readme = "README.md"
 authors = [{ name = "Ernesto Serrano", email = "info@ernesto.es" }]
 requires-python = ">=3.8"
+keywords = ["moodle", "lms", "cli", "automation", "scorm", "cas", "sso", "education", "elearning", "web-scraping"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Education",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Systems Administration",
+]
 dependencies = [
     "requests",
     "beautifulsoup4",
@@ -37,6 +55,13 @@ dev = [
     "mkdocs-git-revision-date-localized-plugin",
     "mkdocs-minify-plugin"
 ]
+
+[project.urls]
+Homepage = "https://github.com/erseco/python-moodle"
+Documentation = "https://erseco.github.io/python-moodle/"
+Repository = "https://github.com/erseco/python-moodle"
+Issues = "https://github.com/erseco/python-moodle/issues"
+Changelog = "https://github.com/erseco/python-moodle/releases"
 
 [project.scripts]
 py-moodle = "py_moodle.cli:app"
