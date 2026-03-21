@@ -5,7 +5,6 @@ from __future__ import annotations
 from urllib.parse import parse_qs
 
 import pytest
-
 from bs4 import BeautifulSoup
 
 from py_moodle.module import (
@@ -139,9 +138,7 @@ def test_add_generic_module_merges_fetched_form_defaults(monkeypatch):
 
 
 @pytest.mark.parametrize("status_code", [200, 400, 404, 500, 502])
-def test_add_generic_module_rejects_non_redirect_responses(
-    monkeypatch, status_code
-):
+def test_add_generic_module_rejects_non_redirect_responses(monkeypatch, status_code):
     """Any non-redirect response should be treated as a failed module creation."""
     session = _FakeSession(
         _FakeResponse(status_code, '<div class="alert-danger">Validation failed</div>')

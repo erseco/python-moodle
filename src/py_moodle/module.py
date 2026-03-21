@@ -95,7 +95,11 @@ def _extract_modedit_form_data(form: BeautifulSoup) -> Dict[str, Any]:
                 form_data[name] = selected_options[0]
             else:
                 first_option = next(
-                    (option for option in field.find_all("option") if option.has_attr("value")),
+                    (
+                        option
+                        for option in field.find_all("option")
+                        if option.has_attr("value")
+                    ),
                     None,
                 )
                 if first_option:
