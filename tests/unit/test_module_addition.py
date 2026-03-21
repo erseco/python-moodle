@@ -6,7 +6,13 @@ from urllib.parse import parse_qs
 
 import pytest
 
-from py_moodle.module import MoodleModuleError, add_generic_module
+from bs4 import BeautifulSoup
+
+from py_moodle.module import (
+    MoodleModuleError,
+    _extract_modedit_form_data,
+    add_generic_module,
+)
 
 
 class _FakeResponse:
@@ -46,7 +52,7 @@ class _FakeSession:
                     name="assignsubmission_file_enabled"
                     value="1"
                     checked
-                >
+                />
                 <select name="grade[modgrade_type]">
                     <option value="point" selected>Point</option>
                 </select>
@@ -67,8 +73,28 @@ class _FakeSession:
         return self.post_response
 
 
-def test_add_generic_module_preserves_form_defaults(monkeypatch):
-    """Module creation should submit the fetched add form defaults."""
+def test_extract_modedit_form_data_preserves_multi_select_values():
+    """Multi-select fields should keep all selected values."""
+    soup = BeautifulSoup(
+        """
+        <form id="mform1">
+            <select name="tags[]" multiple>
+                <option value="alpha" selected>Alpha</option>
+                <option value="beta" selected>Beta</option>
+                <option value="gamma">Gamma</option>
+            </select>
+        </form>
+        """,
+        "lxml",
+    )
+
+    form_data = _extract_modedit_form_data(soup.form)
+
+    assert form_data["tags[]"] == ["alpha", "beta"]
+
+
+def test_add_generic_module_merges_fetched_form_defaults(monkeypatch):
+    """Module creation should merge the fetched add form defaults."""
     session = _FakeSession(_FakeResponse(303))
     course_states = iter(
         [
@@ -112,10 +138,13 @@ def test_add_generic_module_preserves_form_defaults(monkeypatch):
     assert posted_data["activityeditor[text]"] == ["<p>Write an essay.</p>"]
 
 
-def test_add_generic_module_rejects_non_redirect_responses(monkeypatch):
-    """A 200 response should be treated as a failed module creation."""
+@pytest.mark.parametrize("status_code", [200, 400, 404, 500, 502])
+def test_add_generic_module_rejects_non_redirect_responses(
+    monkeypatch, status_code
+):
+    """Any non-redirect response should be treated as a failed module creation."""
     session = _FakeSession(
-        _FakeResponse(200, '<div class="alert-danger">Validation failed</div>')
+        _FakeResponse(status_code, '<div class="alert-danger">Validation failed</div>')
     )
 
     monkeypatch.setattr(

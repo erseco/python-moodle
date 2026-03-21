@@ -63,7 +63,16 @@ def _get_base_modedit_payload(
 
 
 def _extract_modedit_form_data(form: BeautifulSoup) -> Dict[str, Any]:
-    """Extract the current values from a Moodle modedit form."""
+    """Extract the current values from a Moodle modedit form.
+
+    Args:
+        form: A parsed Moodle ``modedit.php`` form element.
+
+    Returns:
+        A mapping of form field names to their current values for ``input``,
+        ``textarea``, and ``select`` elements. File inputs are skipped because
+        browsers do not submit their existing values back to Moodle.
+    """
     form_data: Dict[str, Any] = {}
 
     for field in form.find_all(["input", "textarea", "select"]):
@@ -74,11 +83,21 @@ def _extract_modedit_form_data(form: BeautifulSoup) -> Dict[str, Any]:
         if field.name == "textarea":
             form_data[name] = field.text or ""
         elif field.name == "select":
-            selected_option = field.find("option", selected=True)
-            if selected_option and selected_option.has_attr("value"):
-                form_data[name] = selected_option["value"]
+            selected_options = [
+                option["value"]
+                for option in field.find_all("option", selected=True)
+                if option.has_attr("value")
+            ]
+            if field.has_attr("multiple"):
+                if selected_options:
+                    form_data[name] = selected_options
+            elif selected_options:
+                form_data[name] = selected_options[0]
             else:
-                first_option = field.find("option", value=True)
+                first_option = next(
+                    (option for option in field.find_all("option") if option.has_attr("value")),
+                    None,
+                )
                 if first_option:
                     form_data[name] = first_option["value"]
         elif field.get("type") in ("checkbox", "radio"):
@@ -95,7 +114,17 @@ def _load_modedit_form_data(
     url: str,
     action_description: str,
 ) -> tuple[Dict[str, Any], Any]:
-    """Load a Moodle modedit form page and return its current form values."""
+    """Load a Moodle modedit form page and return its current form values.
+
+    Args:
+        session: Authenticated Moodle session.
+        url: The ``modedit.php`` URL to fetch.
+        action_description: Human-readable action used in error messages.
+
+    Returns:
+        A tuple containing the extracted form data and the compatibility
+        strategy used to locate the form and parse errors.
+    """
     compatibility = get_session_compatibility(session)
 
     try:
@@ -190,6 +219,7 @@ def add_generic_module(
     # 4. POST to modedit.php
     url = f"{base_url}/course/modedit.php"
     headers = {"Content-Type": "application/x-www-form-urlencoded"}
+    # ``doseq=True`` preserves repeated values for multi-select fields.
     encoded_payload = urllib.parse.urlencode(full_payload, doseq=True)
     resp = session.post(
         url, data=encoded_payload, headers=headers, allow_redirects=False
