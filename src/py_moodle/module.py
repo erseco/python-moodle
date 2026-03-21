@@ -62,6 +62,98 @@ def _get_base_modedit_payload(
     }
 
 
+def _extract_modedit_form_data(form: BeautifulSoup) -> Dict[str, Any]:
+    """Extract the current values from a Moodle modedit form.
+
+    Args:
+        form: A parsed Moodle ``modedit.php`` form element.
+
+    Returns:
+        A mapping of form field names to their current values for ``input``,
+        ``textarea``, and ``select`` elements. File inputs are skipped because
+        browsers do not submit their existing values back to Moodle.
+    """
+    form_data: Dict[str, Any] = {}
+
+    for field in form.find_all(["input", "textarea", "select"]):
+        name = field.get("name")
+        if not name or field.get("type") in ["submit", "button", "reset", "file"]:
+            continue
+
+        if field.name == "textarea":
+            form_data[name] = field.text or ""
+        elif field.name == "select":
+            selected_options = [
+                option["value"]
+                for option in field.find_all("option", selected=True)
+                if option.has_attr("value")
+            ]
+            if field.has_attr("multiple"):
+                if selected_options:
+                    form_data[name] = selected_options
+            elif selected_options:
+                form_data[name] = selected_options[0]
+            else:
+                first_option = next(
+                    (
+                        option
+                        for option in field.find_all("option")
+                        if option.has_attr("value")
+                    ),
+                    None,
+                )
+                if first_option:
+                    form_data[name] = first_option["value"]
+        elif field.get("type") in ("checkbox", "radio"):
+            if field.has_attr("checked"):
+                form_data[name] = field.get("value", "1")
+        else:
+            form_data[name] = field.get("value", "")
+
+    return form_data
+
+
+def _load_modedit_form_data(
+    session: requests.Session,
+    url: str,
+    action_description: str,
+) -> tuple[Dict[str, Any], Any]:
+    """Load a Moodle modedit form page and return its current form values.
+
+    Args:
+        session: Authenticated Moodle session.
+        url: The ``modedit.php`` URL to fetch.
+        action_description: Human-readable action used in error messages.
+
+    Returns:
+        A tuple containing the extracted form data and the compatibility
+        strategy used to locate the form and parse errors.
+    """
+    compatibility = get_session_compatibility(session)
+
+    try:
+        resp = session.get(url)
+        resp.raise_for_status()
+        soup = BeautifulSoup(resp.text, "lxml")
+    except requests.RequestException as e:
+        raise MoodleModuleError(
+            f"Failed to load module form while {action_description}: {e}"
+        )
+
+    form = compatibility.find_modedit_form(soup)
+    if form is None:
+        error_message = compatibility.extract_error_message(soup)
+        if error_message:
+            raise MoodleModuleError(
+                f"Failed to load module form while {action_description}: {error_message}"
+            )
+        raise MoodleModuleError(
+            f"Could not find the module form while {action_description}."
+        )
+
+    return _extract_modedit_form_data(form), compatibility
+
+
 # --- Public Generic Functions ---
 
 
@@ -111,39 +203,45 @@ def add_generic_module(
     except MoodleCourseError as e:
         raise MoodleModuleError(f"Failed to get initial section state: {e}")
 
-    # 2. Build the full payload
+    # 2. Load the real add form so Moodle-specific defaults and hidden fields are
+    # preserved when creating the module.
+    add_form_url = (
+        f"{base_url}/course/modedit.php?"
+        f"add={urllib.parse.quote(module_name)}&type=&course={course_id}"
+        f"&section={section_number}&return=0&sr=-1"
+    )
+    form_payload, compatibility = _load_modedit_form_data(
+        session, add_form_url, f"adding {module_name}"
+    )
+
+    # 3. Build the full payload
     base_payload = _get_base_modedit_payload(
         course_id, section_number, sesskey, module_name, module_id, mode="add"
     )
-    full_payload = {**base_payload, **specific_payload}
+    full_payload = {**base_payload, **form_payload, **specific_payload}
 
-    # 3. POST to modedit.php
+    # 4. POST to modedit.php
     url = f"{base_url}/course/modedit.php"
     headers = {"Content-Type": "application/x-www-form-urlencoded"}
-    encoded_payload = urllib.parse.urlencode(full_payload)
-    compatibility = get_session_compatibility(session)
+    # ``doseq=True`` preserves repeated values for multi-select fields.
+    encoded_payload = urllib.parse.urlencode(full_payload, doseq=True)
     resp = session.post(
         url, data=encoded_payload, headers=headers, allow_redirects=False
     )
 
     # A clear success is a redirect (302 or 303) to the course page.
-    if resp.status_code not in [200, 302, 303]:
-        # A 200 OK status almost always means a silent failure.
-        # Parse the HTML to find Moodle's error message.
+    if resp.status_code not in [302, 303]:
         soup = BeautifulSoup(resp.text, "lxml")
         error_message = compatibility.extract_error_message(soup)
         if error_message:
-            # Found a specific error message.
             raise MoodleModuleError(
                 f"Form submission failed. Moodle error: {error_message}"
             )
-        else:
-            # No clear error message, but creation failed.
-            raise MoodleModuleError(
-                f"Failed to create module. Status: {resp.status_code}. Moodle returned the edit form, indicating a silent failure. Check permissions or required fields."
-            )
+        raise MoodleModuleError(
+            f"Failed to create module. Status: {resp.status_code}. Moodle returned the edit form instead of redirecting, so the activity may not have been created correctly."
+        )
 
-    # 4. Get final state and determine the new cmid
+    # 5. Get final state and determine the new cmid
     time.sleep(1)  # Give Moodle a moment to process the change
     try:
         course_data_after = get_course_with_sections_and_modules(
@@ -185,45 +283,9 @@ def update_generic_module(
     edit_url = f"{base_url}/course/modedit.php?update={cmid}"
 
     # 1. Fetch the edit page to get the current state of the form
-    try:
-        resp = session.get(edit_url)
-        resp.raise_for_status()
-        soup = BeautifulSoup(resp.text, "lxml")
-    except requests.RequestException as e:
-        raise MoodleModuleError(f"Failed to load module edit page for cmid {cmid}: {e}")
-
-    # 2. Parse the form and extract all input, textarea, and select fields
-    compatibility = get_session_compatibility(session)
-    form = compatibility.find_modedit_form(soup)
-    if not form:
-        raise MoodleModuleError("Could not find the edit form on the page.")
-
-    form_data = {}
-
-    for field in form.find_all(["input", "textarea", "select"]):
-        name = field.get("name")
-        # Ignore fields without a name or buttons
-        if not name or field.get("type") in ["submit", "button", "reset"]:
-            continue
-
-        # Logic for different tag/type combinations
-        if field.name == "textarea":
-            form_data[name] = field.text or ""
-        elif field.name == "select":
-            selected_option = field.find("option", selected=True)
-            if selected_option and selected_option.has_attr("value"):
-                form_data[name] = selected_option["value"]
-            else:
-                # If no option is selected, browsers usually submit the first one.
-                first_option = field.find("option", value=True)
-                if first_option:
-                    form_data[name] = first_option["value"]
-
-        elif field.get("type") in ("checkbox", "radio"):
-            if field.has_attr("checked"):
-                form_data[name] = field.get("value", "1")
-        else:  # Handles text, hidden, password, etc.
-            form_data[name] = field.get("value", "")
+    form_data, compatibility = _load_modedit_form_data(
+        session, edit_url, f"updating module {cmid}"
+    )
 
     # 3. Modify the form data with the user's changes
     form_data.update(specific_payload)
