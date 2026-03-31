@@ -178,9 +178,12 @@ class MoodleAuth:
             "_eventId": "submit",
         }
         if self.debug:
-            redacted_payload = payload.copy()
-            if "password" in redacted_payload:
-                redacted_payload["password"] = "***REDACTED***"
+            redacted_payload = {
+                "username": self.username,
+                "password": "***REDACTED***",
+                "execution": cas_id,
+                "_eventId": "submit",
+            }
             print(f"[DEBUG] POST {cas_login_url} payload={redacted_payload}")
         # Keep session cookies in self.session
         resp = self.session.post(cas_login_url, data=payload, allow_redirects=False)
