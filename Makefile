@@ -16,7 +16,7 @@ upd: check-docker ensure-env
 	docker compose up -d
 	@echo "Waiting for Moodle to be ready..."
 	@ready=0; \
-	for i in $$(seq 1 60); do \
+	for i in $$(seq 1 120); do \
 	  if curl -fsSL http://localhost/login/index.php > /dev/null; then \
 	    echo "Moodle is up!"; \
 	    ready=1; \
