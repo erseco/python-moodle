@@ -289,7 +289,7 @@ GitHub Actions automatically runs:
 - Docker-backed integration tests on representative Python/Moodle combinations:
   - Python 3.9 with Moodle 4.5.5
   - Python 3.13 with Moodle 5.0.1
-  - Python 3.13 with Moodle 5.2.1
+  - Python 3.13 with Moodle 5.1.5
 
 ## Development
 
