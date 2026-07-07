@@ -1,0 +1,16 @@
+<!--
+  Fixture provenance: A Moodle page with no generator <meta> and no release
+  string in embedded JavaScript, used to confirm version extraction degrades
+  gracefully to an "unknown" MoodleVersion instead of raising.
+  Exercises: extract_version_from_dashboard (absent-marker path).
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Dashboard</title>
+</head>
+<body class="path-my">
+  <div id="page">Dashboard content without any version metadata.</div>
+</body>
+</html>

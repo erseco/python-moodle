@@ -1,0 +1,30 @@
+<!--
+  Fixture provenance: Moodle 4.x/5.x folder activity view
+  (mod/folder/view.php), trimmed to the file listing. Each link targets the
+  /pluginfile.php/ file-serving endpoint; the numeric context id (99) is a FAKE
+  placeholder. The class-scoped tree lets both the modern (.folder_tree first)
+  and legacy (.foldertree first) selector orders resolve the same links.
+  Exercises: BaseCompatibilityStrategy.extract_folder_filenames.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Folder</title>
+</head>
+<body class="path-mod-folder">
+  <div class="folder_tree filemanager">
+    <ul>
+      <li>
+        <a href="https://moodle.example.test/pluginfile.php/99/mod_folder/content/0/syllabus.docx?forcedownload=1">syllabus.docx</a>
+      </li>
+      <li>
+        <a href="https://moodle.example.test/pluginfile.php/99/mod_folder/content/0/slides.pdf?forcedownload=1">slides.pdf</a>
+      </li>
+      <li>
+        <a href="https://moodle.example.test/pluginfile.php/99/mod_folder/content/0/notes.txt?forcedownload=1">notes.txt</a>
+      </li>
+    </ul>
+  </div>
+</body>
+</html>

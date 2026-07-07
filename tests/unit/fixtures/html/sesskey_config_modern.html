@@ -1,0 +1,22 @@
+<!--
+  Fixture provenance: Moodle 4.x/5.x footer <script> emitting the M.cfg
+  JavaScript config block that carries the session key. Trimmed to the config
+  assignment. The sesskey below is an OBVIOUSLY FAKE placeholder.
+  Exercises: BaseCompatibilityStrategy.extract_sesskey (regex scan of the raw
+             HTML for the sesskey key inside the M.cfg config object).
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Dashboard</title>
+</head>
+<body class="path-my">
+  <div id="page">Dashboard content</div>
+  <script>
+  //<![CDATA[
+  M.cfg = {"wwwroot":"https://moodle.example.test","sesskey":"fakeSesskey1a2b3c","contextid":2,"loglevel":9};
+  //]]>
+  </script>
+</body>
+</html>

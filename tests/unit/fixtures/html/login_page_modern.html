@@ -1,0 +1,24 @@
+<!--
+  Fixture provenance: Moodle 4.x/5.x login page (/login/index.php), trimmed to
+  the login <form>. Hand-authored to mirror the hidden CSRF field Moodle emits.
+  The logintoken below is an OBVIOUSLY FAKE placeholder, never a real token.
+  Exercises: BaseCompatibilityStrategy.extract_login_token
+             (selector input[name="logintoken"]).
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Log in</title>
+</head>
+<body class="path-login">
+  <form action="https://moodle.example.test/login/index.php" method="post" id="login">
+    <input type="hidden" name="logintoken" value="fake-logintoken-9f8a7b6c5d4e3f2a">
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" value="">
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" value="">
+    <button type="submit" id="loginbtn">Log in</button>
+  </form>
+</body>
+</html>
