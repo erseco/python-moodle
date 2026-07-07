@@ -609,7 +609,7 @@ def test_json_output_error_goes_to_stderr_not_stdout(monkeypatch):
     result = runner.invoke(app, ["courses", "show", "1", "--output", "json"])
 
     assert result.exit_code == 1
-    assert result.output == ""
+    assert result.stdout == ""
     assert "boom" in result.stderr
 
 
@@ -632,5 +632,5 @@ def test_csv_output_error_goes_to_stderr_not_stdout(monkeypatch):
     result = runner.invoke(app, ["courses", "show", "1", "--output", "csv"])
 
     assert result.exit_code == 1
-    assert result.output == ""
+    assert result.stdout == ""
     assert "boom" in result.stderr
