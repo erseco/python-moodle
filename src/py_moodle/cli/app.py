@@ -12,6 +12,7 @@ from . import (
     admin,
     categories,
     courses,
+    doctor,
     folders,
     modules,
     pages,
@@ -63,6 +64,7 @@ app.add_typer(pages.app, name="pages")
 app.add_typer(resources.app, name="resources")
 app.add_typer(urls.app, name="urls")
 app.add_typer(site.app, name="site")
+app.add_typer(doctor.app, name="doctor")
 
 # ...and so on for each new command group you create.
 
