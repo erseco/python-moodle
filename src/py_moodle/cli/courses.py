@@ -6,7 +6,7 @@ import typer
 from rich.console import Console
 from rich.table import Table
 
-from py_moodle.cli.output import OutputFormat, emit
+from py_moodle.cli.output import OutputFormat, emit, render_dry_run_plan
 from py_moodle.course import (
     ConfirmationRequired,
     MoodleCourseError,
@@ -137,10 +137,36 @@ def create_new_course(
     ),
     visible: int = typer.Option(1, "--visible", help="1 for visible, 0 for hidden."),
     summary: str = typer.Option("", "--summary", help="Course summary."),
+    output: OutputFormat = typer.Option(
+        OutputFormat.TABLE, "--output", help="Output format: table, json, or yaml."
+    ),
+    dry_run: bool = typer.Option(
+        False,
+        "--dry-run",
+        help="Preview the course that would be created without calling Moodle.",
+    ),
 ):
     """
     Creates a new course.
     """
+    if dry_run:
+        plan = {
+            "action": "create_course",
+            "dry_run": True,
+            # The real course id is assigned by Moodle and cannot be known
+            # before the request is actually sent.
+            "target": {"course_id": "<assigned-by-moodle>"},
+            "parameters": {
+                "fullname": fullname,
+                "shortname": shortname,
+                "categoryid": categoryid,
+                "visible": visible,
+                "summary": summary,
+            },
+        }
+        render_dry_run_plan(plan, output)
+        return
+
     ms = MoodleSession.get(ctx.obj["env"])
     try:
         course = create_course(
@@ -240,10 +266,31 @@ def delete_a_course(
     force: bool = typer.Option(
         False, "--force", help="Delete without asking for confirmation."
     ),
+    output: OutputFormat = typer.Option(
+        OutputFormat.TABLE, "--output", help="Output format: table, json, or yaml."
+    ),
+    dry_run: bool = typer.Option(
+        False,
+        "--dry-run",
+        help=(
+            "Preview the deletion without calling Moodle or prompting for "
+            "confirmation."
+        ),
+    ),
 ):
     """
     Deletes a course by its ID.
     """
+    if dry_run:
+        plan = {
+            "action": "delete_course",
+            "dry_run": True,
+            "target": {"course_id": course_id},
+            "parameters": {"force": force},
+        }
+        render_dry_run_plan(plan, output)
+        return
+
     ms = MoodleSession.get(ctx.obj["env"])
     try:
         delete_course(ms.session, ms.settings.url, ms.sesskey, course_id, force=force)
