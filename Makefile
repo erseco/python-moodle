@@ -25,7 +25,8 @@ upd: check-docker ensure-env
 	  sleep 5; \
 	done; \
 	if [ $$ready -ne 1 ]; then \
-	  echo "Moodle did not become ready in time."; \
+	  echo "Moodle did not become ready in time. Recent container logs:"; \
+	  docker compose logs --tail=80 moodle || true; \
 	  exit 1; \
 	fi
 	@echo "Grace period: the login page can respond before Moodle's own"; \
