@@ -106,6 +106,7 @@ nav:
   - API Reference:
     - Core:
       - Session: api/session.md
+      - HTTP: api/http.md
       - Settings: api/settings.md
       - Auth: api/auth.md
     - Course Management:
