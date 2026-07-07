@@ -1,9 +1,11 @@
 """User management commands for ``py-moodle``."""
 
+from typing import Optional
+
 import typer
 from rich.table import Table
 
-from py_moodle.cli.output import OutputFormat, emit, get_console
+from py_moodle.cli.output import OutputFormat, emit, get_console, parse_fields
 from py_moodle.session import MoodleSession
 from py_moodle.user import MoodleUserError, create_user, delete_user, list_course_users
 
@@ -35,6 +37,15 @@ def list_users_in_course(
         "--output",
         help="Output format: table, json, yaml, or csv.",
     ),
+    fields: Optional[str] = typer.Option(
+        None,
+        "--fields",
+        help=(
+            "Comma-separated top-level fields to keep in machine-readable "
+            "output (json/yaml/csv), in the given order. Ignored for table "
+            "output; an unknown field is an error."
+        ),
+    ),
 ):
     """Lists users enrolled in a specific course."""
     ms = MoodleSession.get(ctx.obj["env"])
@@ -57,7 +68,13 @@ def list_users_in_course(
                 )
             get_console(ctx).print(table)
 
-        emit(users, output, table_fn=_render_table, csv_fields=_LIST_CSV_FIELDS)
+        emit(
+            users,
+            output,
+            table_fn=_render_table,
+            csv_fields=_LIST_CSV_FIELDS,
+            fields=parse_fields(fields),
+        )
     except MoodleUserError as e:
         typer.echo(f"Error listing users: {e}", err=True)
         raise typer.Exit(1)

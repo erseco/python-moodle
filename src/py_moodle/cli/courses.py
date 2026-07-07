@@ -2,6 +2,7 @@
 
 from dataclasses import asdict
 from functools import partial
+from typing import Optional
 
 import typer
 from rich.table import Table
@@ -10,6 +11,7 @@ from py_moodle.cli.output import (
     OutputFormat,
     emit,
     get_console,
+    parse_fields,
     render_dry_run_plan,
 )
 from py_moodle.course import (
@@ -54,6 +56,15 @@ def list_all_courses(
         "--output",
         help="Output format: table, json, yaml, or csv.",
     ),
+    fields: Optional[str] = typer.Option(
+        None,
+        "--fields",
+        help=(
+            "Comma-separated top-level fields to keep in machine-readable "
+            "output (json/yaml/csv), in the given order. Ignored for table "
+            "output; an unknown field is an error."
+        ),
+    ),
 ):
     """
     Lists all available courses.
@@ -75,7 +86,13 @@ def list_all_courses(
             )
         get_console(ctx).print(table)
 
-    emit(courses, output, table_fn=_render_table, csv_fields=_LIST_CSV_FIELDS)
+    emit(
+        courses,
+        output,
+        table_fn=_render_table,
+        csv_fields=_LIST_CSV_FIELDS,
+        fields=parse_fields(fields),
+    )
 
 
 def _print_course_summary_table(ctx: typer.Context, course_data: dict):

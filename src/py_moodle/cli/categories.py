@@ -1,5 +1,7 @@
 """Category management commands for ``py-moodle``."""
 
+from typing import Optional
+
 import typer
 from rich.table import Table
 
@@ -9,7 +11,7 @@ from py_moodle.category import (
     delete_category,
     list_categories,
 )
-from py_moodle.cli.output import OutputFormat, emit, get_console
+from py_moodle.cli.output import OutputFormat, emit, get_console, parse_fields
 from py_moodle.session import MoodleSession
 
 app = typer.Typer(help="Manage course categories: list, create, delete.")
@@ -41,6 +43,15 @@ def list_all_categories(
         "--output",
         help="Output format: table, json, yaml, or csv.",
     ),
+    fields: Optional[str] = typer.Option(
+        None,
+        "--fields",
+        help=(
+            "Comma-separated top-level fields to keep in machine-readable "
+            "output (json/yaml/csv), in the given order. Ignored for table "
+            "output; an unknown field is an error."
+        ),
+    ),
 ):
     """
     Lists all available course categories.
@@ -68,7 +79,13 @@ def list_all_categories(
                 )
             get_console(ctx).print(table)
 
-        emit(categories, output, table_fn=_render_table, csv_fields=_LIST_CSV_FIELDS)
+        emit(
+            categories,
+            output,
+            table_fn=_render_table,
+            csv_fields=_LIST_CSV_FIELDS,
+            fields=parse_fields(fields),
+        )
     except MoodleCategoryError as e:
         typer.echo(f"Error listing categories: {e}", err=True)
         raise typer.Exit(1)

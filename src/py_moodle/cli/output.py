@@ -23,6 +23,94 @@ CsvField = Tuple[str, Union[str, Callable[[Any], Any]]]
 LOGGER_NAME = "py_moodle"
 
 
+class UnknownFieldError(ValueError):
+    """Raised when ``--fields`` names a field absent from every row.
+
+    Attributes:
+        unknown: The requested field names that are not present in any row.
+        available: The field names actually present across the rows, in
+            first-seen order, offered to help the user recover.
+    """
+
+    def __init__(self, unknown: Sequence[str], available: Sequence[str]) -> None:
+        """Build a clear message naming the offending and available fields.
+
+        Args:
+            unknown: The unrecognized field names.
+            available: The field names present across the rows.
+        """
+        self.unknown = list(unknown)
+        self.available = list(available)
+        unknown_str = ", ".join(repr(field) for field in self.unknown)
+        available_str = ", ".join(self.available) or "(none)"
+        super().__init__(
+            f"Unknown field(s): {unknown_str}. Available fields: {available_str}"
+        )
+
+
+def parse_fields(value: Optional[str]) -> Optional[list]:
+    """Parse a comma-separated ``--fields`` value into a list of field names.
+
+    An empty or whitespace-only value (e.g. ``--fields ""``) is treated as
+    "no filtering" and returns ``None``, exactly as if the flag were omitted.
+
+    Args:
+        value: The raw ``--fields`` option value, or ``None`` when the flag
+            was not provided.
+
+    Returns:
+        A list of non-empty, stripped field names preserving the
+        user-provided order, or ``None`` when no filtering should be applied.
+    """
+    if value is None:
+        return None
+    fields = [part.strip() for part in value.split(",")]
+    fields = [part for part in fields if part]
+    return fields or None
+
+
+def select_fields(rows: Sequence[Any], fields: Sequence[str]) -> list:
+    """Project each row to the requested fields, preserving field order.
+
+    Only flat, top-level keys are supported (no nested/dotted selectors).
+    Each returned row is a new dict whose keys are exactly ``fields`` in the
+    requested order; a field present in some rows but missing from a given
+    row is filled with ``None`` so that all rows share a consistent shape.
+
+    Args:
+        rows: A list of dict-like rows to project. An empty list is returned
+            unchanged (validation is skipped, since there are no keys to
+            validate against).
+        fields: The field names to keep, in the desired output order.
+
+    Returns:
+        A new list of dicts containing only ``fields``, in order.
+
+    Raises:
+        UnknownFieldError: If any requested field is not present in any row.
+    """
+    if not rows:
+        return []
+
+    available: list = []
+    seen: set = set()
+    for row in rows:
+        if isinstance(row, dict):
+            for key in row.keys():
+                if key not in seen:
+                    seen.add(key)
+                    available.append(key)
+
+    unknown = [field for field in fields if field not in seen]
+    if unknown:
+        raise UnknownFieldError(unknown, available)
+
+    return [
+        {field: (row.get(field) if isinstance(row, dict) else None) for field in fields}
+        for row in rows
+    ]
+
+
 class OutputFormat(str, enum.Enum):
     """Supported CLI output formats.
 
@@ -103,6 +191,7 @@ def emit(
     output_format: OutputFormat,
     table_fn: Optional[Callable[[Any], None]] = None,
     csv_fields: Optional[Sequence[CsvField]] = None,
+    fields: Optional[Sequence[str]] = None,
 ) -> None:
     """Emit ``data`` in the requested output format.
 
@@ -117,11 +206,34 @@ def emit(
             ``(header, accessor)`` pair, where ``accessor`` is either a
             dict key or a callable extracting the value from a row. When
             omitted, the union of keys present in ``data`` is used.
+        fields: Optional flat, top-level keys to keep in the machine-readable
+            output (JSON/YAML/CSV), in the given order. ``None`` (the default)
+            applies no filtering, preserving the existing behavior. For CSV,
+            the selected keys become the column headers (``csv_fields`` is
+            ignored) so that all formats share the same projected shape. For
+            ``TABLE`` output, ``fields`` is accepted but ignored (best-effort).
 
     Raises:
         ValueError: If ``output_format`` is ``TABLE`` and no ``table_fn``
             is provided.
+        typer.Exit: If ``fields`` names a field absent from every row (the
+            offending field is reported on stderr with a non-zero exit code).
     """
+    if fields is not None and output_format != OutputFormat.TABLE:
+        rows = data if isinstance(data, list) else [data]
+        try:
+            projected = select_fields(rows, fields)
+        except UnknownFieldError as exc:
+            typer.echo(str(exc), err=True)
+            raise typer.Exit(code=1)
+        if isinstance(data, list):
+            data = projected
+        else:
+            data = projected[0] if projected else {}
+        # The selected keys are the projected shape shared by all formats, so
+        # discard the pretty CSV column definitions in favor of those keys.
+        csv_fields = None
+
     if output_format == OutputFormat.JSON:
         typer.echo(json.dumps(data, indent=2, ensure_ascii=False))
     elif output_format == OutputFormat.YAML:
@@ -225,7 +337,10 @@ def render_dry_run_plan(plan: dict, output_format: OutputFormat) -> None:
 
 __all__ = [
     "OutputFormat",
+    "UnknownFieldError",
     "emit",
+    "select_fields",
+    "parse_fields",
     "get_console",
     "configure_logging",
     "render_dry_run_plan",
