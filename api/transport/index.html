@@ -12,13 +12,13 @@
         <meta name="author" content="Ernesto Serrano">
       
       
-        <link rel="canonical" href="https://erseco.github.io/python-moodle/api/url/">
+        <link rel="canonical" href="https://erseco.github.io/python-moodle/api/transport/">
       
       
-        <link rel="prev" href="../folder/">
+        <link rel="prev" href="../http/">
       
       
-        <link rel="next" href="../scorm/">
+        <link rel="next" href="../settings/">
       
       
         
@@ -29,7 +29,7 @@
     
     
       
-        <title>URL - py-moodle</title>
+        <title>Transport - py-moodle</title>
       
     
     
@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#url" class="md-skip">
+        <a href="#transport" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              URL
+              Transport
             
           </span>
         </div>
@@ -744,6 +744,8 @@
                 
   
   
+    
+  
   
   
     
@@ -759,11 +761,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" checked>
         
           
           <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="">
@@ -784,7 +786,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4_1">
             <span class="md-nav__icon md-icon"></span>
             
@@ -883,10 +885,19 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../transport/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -902,6 +913,7 @@
   
 
       </a>
+      
     </li>
   
 
@@ -1178,8 +1190,6 @@
                 
   
   
-    
-  
   
   
     
@@ -1195,11 +1205,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
         
           
           <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="">
@@ -1220,7 +1230,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1375,19 +1385,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../url/" class="md-nav__link">
         
   
   
@@ -1403,7 +1404,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -1863,28 +1863,84 @@
   
 
 
-<h1 id="url">Url<a class="headerlink" href="#url" title="Permanent link">&para;</a></h1>
+<h1 id="transport">Transport<a class="headerlink" href="#transport" title="Permanent link">&para;</a></h1>
 
 
 <div class="doc doc-object doc-module">
 
 
 
-<h1 id="py_moodle.url" class="doc doc-heading">
-            <span class="doc doc-object-name doc-module-name">py_moodle.url</span>
+<h1 id="py_moodle.transport" class="doc doc-heading">
+            <span class="doc doc-object-name doc-module-name">py_moodle.transport</span>
 
 
-<a href="#py_moodle.url" class="headerlink" title="Permanent link">&para;</a></h1>
+<a href="#py_moodle.transport" class="headerlink" title="Permanent link">&para;</a></h1>
 
     <div class="doc doc-contents first">
 
-        <p>URL module management for Moodle CLI.</p>
-<p>Provides functions to create and delete "url" modules linking to external resources.
-All code and comments are in English.</p>
+        <p>Transport-layer abstractions for talking to Moodle.</p>
+<p><code>py-moodle</code> talks to a Moodle instance through three fundamentally
+different transports:</p>
+<ol>
+<li><strong>Webservice / REST API</strong> (:mod:<code>py_moodle.transport.webservice</code>) --
+   <code>POST {base_url}/webservice/rest/server.php</code> with a <code>wstoken</code>, e.g.
+   <code>core_course_get_courses</code>.</li>
+<li><strong>Internal AJAX endpoint</strong> (:mod:<code>py_moodle.transport.ajax</code>) --
+   <code>POST {base_url}/lib/ajax/service.php?sesskey=...</code> with a JSON
+   <code>methodname</code>/<code>args</code> payload, used when no webservice token is
+   available or the webservice call fails.</li>
+<li><strong>HTML scraping / form submission</strong> (:mod:<code>py_moodle.transport.html</code>) --
+   used where Moodle exposes no webservice or AJAX equivalent at all.</li>
+</ol>
+<p>This package formalizes those transports as small, uniform <code>call(...)</code>
+functions built strictly on top of the shared HTTP client in
+:mod:<code>py_moodle.http</code>, so a caller can implement "try transport A, on
+failure fall back to transport B" without knowing the request-building
+details of either transport.</p>
+<p>Transport (webservice vs AJAX vs HTML) is a different, orthogonal axis from
+Moodle-version compatibility, which remains isolated in
+:mod:<code>py_moodle.compat</code>.</p>
 
 
 
 
+
+
+<p><span class="doc-section-title">Modules:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="py_moodle.transport.ajax" href="#py_moodle.transport.ajax">ajax</a></code></td>
+            <td>
+              <div class="doc-md-description">
+                <p>Internal AJAX endpoint transport strategy for talking to Moodle.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="py_moodle.transport.html" href="#py_moodle.transport.html">html</a></code></td>
+            <td>
+              <div class="doc-md-description">
+                <p>HTML scraping / form-submission transport strategy (interface only).</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="py_moodle.transport.webservice" href="#py_moodle.transport.webservice">webservice</a></code></td>
+            <td>
+              <div class="doc-md-description">
+                <p>Webservice (REST API) transport strategy for talking to Moodle.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
 
 
@@ -1901,15 +1957,148 @@ All code and comments are in English.</p>
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code><a class="autorefs autorefs-internal" title="MoodleUrlError (py_moodle.url.MoodleUrlError)" href="#py_moodle.url.MoodleUrlError">MoodleUrlError</a></code></td>
+            <td><code><a class="autorefs autorefs-internal" title="TransportError (py_moodle.transport.TransportError)" href="#py_moodle.transport.TransportError">TransportError</a></code></td>
             <td>
               <div class="doc-md-description">
-                <p>Exception raised for errors in URL module operations.</p>
+                <p>Base class for transport-layer errors.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="TransportUnavailableError (py_moodle.transport.TransportUnavailableError)" href="#py_moodle.transport.TransportUnavailableError">TransportUnavailableError</a></code></td>
+            <td>
+              <div class="doc-md-description">
+                <p>Raised when a transport cannot be used for this call.</p>
               </div>
             </td>
           </tr>
       </tbody>
     </table>
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+<h2 id="py_moodle.transport-classes">Classes<a href="#py_moodle.transport-classes" class="headerlink" title="Permanent link">&para;</a></h2>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="py_moodle.transport.TransportError" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">TransportError</span>
+
+
+<a href="#py_moodle.transport.TransportError" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="Exception">Exception</span></code></p>
+
+
+
+        <p>Base class for transport-layer errors.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="py_moodle.transport.TransportUnavailableError" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">TransportUnavailableError</span>
+
+
+<a href="#py_moodle.transport.TransportUnavailableError" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="TransportError (py_moodle.transport.TransportError)" href="#py_moodle.transport.TransportError">TransportError</a></code></p>
+
+
+
+        <p>Raised when a transport cannot be used for this call.</p>
+<p>Signals to the caller that it should try the next transport in the
+fallback chain (e.g. webservice -&gt; AJAX), as opposed to a genuine
+business-logic failure that should propagate to the user.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+<h1 id="py_moodle.transport.webservice" class="doc doc-heading">
+            <span class="doc doc-object-name doc-module-name">py_moodle.transport.webservice</span>
+
+
+<a href="#py_moodle.transport.webservice" class="headerlink" title="Permanent link">&para;</a></h1>
+
+    <div class="doc doc-contents first">
+
+        <p>Webservice (REST API) transport strategy for talking to Moodle.</p>
+<p>Calls <code>{base_url}/webservice/rest/server.php</code> with a <code>wstoken</code>,
+delegating the actual socket-level request to the shared HTTP client in
+:mod:<code>py_moodle.http</code>.</p>
+
+
+
+
+
+
+
+
 
 
 
@@ -1924,18 +2113,10 @@ All code and comments are in English.</p>
       </thead>
       <tbody>
             <tr class="doc-section-item">
-              <td><code><a class="autorefs autorefs-internal" title="add_url (py_moodle.url.add_url)" href="#py_moodle.url.add_url">add_url</a></code></td>
+              <td><code><a class="autorefs autorefs-internal" title="call (py_moodle.transport.webservice.call)" href="#py_moodle.transport.webservice.call">call</a></code></td>
               <td>
                 <div class="doc-md-description">
-                  <p>Create a new URL module in a course section.</p>
-                </div>
-              </td>
-            </tr>
-            <tr class="doc-section-item">
-              <td><code><a class="autorefs autorefs-internal" title="delete_url (py_moodle.url.delete_url)" href="#py_moodle.url.delete_url">delete_url</a></code></td>
-              <td>
-                <div class="doc-md-description">
-                  <p>Delete a URL module by its course module ID.</p>
+                  <p>Call a Moodle webservice function via the REST API.</p>
                 </div>
               </td>
             </tr>
@@ -1952,93 +2133,31 @@ All code and comments are in English.</p>
 
 
 
-<h2 id="py_moodle.url-attributes">Attributes<a href="#py_moodle.url-attributes" class="headerlink" title="Permanent link">&para;</a></h2>
-
-<div class="doc doc-object doc-attribute">
 
 
-
-<h3 id="py_moodle.url.MODULE_NAME" class="doc doc-heading">
-            <span class="doc doc-object-name doc-attribute-name">MODULE_NAME</span>
-
-
-  <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
-  </span>
-
-<a href="#py_moodle.url.MODULE_NAME" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">MODULE_NAME</span> <span class="o">=</span> <span class="s1">&#39;url&#39;</span>
-</span></code></pre></div>
-
-    <div class="doc doc-contents ">
-
-    </div>
-
-</div>
-
-<h2 id="py_moodle.url-classes">Classes<a href="#py_moodle.url-classes" class="headerlink" title="Permanent link">&para;</a></h2>
-
-<div class="doc doc-object doc-class">
-
-
-
-<h3 id="py_moodle.url.MoodleUrlError" class="doc doc-heading">
-            <span class="doc doc-object-name doc-class-name">MoodleUrlError</span>
-
-
-<a href="#py_moodle.url.MoodleUrlError" class="headerlink" title="Permanent link">&para;</a></h3>
-
-
-    <div class="doc doc-contents ">
-            <p class="doc doc-class-bases">
-              Bases: <code><span title="Exception">Exception</span></code></p>
-
-
-
-        <p>Exception raised for errors in URL module operations.</p>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    </div>
-
-</div>
-<h2 id="py_moodle.url-functions">Functions:<a href="#py_moodle.url-functions" class="headerlink" title="Permanent link">&para;</a></h2>
+<h2 id="py_moodle.transport.webservice-classes">Classes<a href="#py_moodle.transport.webservice-classes" class="headerlink" title="Permanent link">&para;</a></h2>
+<h2 id="py_moodle.transport.webservice-functions">Functions:<a href="#py_moodle.transport.webservice-functions" class="headerlink" title="Permanent link">&para;</a></h2>
 
 <div class="doc doc-object doc-function">
 
 
-<h3 id="py_moodle.url.add_url" class="doc doc-heading">
-            <span class="doc doc-object-name doc-function-name">add_url</span>
+<h3 id="py_moodle.transport.webservice.call" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">call</span>
 
 
-<a href="#py_moodle.url.add_url" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">add_url</span><span class="p">(</span>
+<a href="#py_moodle.transport.webservice.call" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">call</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">session</span><span class="p">:</span> <span class="n"><span title="requests.Session">Session</span></span><span class="p">,</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">base_url</span><span class="p">:</span> <span class="n"><span title="str">str</span></span><span class="p">,</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">sesskey</span><span class="p">:</span> <span class="n"><span title="str">str</span></span><span class="p">,</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">course_id</span><span class="p">:</span> <span class="n"><span title="int">int</span></span><span class="p">,</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">section_id</span><span class="p">:</span> <span class="n"><span title="int">int</span></span><span class="p">,</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">name</span><span class="p">:</span> <span class="n"><span title="str">str</span></span><span class="p">,</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">external_url</span><span class="p">:</span> <span class="n"><span title="str">str</span></span><span class="p">,</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">intro</span><span class="p">:</span> <span class="n"><span title="str">str</span></span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">visible</span><span class="p">:</span> <span class="n"><span title="int">int</span></span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="int">int</span></span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">wsfunction</span><span class="p">:</span> <span class="n"><span title="str">str</span></span><span class="p">,</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">token</span><span class="p">:</span> <span class="n"><span title="str">str</span></span><span class="p">,</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">params</span><span class="p">:</span> <span class="n"><span title="typing.Optional">Optional</span></span><span class="p">[</span><span class="n"><span title="typing.Dict">Dict</span></span><span class="p">[</span><span class="n"><span title="str">str</span></span><span class="p">,</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="typing.Any">Any</span></span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
 
-        <p>Create a new URL module in a course section.</p>
+        <p>Call a Moodle webservice function via the REST API.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -2061,7 +2180,7 @@ All code and comments are in English.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Authenticated <code>requests.Session</code> object.</p>
+                <p>Authenticated requests session.</p>
               </div>
             </td>
             <td>
@@ -2086,14 +2205,14 @@ All code and comments are in English.</p>
           </tr>
           <tr class="doc-section-item">
             <td>
-                <code>sesskey</code>
+                <code>wsfunction</code>
             </td>
             <td>
                   <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Session key for form submissions.</p>
+                <p>Name of the webservice function to invoke.</p>
               </div>
             </td>
             <td>
@@ -2102,46 +2221,14 @@ All code and comments are in English.</p>
           </tr>
           <tr class="doc-section-item">
             <td>
-                <code>course_id</code>
-            </td>
-            <td>
-                  <code><span title="int">int</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>ID of the course to add the URL to.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>section_id</code>
-            </td>
-            <td>
-                  <code><span title="int">int</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>ID of the section within the course.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>name</code>
+                <code>token</code>
             </td>
             <td>
                   <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Name of the URL module.</p>
+                <p>Webservice token (<code>wstoken</code>).</p>
               </div>
             </td>
             <td>
@@ -2150,50 +2237,18 @@ All code and comments are in English.</p>
           </tr>
           <tr class="doc-section-item">
             <td>
-                <code>external_url</code>
+                <code>params</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The external URL to be linked.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>intro</code>
-            </td>
-            <td>
-                  <code><span title="str">str</span></code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Optional introduction or description for the URL.</p>
+                <p>Additional parameters for the webservice call.</p>
               </div>
             </td>
             <td>
-                  <code>&#39;&#39;</code>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>visible</code>
-            </td>
-            <td>
-                  <code><span title="int">int</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Visibility flag (1 for visible, 0 for hidden).</p>
-              </div>
-            </td>
-            <td>
-                  <code>1</code>
+                  <code>None</code>
             </td>
           </tr>
       </tbody>
@@ -2204,6 +2259,29 @@ All code and comments are in English.</p>
     <table>
       <thead>
         <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>Any</code></td>            <td>
+                  <code><span title="typing.Any">Any</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The parsed JSON response (list or dict) on success.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
           <th>Type</th>
           <th>Description</th>
         </tr>
@@ -2211,11 +2289,24 @@ All code and comments are in English.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><span title="int">int</span></code>
+                  <code><a class="autorefs autorefs-internal" title="TransportUnavailableError (py_moodle.transport.TransportUnavailableError)" href="#py_moodle.transport.TransportUnavailableError">TransportUnavailableError</a></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The new course module ID (cmid).</p>
+                <p>If Moodle reports an invalid/expired
+token, indicating the caller should fall back to another
+transport.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="TransportError (py_moodle.transport.TransportError)" href="#py_moodle.transport.TransportError">TransportError</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If the call fails for any other reason (network
+error, non-token Moodle exception, invalid JSON).</p>
               </div>
             </td>
           </tr>
@@ -2227,22 +2318,492 @@ All code and comments are in English.</p>
 
 </div>
 
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+<h1 id="py_moodle.transport.ajax" class="doc doc-heading">
+            <span class="doc doc-object-name doc-module-name">py_moodle.transport.ajax</span>
+
+
+<a href="#py_moodle.transport.ajax" class="headerlink" title="Permanent link">&para;</a></h1>
+
+    <div class="doc doc-contents first">
+
+        <p>Internal AJAX endpoint transport strategy for talking to Moodle.</p>
+<p>Calls <code>{base_url}/lib/ajax/service.php?sesskey=...</code> with the
+<code>[{"index": 0, "methodname": ..., "args": ...}]</code> envelope Moodle expects,
+delegating the actual socket-level requests to the shared HTTP client in
+:mod:<code>py_moodle.http</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+<p><span class="doc-section-title">Functions:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="call (py_moodle.transport.ajax.call)" href="#py_moodle.transport.ajax.call">call</a></code></td>
+              <td>
+                <div class="doc-md-description">
+                  <p>Call a Moodle method via the internal AJAX endpoint.</p>
+                </div>
+              </td>
+            </tr>
+      </tbody>
+    </table>
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+<h2 id="py_moodle.transport.ajax-classes">Classes<a href="#py_moodle.transport.ajax-classes" class="headerlink" title="Permanent link">&para;</a></h2>
+<h2 id="py_moodle.transport.ajax-functions">Functions:<a href="#py_moodle.transport.ajax-functions" class="headerlink" title="Permanent link">&para;</a></h2>
+
 <div class="doc doc-object doc-function">
 
 
-<h3 id="py_moodle.url.delete_url" class="doc doc-heading">
-            <span class="doc doc-object-name doc-function-name">delete_url</span>
+<h3 id="py_moodle.transport.ajax.call" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">call</span>
 
 
-<a href="#py_moodle.url.delete_url" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">delete_url</span><span class="p">(</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">session</span><span class="p">:</span> <span class="n"><span title="requests.Session">Session</span></span><span class="p">,</span> <span class="n">base_url</span><span class="p">:</span> <span class="n"><span title="str">str</span></span><span class="p">,</span> <span class="n">sesskey</span><span class="p">:</span> <span class="n"><span title="str">str</span></span><span class="p">,</span> <span class="n">cmid</span><span class="p">:</span> <span class="n"><span title="int">int</span></span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="bool">bool</span></span>
+<a href="#py_moodle.transport.ajax.call" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">call</span><span class="p">(</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">session</span><span class="p">:</span> <span class="n"><span title="requests.Session">Session</span></span><span class="p">,</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">base_url</span><span class="p">:</span> <span class="n"><span title="str">str</span></span><span class="p">,</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">methodname</span><span class="p">:</span> <span class="n"><span title="str">str</span></span><span class="p">,</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">sesskey</span><span class="p">:</span> <span class="n"><span title="str">str</span></span><span class="p">,</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">args</span><span class="p">:</span> <span class="n"><span title="typing.Optional">Optional</span></span><span class="p">[</span><span class="n"><span title="typing.Dict">Dict</span></span><span class="p">[</span><span class="n"><span title="str">str</span></span><span class="p">,</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="typing.Any">Any</span></span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
 
-        <p>Delete a URL module by its course module ID.</p>
+        <p>Call a Moodle method via the internal AJAX endpoint.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>session</code>
+            </td>
+            <td>
+                  <code><span title="requests.Session">Session</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Authenticated requests session.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>base_url</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Base URL of the Moodle instance.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>methodname</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Name of the AJAX method to invoke (as used in
+<code>lib/ajax/service.php</code>).</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>sesskey</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Moodle session key required by the AJAX endpoint.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>args</code>
+            </td>
+            <td>
+                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Additional method arguments.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>Any</code></td>            <td>
+                  <code><span title="typing.Any">Any</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The parsed <code>data</code> payload from the first entry of the AJAX
+JSON-array response, on success.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="TransportUnavailableError (py_moodle.transport.TransportUnavailableError)" href="#py_moodle.transport.TransportUnavailableError">TransportUnavailableError</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If no usable <code>sesskey</code> is supplied.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="TransportError (py_moodle.transport.TransportError)" href="#py_moodle.transport.TransportError">TransportError</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If the HTTP call fails, or Moodle's AJAX response
+reports an error for the requested method.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+<h1 id="py_moodle.transport.html" class="doc doc-heading">
+            <span class="doc doc-object-name doc-module-name">py_moodle.transport.html</span>
+
+
+<a href="#py_moodle.transport.html" class="headerlink" title="Permanent link">&para;</a></h1>
+
+    <div class="doc doc-contents first">
+
+        <p>HTML scraping / form-submission transport strategy (interface only).</p>
+<p>This module formalizes the calling convention for a future
+<code>HtmlTransport</code> that talks to Moodle by scraping HTML pages and
+submitting HTML forms (e.g. <code>course/edit.php</code>), for the cases where
+Moodle exposes neither a webservice nor an AJAX equivalent.</p>
+<p>No real Moodle interaction is wired up as part of this issue: :func:<code>call</code>
+only documents the intended signature and always raises
+:class:<code>NotImplementedError</code>. Migrating existing HTML-based flows (e.g.
+<code>create_course</code>/<code>delete_course</code> in :mod:<code>py_moodle.course</code>) onto this
+transport is tracked as follow-up work.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+<p><span class="doc-section-title">Functions:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="call (py_moodle.transport.html.call)" href="#py_moodle.transport.html.call">call</a></code></td>
+              <td>
+                <div class="doc-md-description">
+                  <p>Perform an HTML form-submission/scraping call against Moodle.</p>
+                </div>
+              </td>
+            </tr>
+      </tbody>
+    </table>
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+<h2 id="py_moodle.transport.html-functions">Functions:<a href="#py_moodle.transport.html-functions" class="headerlink" title="Permanent link">&para;</a></h2>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="py_moodle.transport.html.call" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">call</span>
+
+
+<a href="#py_moodle.transport.html.call" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">call</span><span class="p">(</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">session</span><span class="p">:</span> <span class="n"><span title="requests.Session">Session</span></span><span class="p">,</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">base_url</span><span class="p">:</span> <span class="n"><span title="str">str</span></span><span class="p">,</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">action</span><span class="p">:</span> <span class="n"><span title="str">str</span></span><span class="p">,</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">params</span><span class="p">:</span> <span class="n"><span title="typing.Optional">Optional</span></span><span class="p">[</span><span class="n"><span title="typing.Dict">Dict</span></span><span class="p">[</span><span class="n"><span title="str">str</span></span><span class="p">,</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="typing.Any">Any</span></span>
+</span></code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Perform an HTML form-submission/scraping call against Moodle.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>session</code>
+            </td>
+            <td>
+                  <code><span title="requests.Session">Session</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Authenticated requests session.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>base_url</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Base URL of the Moodle instance.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>action</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Relative path of the HTML page/form to interact with
+(e.g. <code>"course/edit.php"</code>).</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>params</code>
+            </td>
+            <td>
+                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Form fields or query parameters for the request.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>Any</code></td>            <td>
+                  <code><span title="typing.Any">Any</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Parsed result of the HTML interaction, in whatever shape a</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+<td></td>            <td>
+                  <code><span title="typing.Any">Any</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>future concrete implementation defines.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="NotImplementedError">NotImplementedError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Always, for this issue. This module only
+formalizes the transport interface; no real HTML-based Moodle
+interaction is implemented yet.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
 
     </div>

@@ -876,6 +876,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../api/transport/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transport
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../api/settings/" class="md-nav__link">
         
   
@@ -1843,6 +1871,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#transport-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Transport Strategies
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2292,6 +2331,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#transport-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Transport Strategies
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2667,6 +2717,29 @@ helpers in this module (<code>request_webservice</code>, <code>request_html_get<
 sites have been migrated so far (<code>session.py</code>'s <code>MoodleSession.call()</code> and
 <code>course.py</code>'s <code>list_courses()</code>/<code>create_course()</code>); migrating the remaining
 modules is tracked as follow-up work.</p>
+<h3 id="transport-strategies">Transport Strategies<a class="headerlink" href="#transport-strategies" title="Permanent link">&para;</a></h3>
+<p><code>src/py_moodle/transport/</code> formalizes the three ways <code>py-moodle</code> talks to
+Moodle as explicit, independently testable strategy modules built on top
+of <code>http.py</code>:</p>
+<ul>
+<li><code>transport/webservice.py</code> — the webservice/REST API transport
+  (<code>{base_url}/webservice/rest/server.php</code> with a <code>wstoken</code>).</li>
+<li><code>transport/ajax.py</code> — the internal AJAX endpoint transport
+  (<code>{base_url}/lib/ajax/service.php?sesskey=...</code>).</li>
+<li><code>transport/html.py</code> — an interface-only placeholder for a future
+  HTML-scraping/form-submission transport (e.g. <code>course/edit.php</code>).</li>
+</ul>
+<p>Both <code>webservice.call(...)</code> and <code>ajax.call(...)</code> raise
+<code>transport.TransportUnavailableError</code> when that specific transport cannot
+be used for the call (invalid/expired token, missing <code>sesskey</code>), letting a
+caller fall back to the next transport in the chain, and
+<code>transport.TransportError</code> for any other failure. <code>course.py</code>'s
+<code>list_courses()</code> has been migrated as a proof of concept to use these two
+transports instead of inlining the webservice/AJAX request-building and
+fallback logic itself; migrating the remaining webservice/AJAX call sites
+(<code>get_course_state</code>, and the AJAX calls in <code>section.py</code>, <code>module.py</code>,
+<code>draftfile.py</code>) onto the same transport modules is tracked as follow-up
+work.</p>
 <h2 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">&para;</a></h2>
 <h3 id="running-tests">Running Tests<a class="headerlink" href="#running-tests" title="Permanent link">&para;</a></h3>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Fast smoke tests that do not require Moodle</span>

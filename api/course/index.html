@@ -886,6 +886,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../transport/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transport
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../settings/" class="md-nav__link">
         
   
@@ -2608,7 +2636,13 @@ reliable method.</p>
 
         <p>List all courses visible to the user.</p>
 <p>Uses the <code>core_course_get_courses</code> webservice when a token is
-available and falls back to the AJAX endpoint otherwise.</p>
+available and falls back to the AJAX endpoint otherwise. Internally,
+each transport is delegated to :mod:<code>py_moodle.transport.webservice</code>
+and :mod:<code>py_moodle.transport.ajax</code> respectively; their
+<code>TransportError</code>/<code>TransportUnavailableError</code> exceptions are
+translated into <code>MoodleCourseError</code> (or used to decide the
+webservice-to-AJAX fallback) and never leak to callers of this
+function.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
