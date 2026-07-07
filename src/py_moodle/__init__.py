@@ -12,6 +12,19 @@ except PackageNotFoundError:
     __version__ = "0.0.0"
 
 from .client import MoodleClient
+from .models import (
+    Assignment,
+    Course,
+    CourseModule,
+    CourseSection,
+    DeleteResult,
+    Folder,
+    Label,
+    ModelValidationError,
+    ScormPackage,
+    UploadResult,
+    User,
+)
 from .session import MoodleSession, MoodleSessionError
 from .settings import Settings, load_settings
 
@@ -21,4 +34,15 @@ __all__ = [
     "MoodleSession",
     "MoodleSessionError",
     "MoodleClient",
+    "ModelValidationError",
+    "Course",
+    "CourseSection",
+    "CourseModule",
+    "User",
+    "Folder",
+    "Label",
+    "Assignment",
+    "ScormPackage",
+    "UploadResult",
+    "DeleteResult",
 ]
