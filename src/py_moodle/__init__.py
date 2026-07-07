@@ -11,7 +11,14 @@ try:
 except PackageNotFoundError:
     __version__ = "0.0.0"
 
+from .client import MoodleClient
 from .session import MoodleSession, MoodleSessionError
 from .settings import Settings, load_settings
 
-__all__ = ["Settings", "load_settings", "MoodleSession", "MoodleSessionError"]
+__all__ = [
+    "Settings",
+    "load_settings",
+    "MoodleSession",
+    "MoodleSessionError",
+    "MoodleClient",
+]

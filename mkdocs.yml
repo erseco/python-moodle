@@ -105,6 +105,7 @@ nav:
   - CLI Reference: cli.md
   - API Reference:
     - Core:
+      - Client: api/client.md
       - Session: api/session.md
       - Settings: api/settings.md
       - Auth: api/auth.md

@@ -68,6 +68,28 @@ py-moodle modules add label \
 Replace the example course ID with the ID returned by the create command in
 your environment.
 
+### Equivalent recipe using `MoodleClient`
+
+The same workflow, scripted with the [`MoodleClient`](api/client.md) facade
+instead of the CLI:
+
+```python
+from py_moodle import MoodleClient
+
+with MoodleClient.from_env("prod") as moodle:
+    course = moodle.courses.create(
+        fullname="Automation Demo",
+        shortname="automation-demo",
+    )
+    section = moodle.sections.create(course["id"])
+    moodle.labels.add(
+        course_id=course["id"],
+        section_id=section.get("section", 1),
+        name="Welcome",
+        html="<p>Welcome to the course.</p>",
+    )
+```
+
 ## Upload materials into a folder
 
 Use the dedicated folder commands when you want to manage a reusable course
