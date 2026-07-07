@@ -1932,6 +1932,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#diagnostics-verbose-debug-and-secret-redaction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diagnostics: --verbose/--debug and secret redaction
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2370,6 +2381,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#diagnostics-verbose-debug-and-secret-redaction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diagnostics: --verbose/--debug and secret redaction
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2749,6 +2771,36 @@ modules is tracked as follow-up work.</p>
 </span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>    <span class="n">result</span> <span class="o">=</span> <span class="n">duplicate_course</span><span class="p">(</span><span class="n">ms</span><span class="o">.</span><span class="n">session</span><span class="p">,</span> <span class="n">ms</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="n">course_id</span><span class="p">,</span> <span class="n">new_name</span><span class="p">,</span> <span class="n">token</span><span class="o">=</span><span class="n">ms</span><span class="o">.</span><span class="n">token</span><span class="p">)</span>
 </span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Duplicated course: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </span></code></pre></div>
+<h3 id="diagnostics-verbose-debug-and-secret-redaction">Diagnostics: <code>--verbose</code>/<code>--debug</code> and secret redaction<a class="headerlink" href="#diagnostics-verbose-debug-and-secret-redaction" title="Permanent link">&para;</a></h3>
+<p>The root CLI callback (<code>src/py_moodle/cli/app.py</code>) configures the shared
+<code>py_moodle</code> logger via <code>py_moodle.cli.output.configure_logging()</code> based on
+the <code>--verbose</code>/<code>--debug</code> flags:</p>
+<ul>
+<li>Neither flag: the logger stays at <code>WARNING</code> (silent for diagnostics).</li>
+<li><code>--verbose</code>/<code>-v</code>: the logger is raised to <code>INFO</code>, which enables high-level
+  milestone messages (e.g. "Logging in to ...", "Login completed: ...").</li>
+<li><code>--debug</code>: the logger is raised to <code>DEBUG</code>, which additionally enables
+  HTTP-level tracing from <code>src/py_moodle/auth.py</code> (requests, status codes,
+  response URLs).</li>
+</ul>
+<p>All diagnostic output is written to stderr (never stdout), so it never mixes
+with the machine-readable payload of <code>--output json</code>/<code>csv</code>.</p>
+<p>When extending <code>auth.py</code>'s login/CAS diagnostics, or any other code path that
+might log a secret-bearing value:</p>
+<ul>
+<li>Never log a token, sesskey, password, or cookie value directly. Use the
+  <code>_REDACTED</code> placeholder instead (see the existing <code>sesskey obtained: %s</code>
+  and <code>webservice_token obtained: %s</code> call sites).</li>
+<li>URLs and headers can carry secrets too (e.g. a CAS <code>ticket=</code> query
+  parameter, or a <code>Set-Cookie</code> header). Route them through the
+  <code>_redact_url()</code>/<code>_redact_headers()</code> helpers in <code>auth.py</code> before logging.</li>
+<li>Avoid logging raw HTTP response bodies. Moodle pages routinely embed the
+  current user's <code>sesskey</code> inline (e.g. <code>M.cfg.sesskey = "..."</code>), so even a
+  short preview of response text can leak it.</li>
+<li>Add or update a unit test in <code>tests/unit/test_cli_output_formats.py</code> that
+  plants a fake secret value and asserts (via <code>caplog</code>) that it never
+  appears in the logged output, only a redacted placeholder.</li>
+</ul>
 <h2 id="documentation">Documentation<a class="headerlink" href="#documentation" title="Permanent link">&para;</a></h2>
 <h3 id="building-documentation">Building Documentation<a class="headerlink" href="#building-documentation" title="Permanent link">&para;</a></h3>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Build documentation</span>

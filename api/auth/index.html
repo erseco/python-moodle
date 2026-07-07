@@ -1946,7 +1946,7 @@
   </span>
 
 <a href="#py_moodle.auth.logger" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">logger</span> <span class="o">=</span> <span class="n"><span title="logging">logging</span></span><span class="o">.</span><span class="n"><span title="logging.getLogger">getLogger</span></span><span class="p">(</span><span class="s1">&#39;py_moodle.auth&#39;</span><span class="p">)</span>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">logger</span> <span class="o">=</span> <span class="n"><span title="logging">logging</span></span><span class="o">.</span><span class="n"><span title="logging.getLogger">getLogger</span></span><span class="p">(</span><span class="n"><span title="__name__">__name__</span></span><span class="p">)</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
@@ -2138,7 +2138,17 @@
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Enable verbose debugging output.</p>
+                <p>Retained for backward compatibility with earlier releases
+that printed directly to stdout when this flag was set. All
+diagnostics now go through the stdlib <code>logging</code> module
+(see the module-level <code>logger</code>), so visibility is
+controlled by the caller's logging configuration instead of
+this flag: the <code>py-moodle</code> CLI's <code>--verbose</code>/<code>--debug</code>
+options configure it automatically (see
+:func:<code>py_moodle.cli.output.configure_logging</code>); direct
+(non-CLI) callers should call
+<code>logging.basicConfig(level=logging.DEBUG)</code> (or configure a
+handler on the <code>"py_moodle"</code> logger) to see this output.</p>
               </div>
             </td>
             <td>
@@ -2834,7 +2844,10 @@
             </td>
             <td>
               <div class="doc-md-description">
-                <p>If True, log debug information via <code>logging.getLogger("py_moodle.auth")</code>.</p>
+                <p>Retained for backward compatibility; see :class:<code>MoodleAuth</code>
+for how diagnostic visibility is now controlled via the stdlib
+<code>logging</code> module instead. The <code>sesskey</code> value is never
+logged, and response bodies are not dumped verbatim.</p>
               </div>
             </td>
             <td>
@@ -3035,7 +3048,8 @@
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Enable verbose debugging output.</p>
+                <p>See :class:<code>MoodleAuth</code>; a convenience for direct (non-CLI)
+library use.</p>
               </div>
             </td>
             <td>

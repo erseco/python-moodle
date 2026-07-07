@@ -3176,6 +3176,10 @@
 <p><strong>Options</strong>:</p>
 <ul>
 <li><code>-e, --env TEXT</code>: Environment to use: local | staging | prod (also respects MOODLE_ENV)  [default: local]</li>
+<li><code>-q, --quiet</code>: Suppress incidental status output (banners, progress/confirmation messages). The command&#x27;s primary result and any errors are still shown.</li>
+<li><code>--no-color</code>: Disable ANSI colors in table output. The NO_COLOR environment variable is also respected.</li>
+<li><code>-v, --verbose</code>: Enable verbose (INFO-level) diagnostics on stderr.</li>
+<li><code>--debug</code>: Enable debug-level diagnostics on stderr, including HTTP tracing from the authentication layer. Secret values are redacted.</li>
 <li><code>--install-completion</code>: Install completion for the current shell.</li>
 <li><code>--show-completion</code>: Show completion for the current shell, to copy it or customize the installation.</li>
 <li><code>--help</code>: Show this message and exit.</li>
@@ -3219,7 +3223,7 @@
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
-<li><code>--output [table|json|yaml]</code>: Output format: table, json, or yaml.  [default: table]</li>
+<li><code>--output [table|json|yaml|csv]</code>: Output format: table, json, yaml, or csv.  [default: table]</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h3 id="py-moodle-courses-show"><code>py-moodle courses show</code><a class="headerlink" href="#py-moodle-courses-show" title="Permanent link">&para;</a></h3>
@@ -3233,7 +3237,7 @@
 </ul>
 <p><strong>Options</strong>:</p>
 <ul>
-<li><code>--output [table|json|yaml]</code>: Output format: table, json, or yaml.  [default: table]</li>
+<li><code>--output [table|json|yaml|csv]</code>: Output format: table, json, yaml, or csv.  [default: table]</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h3 id="py-moodle-courses-create"><code>py-moodle courses create</code><a class="headerlink" href="#py-moodle-courses-create" title="Permanent link">&para;</a></h3>
@@ -3248,7 +3252,7 @@
 <li><code>--categoryid INTEGER</code>: Category ID for the new course.  [default: 1]</li>
 <li><code>--visible INTEGER</code>: 1 for visible, 0 for hidden.  [default: 1]</li>
 <li><code>--summary TEXT</code>: Course summary.</li>
-<li><code>--output [table|json|yaml]</code>: Output format: table, json, or yaml.  [default: table]</li>
+<li><code>--output [table|json|yaml|csv]</code>: Output format: table, json, or yaml.  [default: table]</li>
 <li><code>--dry-run</code>: Preview the course that would be created without calling Moodle.</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
@@ -3263,7 +3267,7 @@
 <li><code>--fullname TEXT</code>: Desired full name of the course.  [required]</li>
 <li><code>--category-id INTEGER</code>: Desired category ID.  [required]</li>
 <li><code>--update / --no-update</code>: Update fullname/category if the course already exists.  [default: no-update]</li>
-<li><code>--output [table|json|yaml]</code>: Output format: table, json, or yaml.  [default: table]</li>
+<li><code>--output [table|json|yaml|csv]</code>: Output format: table, json, or yaml.  [default: table]</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h3 id="py-moodle-courses-delete"><code>py-moodle courses delete</code><a class="headerlink" href="#py-moodle-courses-delete" title="Permanent link">&para;</a></h3>
@@ -3278,7 +3282,7 @@
 <p><strong>Options</strong>:</p>
 <ul>
 <li><code>--force</code>: Delete without asking for confirmation.</li>
-<li><code>--output [table|json|yaml]</code>: Output format: table, json, or yaml.  [default: table]</li>
+<li><code>--output [table|json|yaml|csv]</code>: Output format: table, json, or yaml.  [default: table]</li>
 <li><code>--dry-run</code>: Preview the deletion without calling Moodle or prompting for confirmation.</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
@@ -3304,7 +3308,7 @@
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
-<li><code>--output [table|json|yaml]</code>: Output format: table, json, or yaml.  [default: table]</li>
+<li><code>--output [table|json|yaml|csv]</code>: Output format: table, json, yaml, or csv.  [default: table]</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h3 id="py-moodle-categories-create"><code>py-moodle categories create</code><a class="headerlink" href="#py-moodle-categories-create" title="Permanent link">&para;</a></h3>
@@ -3358,7 +3362,7 @@ This operation uses a session key (sesskey).</p>
 <p><strong>Options</strong>:</p>
 <ul>
 <li><code>--course-id INTEGER</code>: ID of the course to list sections from.  [required]</li>
-<li><code>--output [table|json|yaml]</code>: Output format: table, json, or yaml.  [default: table]</li>
+<li><code>--output [table|json|yaml|csv]</code>: Output format: table, json, yaml, or csv.  [default: table]</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h3 id="py-moodle-sections-show"><code>py-moodle sections show</code><a class="headerlink" href="#py-moodle-sections-show" title="Permanent link">&para;</a></h3>
@@ -3373,7 +3377,7 @@ This operation uses a session key (sesskey).</p>
 <p><strong>Options</strong>:</p>
 <ul>
 <li><code>--course-id INTEGER</code>: ID of the course the section belongs to.  [required]</li>
-<li><code>--output [table|json|yaml]</code>: Output format: table, json, or yaml.  [default: table]</li>
+<li><code>--output [table|json|yaml|csv]</code>: Output format: table, json, yaml, or csv.  [default: table]</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h3 id="py-moodle-sections-create"><code>py-moodle sections create</code><a class="headerlink" href="#py-moodle-sections-create" title="Permanent link">&para;</a></h3>
@@ -3442,7 +3446,7 @@ This uses the centralized delete function from the library.</p>
 </ul>
 <p><strong>Options</strong>:</p>
 <ul>
-<li><code>--output [table|json|yaml]</code>: Output format: table, json, or yaml.  [default: table]</li>
+<li><code>--output [table|json|yaml|csv]</code>: Output format: table, json, or yaml.  [default: table]</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h3 id="py-moodle-modules-list-types"><code>py-moodle modules list-types</code><a class="headerlink" href="#py-moodle-modules-list-types" title="Permanent link">&para;</a></h3>
@@ -3453,7 +3457,7 @@ This uses the centralized delete function from the library.</p>
 <p><strong>Options</strong>:</p>
 <ul>
 <li><code>--course-id INTEGER</code>: Course ID to check available modules for. Defaults to 1.  [default: 1]</li>
-<li><code>--output [table|json|yaml]</code>: Output format: table, json, or yaml.  [default: table]</li>
+<li><code>--output [table|json|yaml|csv]</code>: Output format: table, json, or yaml.  [default: table]</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h3 id="py-moodle-modules-add"><code>py-moodle modules add</code><a class="headerlink" href="#py-moodle-modules-add" title="Permanent link">&para;</a></h3>
@@ -3496,7 +3500,7 @@ This uses the centralized delete function from the library.</p>
 <li><code>--name TEXT</code>: Name of the SCORM package.  [required]</li>
 <li><code>--file FILENAME</code>: Path to the SCORM package .zip file.  [required]</li>
 <li><code>--intro TEXT</code>: Introduction or description for the SCORM.</li>
-<li><code>--output [table|json|yaml]</code>: Output format: table, json, or yaml.  [default: table]</li>
+<li><code>--output [table|json|yaml|csv]</code>: Output format: table, json, or yaml.  [default: table]</li>
 <li><code>--dry-run</code>: Preview the SCORM package that would be added without uploading it.</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
@@ -3580,7 +3584,7 @@ This uses the centralized delete function from the library.</p>
 <p><strong>Options</strong>:</p>
 <ul>
 <li><code>--course-id INTEGER</code>: ID of the course to list users from.  [required]</li>
-<li><code>--output [table|json|yaml]</code>: Output format: table, json, or yaml.  [default: table]</li>
+<li><code>--output [table|json|yaml|csv]</code>: Output format: table, json, yaml, or csv.  [default: table]</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h3 id="py-moodle-users-create"><code>py-moodle users create</code><a class="headerlink" href="#py-moodle-users-create" title="Permanent link">&para;</a></h3>
@@ -3898,7 +3902,7 @@ This uses the centralized delete function from the library.</p>
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
-<li><code>-o, --output [table|json|yaml]</code>: Output format.  [default: table]</li>
+<li><code>-o, --output [table|json|yaml|csv]</code>: Output format.  [default: table]</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 
