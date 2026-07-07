@@ -108,6 +108,7 @@ nav:
       - Session: api/session.md
       - Settings: api/settings.md
       - Auth: api/auth.md
+      - Models: api/models.md
     - Course Management:
       - Course: api/course.md
       - Category: api/category.md
