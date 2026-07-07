@@ -1,6 +1,7 @@
 import logging
 import os
 import tempfile
+import time
 import uuid
 from contextlib import contextmanager
 from dataclasses import dataclass
@@ -163,6 +164,47 @@ def pytest_collection_modifyitems(config, items):
         item.add_marker(pytest.mark.integration)
         if not run_integration:
             item.add_marker(skip_integration)
+
+
+#: Retry budget for the per-session login warmup (attempts x delay seconds).
+_LOGIN_WARMUP_ATTEMPTS = 6
+_LOGIN_WARMUP_DELAY_SECONDS = 5
+
+
+@pytest.fixture(scope="session", autouse=True)
+def _warm_up_moodle_login(request):
+    """Warm up Moodle login once per session to absorb the post-boot race.
+
+    Immediately after a freshly-started Moodle container begins serving its
+    login page, the first login attempt intermittently fails with
+    "invalid username or password" while Moodle finishes initializing
+    (caches, sessions). This surfaced as flaky ``LoginError`` failures in
+    the integration suite, on whichever test a ``pytest-xdist`` worker
+    happened to run first. Perform a retrying warmup login once per session
+    (i.e. once per xdist worker) so the per-test logins that follow are
+    reliable; a successful warmup means the Moodle server is warm for every
+    subsequent (new-session) login.
+
+    No-op unless integration tests are actually running.
+    """
+    if not request.config.getoption("--integration"):
+        return
+    target = request.config.moodle_target
+    from py_moodle.auth import LoginError, login
+
+    last_error = None
+    for attempt in range(1, _LOGIN_WARMUP_ATTEMPTS + 1):
+        try:
+            login(url=target.url, username=target.username, password=target.password)
+            return
+        except LoginError as error:
+            last_error = error
+            if attempt < _LOGIN_WARMUP_ATTEMPTS:
+                time.sleep(_LOGIN_WARMUP_DELAY_SECONDS)
+    pytest.exit(
+        f"Moodle at '{target.name}' never accepted login after "
+        f"{_LOGIN_WARMUP_ATTEMPTS} warmup attempts: {last_error}"
+    )
 
 
 @pytest.fixture(scope="function")
