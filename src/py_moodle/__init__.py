@@ -11,6 +11,7 @@ try:
 except PackageNotFoundError:
     __version__ = "0.0.0"
 
+from .client import MoodleClient
 from .models import (
     Assignment,
     Course,
@@ -32,6 +33,7 @@ __all__ = [
     "load_settings",
     "MoodleSession",
     "MoodleSessionError",
+    "MoodleClient",
     "ModelValidationError",
     "Course",
     "CourseSection",
