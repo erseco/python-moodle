@@ -68,6 +68,11 @@ py-moodle courses list
 -   **Session-based**: Works with standard Moodle web sessions, avoiding the need for web service tokens.
 -   **Authentication**: Supports standard Moodle login and SSO/CAS authentication.
 -   **Dual Use**: Can be used as a powerful CLI or imported as a library into your own Python projects.
+-   **High-level `MoodleClient` facade**: A discoverable, object-oriented API (`moodle.courses.list()`, `moodle.scorm.add(...)`) over the function-based library, plus opt-in typed domain models (`Course`, `User`, `Folder`, ...) for IDE autocompletion.
+-   **Diagnostics**: `py-moodle doctor run` checks base URL reachability, login, sesskey/webservice token availability, and more in one command.
+-   **Idempotent automation**: `courses ensure` creates a course only if it doesn't already exist, safe to run repeatedly in CI/onboarding scripts.
+-   **Safe previews**: `--dry-run` on `courses create`, `courses delete`, and `modules add scorm` shows the planned action without touching Moodle.
+-   **Scripting-friendly output**: `--output table|json|yaml|csv`, plus `--quiet`, `--no-color`, `--verbose`, and `--debug` (with automatic secret redaction) for CI pipelines and shell automation.
 -   **Extensible**: Designed to be easily extended with new modules and commands. See `AGENTS.md`.
 -   **English-only codebase**: For clear, global collaboration.
 
@@ -207,6 +212,24 @@ for course in courses:
     print(course["id"], course["fullname"])
 ```
 
+### The `MoodleClient` Facade
+
+For scripts that call more than one or two functions, `MoodleClient` collapses
+the `session`/`base_url`/`token`/`sesskey` boilerplate into a single object,
+with a discoverable `moodle.courses` / `moodle.sections` / `moodle.scorm` /
+... API:
+
+```python
+from py_moodle import MoodleClient
+
+with MoodleClient.from_env("prod") as moodle:
+    courses = moodle.courses.list()
+    course = moodle.courses.create(fullname="My course", shortname="my-course")
+    moodle.scorm.add(course_id=course["id"], section_id=1, path="package.zip")
+```
+
+See the [Client API Reference](https://erseco.github.io/python-moodle/api/client/)
+for the full list of resource namespaces.
 
 ### How the Example Script Works
 
