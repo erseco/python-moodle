@@ -5,12 +5,72 @@ Authentication module for Moodle.
 Handles session-based login (including support for CAS) and retrieves the session key required for further AJAX requests.
 """
 
+import logging
 import re
-from typing import Optional
+from typing import Any, Dict, Optional
+from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 import requests
 
 from .compat import DEFAULT_COMPATIBILITY, detect_moodle_compatibility
+
+#: Logger for authentication diagnostics. The CLI configures this logger's
+#: level and stderr handler via ``py_moodle.cli.output.configure_logging``
+#: based on the ``--verbose``/``--debug`` flags, keeping diagnostic output
+#: on stderr, separate from any machine-readable payload on stdout.
+logger = logging.getLogger(__name__)
+
+#: Placeholder used instead of any secret-bearing value in debug logs.
+_REDACTED = "***REDACTED***"
+
+#: Query string parameter names that may carry a secret (webservice token,
+#: session key, password, or single sign-on ticket) and must be redacted
+#: before a URL is logged.
+_SECRET_QUERY_PARAMS = {"token", "wstoken", "sesskey", "password", "ticket"}
+
+#: Header names that may carry session/authentication secrets (cookies,
+#: bearer tokens) and must be redacted before headers are logged.
+_SECRET_HEADER_NAMES = {"set-cookie", "cookie", "authorization"}
+
+
+def _redact_url(url: Optional[str]) -> Optional[str]:
+    """Redact secret-bearing query parameters from a URL before logging.
+
+    Args:
+        url: The URL to sanitize, or ``None``.
+
+    Returns:
+        The URL with any secret-bearing query parameter value (token,
+        wstoken, sesskey, password, ticket) replaced by a redacted
+        placeholder. Returns the input unchanged when it has no query
+        string, and ``None`` when ``url`` is ``None``.
+    """
+    if not url or "?" not in url:
+        return url
+    parsed = urlsplit(url)
+    query_pairs = parse_qsl(parsed.query, keep_blank_values=True)
+    redacted_pairs = [
+        (key, _REDACTED if key.lower() in _SECRET_QUERY_PARAMS else value)
+        for key, value in query_pairs
+    ]
+    redacted_query = urlencode(redacted_pairs)
+    return urlunsplit(parsed._replace(query=redacted_query))
+
+
+def _redact_headers(headers: Any) -> Dict[str, Any]:
+    """Return a copy of response/request headers with secrets redacted.
+
+    Args:
+        headers: A mapping of header name to value.
+
+    Returns:
+        dict: A new dict with sensitive header values (cookies,
+        authorization) replaced by a redacted placeholder.
+    """
+    return {
+        key: (_REDACTED if key.lower() in _SECRET_HEADER_NAMES else value)
+        for key, value in dict(headers).items()
+    }
 
 
 class LoginError(Exception):
@@ -39,7 +99,17 @@ class MoodleAuth:
             use_cas: Whether to use CAS authentication.
             cas_url: URL of the CAS server (if ``use_cas`` is ``True``).
             pre_configured_token: Pre-created webservice token, if available.
-            debug: Enable verbose debugging output.
+            debug: Retained for backward compatibility with earlier releases
+                that printed directly to stdout when this flag was set. All
+                diagnostics now go through the stdlib ``logging`` module
+                (see the module-level ``logger``), so visibility is
+                controlled by the caller's logging configuration instead of
+                this flag: the ``py-moodle`` CLI's ``--verbose``/``--debug``
+                options configure it automatically (see
+                :func:`py_moodle.cli.output.configure_logging`); direct
+                (non-CLI) callers should call
+                ``logging.basicConfig(level=logging.DEBUG)`` (or configure a
+                handler on the ``"py_moodle"`` logger) to see this output.
         """
         self.base_url = base_url.rstrip("/")
         self.username = username
@@ -63,10 +133,19 @@ class MoodleAuth:
         Raises:
             LoginError: If authentication fails.
         """
-        if self.debug:
-            print(
-                f"[DEBUG] Login: base_url={self.base_url} username={self.username} use_cas={self.use_cas} cas_url={self.cas_url}"
-            )
+        logger.info(
+            "Logging in to %s (username=%s, use_cas=%s)",
+            self.base_url,
+            self.username,
+            self.use_cas,
+        )
+        logger.debug(
+            "Login: base_url=%s username=%s use_cas=%s cas_url=%s",
+            self.base_url,
+            self.username,
+            self.use_cas,
+            self.cas_url,
+        )
         if self.use_cas and self.cas_url:
             self._cas_login()
         else:
@@ -74,43 +153,44 @@ class MoodleAuth:
         # Try to get the sesskey, but don't fail if it's not possible (for pure AJAX)
         try:
             self.sesskey = self._get_sesskey()
-            if self.debug:
-                print(f"[DEBUG] sesskey obtained: {self.sesskey}")
+            logger.debug("sesskey obtained: %s", _REDACTED if self.sesskey else None)
         except Exception as e:
-            if self.debug:
-                print(f"[DEBUG] Could not obtain sesskey: {e}")
+            logger.debug("Could not obtain sesskey: %s", e)
             self.sesskey = None
         # Try to get webservice token
         try:
             self.webservice_token = self._get_webservice_token()
-            if self.debug:
-                print(f"[DEBUG] webservice_token obtained: {self.webservice_token}")
+            logger.debug(
+                "webservice_token obtained: %s",
+                _REDACTED if self.webservice_token else None,
+            )
         except Exception as e:
-            if self.debug:
-                print(f"[DEBUG] Could not obtain webservice token: {e}")
+            logger.debug("Could not obtain webservice token: %s", e)
             self.webservice_token = None
         compatibility_context = detect_moodle_compatibility(
             self.session, self.base_url, token=self.webservice_token
         )
         self.compatibility = compatibility_context.strategy
         self.moodle_version = compatibility_context.version
-        if self.debug:
-            print(
-                "[DEBUG] Moodle compatibility:"
-                f" version={self.moodle_version.raw}"
-                f" source={self.moodle_version.source}"
-                f" strategy={self.compatibility.version_range}"
-            )
+        logger.debug(
+            "Moodle compatibility: version=%s source=%s strategy=%s",
+            self.moodle_version.raw,
+            self.moodle_version.source,
+            self.compatibility.version_range,
+        )
+        logger.info(
+            "Login completed: sesskey=%s webservice_token=%s",
+            "yes" if self.sesskey else "no",
+            "yes" if self.webservice_token else "no",
+        )
         return self.session
 
     def _standard_login(self):
         """Perform standard Moodle login and set session cookies."""
         login_url = f"{self.base_url}/login/index.php"
-        if self.debug:
-            print(f"[DEBUG] GET {login_url}")
+        logger.debug("GET %s", login_url)
         resp = self.session.get(login_url)
-        if self.debug:
-            print(f"[DEBUG] Response {resp.status_code} {resp.url}")
+        logger.debug("Response %s %s", resp.status_code, _redact_url(resp.url))
         logintoken = self.compatibility.extract_login_token(resp.text)
 
         payload = {
@@ -119,13 +199,11 @@ class MoodleAuth:
             "logintoken": logintoken,
             "anchor": "",
         }
-        if self.debug:
-            # Avoid logging sensitive information such as passwords.
-            # Log only non-sensitive fields for debugging.
-            print(f"[DEBUG] POST {login_url} with username={self.username}")
+        # Avoid logging sensitive information such as passwords.
+        # Log only non-sensitive fields for debugging.
+        logger.debug("POST %s with username=%s", login_url, self.username)
         resp = self.session.post(login_url, data=payload, allow_redirects=True)
-        if self.debug:
-            print(f"[DEBUG] Response {resp.status_code} {resp.url}")
+        logger.debug("Response %s %s", resp.status_code, _redact_url(resp.url))
         # Authentication failed if redirected back to login page
         if "/login/index.php" in resp.url or "Invalid login" in resp.text:
             raise LoginError(
@@ -144,12 +222,10 @@ class MoodleAuth:
         from urllib.parse import quote
 
         cas_login_url = f"{self.cas_url.rstrip('/')}/login?service={quote(service_url)}"
-        if self.debug:
-            print(f"[DEBUG] GET {cas_login_url}")
+        logger.debug("GET %s", cas_login_url)
         resp = self.session.get(cas_login_url)
-        if self.debug:
-            print(f"[DEBUG] Response {resp.status_code} {resp.url}")
-            print(f"[DEBUG] Response text (first 500 chars): {resp.text[:500]}")
+        logger.debug("Response %s %s", resp.status_code, _redact_url(resp.url))
+        logger.debug("Response length: %d bytes", len(resp.text))
         if resp.status_code != 200:
             raise LoginError(f"Failed to load CAS login page: {resp.status_code}")
         # Try to match both single and double quotes for value
@@ -162,12 +238,10 @@ class MoodleAuth:
                 r'execution[\'"]?\s*value=["\']([^"\']+)["\']', resp.text
             )
         if not cas_id_match:
-            if self.debug:
-                print("[DEBUG] Could not find execution value in CAS login page.")
+            logger.debug("Could not find execution value in CAS login page.")
             raise LoginError("CAS login ticket not found (no execution value).")
         cas_id = cas_id_match.group(1)
-        if self.debug:
-            print(f"[DEBUG] CAS execution value: {cas_id}")
+        logger.debug("CAS execution value: %s", cas_id)
 
         # Step 2: Submit login form with username, password, execution
         payload = {
@@ -176,44 +250,37 @@ class MoodleAuth:
             "execution": cas_id,
             "_eventId": "submit",
         }
-        if self.debug:
-            redacted_payload = {
-                "username": self.username,
-                "password": "***REDACTED***",
-                "execution": cas_id,
-                "_eventId": "submit",
-            }
-            print(f"[DEBUG] POST {cas_login_url} payload={redacted_payload}")
+        redacted_payload = {
+            "username": self.username,
+            "password": _REDACTED,
+            "execution": cas_id,
+            "_eventId": "submit",
+        }
+        logger.debug("POST %s payload=%s", cas_login_url, redacted_payload)
         # Keep session cookies in self.session
         resp = self.session.post(cas_login_url, data=payload, allow_redirects=False)
-        if self.debug:
-            print(f"[DEBUG] Response {resp.status_code} {resp.url}")
-            print(f"[DEBUG] Response headers: {resp.headers}")
+        logger.debug("Response %s %s", resp.status_code, _redact_url(resp.url))
+        logger.debug("Response headers: %s", _redact_headers(resp.headers))
         if resp.status_code not in (302, 303):
             raise LoginError(
                 f"CAS login POST did not redirect. Status: {resp.status_code}"
             )
         location = resp.headers.get("Location")
         if not location:
-            if self.debug:
-                print("[DEBUG] No Location header after CAS POST.")
+            logger.debug("No Location header after CAS POST.")
             raise LoginError("CAS login failed. No redirect to service with ticket.")
-        if self.debug:
-            print(f"[DEBUG] Following redirect to {location}")
+        logger.debug("Following redirect to %s", _redact_url(location))
         # Step 3: Follow redirect to Moodle with CAS ticket (keeping cookies)
         resp2 = self.session.get(location, allow_redirects=True)
-        if self.debug:
-            print(f"[DEBUG] Response {resp2.status_code} {resp2.url}")
+        logger.debug("Response %s %s", resp2.status_code, _redact_url(resp2.url))
         # Optionally, check if login was successful
         dashboard_url = f"{self.base_url}/my/"
-        if self.debug:
-            print(f"[DEBUG] GET {dashboard_url}")
+        logger.debug("GET %s", dashboard_url)
         resp3 = self.session.get(dashboard_url)
-        if self.debug:
-            print(f"[DEBUG] Dashboard response {resp3.status_code} {resp3.url}")
-            print(
-                f"[DEBUG] Dashboard response text (first 500 chars): {resp3.text[:500]}"
-            )
+        logger.debug(
+            "Dashboard response %s %s", resp3.status_code, _redact_url(resp3.url)
+        )
+        logger.debug("Dashboard response length: %d bytes", len(resp3.text))
         # Relaxed check: if we get a 200 and the page is not the login form, consider it successful
         if resp3.status_code != 200:
             raise LoginError("CAS login failed: dashboard did not return HTTP 200.")
@@ -256,8 +323,7 @@ class MoodleAuth:
 
         # Prefer a pre-configured token when provided.
         if self.pre_configured_token:
-            if self.debug:
-                print("[DEBUG] Using pre-configured webservice token.")
+            logger.debug("Using pre-configured webservice token.")
             return self.pre_configured_token
 
         # This will only work if the user has a valid webservice enabled for 'moodle_mobile_app'
@@ -293,7 +359,10 @@ def enable_webservice(
         base_url: The base URL of the Moodle instance.
         sesskey: The session key for form submissions.
         service_id: The ID of the webservice to enable (default is 1 for 'Moodle mobile web service').
-        debug: If True, print debug information.
+        debug: Retained for backward compatibility; see :class:`MoodleAuth`
+            for how diagnostic visibility is now controlled via the stdlib
+            ``logging`` module instead. The ``sesskey`` value is never
+            logged, and response bodies are not dumped verbatim.
 
     Returns:
         True if the operation seems successful.
@@ -313,12 +382,9 @@ def enable_webservice(
     }
     resp = session.post(url, data=data)
 
-    if debug:
-        print(f"[DEBUG] POST {url} -> {resp.status_code}")
-        if resp.status_code != 200:
-            print(f"[DEBUG] Response text (first 500 chars): {resp.text[:500]}")
-
-    # print(resp.text)
+    logger.debug("POST %s -> %s", url, resp.status_code)
+    if resp.status_code != 200:
+        logger.debug("Response length: %d bytes", len(resp.text))
 
     if resp.status_code != 200:
         raise LoginError(
@@ -347,7 +413,8 @@ def login(
         use_cas: Whether to use CAS authentication.
         cas_url: URL of the CAS server.
         pre_configured_token: Optional pre-created webservice token.
-        debug: Enable verbose debugging output.
+        debug: See :class:`MoodleAuth`; a convenience for direct (non-CLI)
+            library use.
 
     Returns:
         An authenticated ``requests.Session`` instance.

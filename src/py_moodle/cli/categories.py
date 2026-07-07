@@ -1,7 +1,6 @@
 """Category management commands for ``py-moodle``."""
 
 import typer
-from rich.console import Console
 from rich.table import Table
 
 from py_moodle.category import (
@@ -10,10 +9,18 @@ from py_moodle.category import (
     delete_category,
     list_categories,
 )
-from py_moodle.cli.output import OutputFormat, emit
+from py_moodle.cli.output import OutputFormat, emit, get_console
 from py_moodle.session import MoodleSession
 
 app = typer.Typer(help="Manage course categories: list, create, delete.")
+
+# CSV column definitions mirroring the fields shown by _render_table below.
+_LIST_CSV_FIELDS = [
+    ("ID", "id"),
+    ("Name", "name"),
+    ("Parent ID", "parent"),
+    ("Course Count", "coursecount"),
+]
 
 
 @app.callback(invoke_without_command=True)
@@ -30,7 +37,9 @@ def main(ctx: typer.Context):
 def list_all_categories(
     ctx: typer.Context,
     output: OutputFormat = typer.Option(
-        OutputFormat.TABLE, "--output", help="Output format: table, json, or yaml."
+        OutputFormat.TABLE,
+        "--output",
+        help="Output format: table, json, yaml, or csv.",
     ),
 ):
     """
@@ -57,9 +66,9 @@ def list_all_categories(
                     str(category.get("parent", "")),
                     str(category.get("coursecount", "")),
                 )
-            Console().print(table)
+            get_console(ctx).print(table)
 
-        emit(categories, output, table_fn=_render_table)
+        emit(categories, output, table_fn=_render_table, csv_fields=_LIST_CSV_FIELDS)
     except MoodleCategoryError as e:
         typer.echo(f"Error listing categories: {e}", err=True)
         raise typer.Exit(1)
@@ -92,9 +101,10 @@ def create_new_category(
             name=name,
             parent=parent_id,
         )
-        typer.echo(
-            f"Category '{new_category['name']}' created successfully. New category ID: {new_category['id']}"
-        )
+        if not ctx.obj.get("quiet"):
+            typer.echo(
+                f"Category '{new_category['name']}' created successfully. New category ID: {new_category['id']}"
+            )
     except (MoodleCategoryError, ValueError) as e:
         typer.echo(f"Error creating category: {e}", err=True)
         raise typer.Exit(1)
@@ -135,7 +145,8 @@ def delete_a_category(
             categoryid=category_id,
         )
         if deleted:
-            typer.echo(f"Category {category_id} deleted successfully.")
+            if not ctx.obj.get("quiet"):
+                typer.echo(f"Category {category_id} deleted successfully.")
         else:
             # This case might not be reached if an exception is thrown, but it's good practice.
             typer.echo(

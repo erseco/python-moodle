@@ -1,10 +1,11 @@
 """Course-related commands for ``py-moodle``."""
 
+from functools import partial
+
 import typer
-from rich.console import Console
 from rich.table import Table
 
-from py_moodle.cli.output import OutputFormat, emit
+from py_moodle.cli.output import OutputFormat, emit, get_console
 from py_moodle.course import (
     MoodleCourseError,
     create_course,
@@ -16,6 +17,15 @@ from py_moodle.session import MoodleSession
 
 # Create a Typer "sub-app" for course commands
 app = typer.Typer(help="Manage courses: list, show, create, delete.")
+
+# CSV column definitions mirroring the fields shown by _render_table below.
+_LIST_CSV_FIELDS = [
+    ("ID", "id"),
+    ("Shortname", "shortname"),
+    ("Fullname", "fullname"),
+    ("Category", "categoryid"),
+    ("Visible", "visible"),
+]
 
 
 @app.callback(invoke_without_command=True)
@@ -32,7 +42,9 @@ def main(ctx: typer.Context):
 def list_all_courses(
     ctx: typer.Context,
     output: OutputFormat = typer.Option(
-        OutputFormat.TABLE, "--output", help="Output format: table, json, or yaml."
+        OutputFormat.TABLE,
+        "--output",
+        help="Output format: table, json, yaml, or csv.",
     ),
 ):
     """
@@ -53,14 +65,14 @@ def list_all_courses(
                 str(course.get("categoryid", "")),
                 str(course.get("visible", "")),
             )
-        Console().print(table)
+        get_console(ctx).print(table)
 
-    emit(courses, output, table_fn=_render_table)
+    emit(courses, output, table_fn=_render_table, csv_fields=_LIST_CSV_FIELDS)
 
 
-def _print_course_summary_table(course_data: dict):
+def _print_course_summary_table(ctx: typer.Context, course_data: dict):
     """Prints a rich summary table of the course contents."""
-    console = Console()
+    console = get_console(ctx)
 
     # Print main course info
     console.print(
@@ -99,7 +111,9 @@ def show_course(
     ctx: typer.Context,
     course_id: int = typer.Argument(..., help="ID of the course to show."),
     output: OutputFormat = typer.Option(
-        OutputFormat.TABLE, "--output", help="Output format: table, json, or yaml."
+        OutputFormat.TABLE,
+        "--output",
+        help="Output format: table, json, yaml, or csv.",
     ),
 ):
     """
@@ -112,7 +126,11 @@ def show_course(
             ms.session, ms.settings.url, ms.sesskey, course_id, token=ms.token
         )
 
-        emit(course_data, output, table_fn=_print_course_summary_table)
+        emit(
+            course_data,
+            output,
+            table_fn=partial(_print_course_summary_table, ctx),
+        )
 
     except MoodleCourseError as e:
         typer.echo(f"Error getting course details: {e}", err=True)
@@ -149,9 +167,10 @@ def create_new_course(
             visible,
             summary,
         )
-        typer.echo(
-            f"Course created: {course['id']} - {course['fullname']} ({course['shortname']})"
-        )
+        if not ctx.obj.get("quiet"):
+            typer.echo(
+                f"Course created: {course['id']} - {course['fullname']} ({course['shortname']})"
+            )
     except Exception as e:
         if "shortname" in str(e).lower() and "use" in str(e).lower():
             typer.echo(
@@ -178,7 +197,8 @@ def delete_a_course(
     ms = MoodleSession.get(ctx.obj["env"])
     try:
         delete_course(ms.session, ms.settings.url, ms.sesskey, course_id, force=force)
-        typer.echo(f"Course {course_id} deleted successfully.")
+        if not ctx.obj.get("quiet"):
+            typer.echo(f"Course {course_id} deleted successfully.")
     except Exception as e:
         typer.echo(f"Error deleting course: {e}", err=True)
         raise typer.Exit(1)
