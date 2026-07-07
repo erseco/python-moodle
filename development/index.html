@@ -1814,10 +1814,71 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#test-layers" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Test Layers
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#running-tests" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
         Running Tests
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#shared-course-creation-fixtures" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Shared Course-Creation Fixtures
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Shared Course-Creation Fixtures">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-course-creation-is-serialized" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Why course creation is serialized
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#html-fixture-regression-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        HTML-Fixture Regression Tests
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ci-expectations" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        CI Expectations
       </span>
     </span>
   </a>
@@ -2286,10 +2347,71 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#test-layers" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Test Layers
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#running-tests" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
         Running Tests
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#shared-course-creation-fixtures" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Shared Course-Creation Fixtures
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Shared Course-Creation Fixtures">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-course-creation-is-serialized" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Why course creation is serialized
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#html-fixture-regression-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        HTML-Fixture Regression Tests
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ci-expectations" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        CI Expectations
       </span>
     </span>
   </a>
@@ -2665,19 +2787,94 @@ fallback logic itself; migrating the remaining webservice/AJAX call sites
 <code>draftfile.py</code>) onto the same transport modules is tracked as follow-up
 work.</p>
 <h2 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">&para;</a></h2>
+<h3 id="test-layers">Test Layers<a class="headerlink" href="#test-layers" title="Permanent link">&para;</a></h3>
+<p>The suite is split into two clearly separated layers:</p>
+<ul>
+<li><strong>Unit / smoke tests</strong> live in <code>tests/unit/</code>. They never talk to a Moodle
+  server, run fast, and are the default gate for every change. Anything under
+  <code>tests/unit/</code> runs unconditionally.</li>
+<li><strong>Integration tests</strong> live directly in <code>tests/</code> (the <code>tests/test_*.py</code>
+  modules outside <code>tests/unit/</code>). They require a live Moodle instance and are
+  opt-in: <code>conftest.py</code> automatically marks every test outside <code>tests/unit/</code>
+  with <code>@pytest.mark.integration</code> and <em>skips</em> it unless you pass
+  <code>--integration</code>. When <code>--integration</code> is given, the target Moodle
+  environment is selected with <code>--moodle-env</code> (<code>local</code> | <code>staging</code> | <code>prod</code>)
+  and its reachability is verified before collection.</li>
+</ul>
 <h3 id="running-tests">Running Tests<a class="headerlink" href="#running-tests" title="Permanent link">&para;</a></h3>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Fast smoke tests that do not require Moodle</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>make<span class="w"> </span>test-unit
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>pytest<span class="w"> </span>tests/unit
 </span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1"># Moodle-backed integration tests (opt in)</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1"># Moodle-backed integration tests (opt in; require a live instance)</span>
 </span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>make<span class="w"> </span>test-local
 </span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>make<span class="w"> </span>test-staging
 </span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>pytest<span class="w"> </span>--integration<span class="w"> </span>--moodle-env<span class="w"> </span><span class="nb">local</span><span class="w"> </span>-m<span class="w"> </span>integration<span class="w"> </span>-n<span class="w"> </span>auto
 </span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>
-</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="c1"># Full local workflow (starts Docker, then runs integration tests)</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="c1"># Full local workflow (starts Docker, waits for Moodle, then runs integration tests)</span>
 </span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>make<span class="w"> </span><span class="nb">test</span>
 </span></code></pre></div>
+<p><code>make test-unit</code> maps to <code>pytest tests/unit</code>, and <code>make test-local</code> maps to
+<code>pytest --integration --moodle-env local -m integration -n auto</code> (see the
+<code>Makefile</code>). Integration runs use <code>pytest-xdist</code> (<code>-n auto</code>) to parallelize
+across worker processes.</p>
+<h3 id="shared-course-creation-fixtures">Shared Course-Creation Fixtures<a class="headerlink" href="#shared-course-creation-fixtures" title="Permanent link">&para;</a></h3>
+<p>Many integration modules need a throwaway course to operate on. Instead of
+each module hand-rolling its own creation helper, <code>tests/conftest.py</code> provides
+two shared, session-scoped fixtures (consolidated in
+<a href="https://github.com/erseco/python-moodle/pull/62">#62</a>):</p>
+<ul>
+<li><strong><code>create_temporary_course</code></strong> — returns a factory
+  <code>create_temporary_course(session, base_url, sesskey, *, prefix, **kwargs) -&gt; dict</code>.
+  It builds a highly-unique <code>shortname</code>/<code>fullname</code> from <code>prefix</code> (plus a random
+  suffix), defaults <code>categoryid=1</code> and <code>numsections=1</code>, creates the course
+  <strong>serialized across <code>pytest-xdist</code> workers</strong> (see below), and calls
+  <code>pytest.skip(...)</code> with a clear reason instead of raising if creation fails.
+  Any extra keyword arguments are forwarded to the underlying <code>create_course()</code>.</li>
+<li><strong><code>course_creation_lock</code></strong> — exposes the same cross-process lock as a
+  context-manager factory for the rare test that must call <code>create_course()</code>
+  directly (for example, a regression test that needs a genuine failure to
+  fail the test rather than skip it) while still cooperating with the
+  serialization used everywhere else.</li>
+</ul>
+<h4 id="why-course-creation-is-serialized">Why course creation is serialized<a class="headerlink" href="#why-course-creation-is-serialized" title="Permanent link">&para;</a></h4>
+<p>Moodle's <code>course/edit.php</code> form-based creation flow occasionally hits a
+database-level race when two courses are created concurrently against the same
+instance: a duplicate-key violation on <code>mdl_context</code>'s
+<code>(contextlevel, instanceid)</code> unique constraint, or a stale
+"course context does not exist" lookup in a sibling test. This is a
+<strong>Moodle-side race, not a python-moodle bug</strong>, but <code>pytest-xdist</code>'s <code>-n auto</code>
+workers trigger it routinely. Because each xdist worker is a separate OS
+process, a plain <code>threading.Lock</code> would not help; the fixtures use a file lock
+(<code>fcntl.flock</code>) so serialization holds across processes. Only the brief
+creation call itself is serialized, so overall suite parallelism is largely
+unaffected.</p>
+<blockquote>
+<p><strong>New integration test modules that need a temporary course MUST use the
+shared <code>create_temporary_course</code> factory</strong> rather than calling
+<code>create_course()</code> directly. This keeps creation serialized (avoiding the
+<code>mdl_context</code> race), keeps course names unique across workers, and preserves
+the "skip, don't crash" behavior on setup failure. Do not reintroduce a
+per-file course-creation fixture.</p>
+</blockquote>
+<h3 id="html-fixture-regression-tests">HTML-Fixture Regression Tests<a class="headerlink" href="#html-fixture-regression-tests" title="Permanent link">&para;</a></h3>
+<p>The version-sensitive HTML parsers in <code>src/py_moodle/compat.py</code> (login token,
+<code>sesskey</code>, folder listings, dashboard version, edit forms) are the most likely
+code to break when Moodle changes its markup. Fast, network-free regression
+coverage that exercises these parsers against representative HTML <strong>fixture
+files</strong> under <code>tests/unit/</code> is being added as part of
+<a href="https://github.com/erseco/python-moodle/issues/68">#68</a>; once merged, those
+tests run inside the ordinary <code>make test-unit</code> gate. Refer to that scaffolding
+(and its <code>tests/unit/fixtures/html/</code> directory) when adding coverage for a new
+brittle parser — capture a minimal representative fixture rather than asserting
+against a live server.</p>
+<h3 id="ci-expectations">CI Expectations<a class="headerlink" href="#ci-expectations" title="Permanent link">&para;</a></h3>
+<p>GitHub Actions (<code>.github/workflows/ci.yml</code>) runs the unit layer on every
+supported Python version and the integration layer against a small matrix of
+representative Python/Moodle combinations. To keep a single source of truth,
+the authoritative Python and Moodle version numbers live in the <strong>Testing</strong>
+section of the project <a href="https://github.com/erseco/python-moodle#testing">README</a>
+rather than being duplicated here.</p>
 <h3 id="writing-tests">Writing Tests<a class="headerlink" href="#writing-tests" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Tests go in the <code>tests/</code> directory</li>
@@ -2686,7 +2883,8 @@ work.</p>
   <code>@pytest.mark.integration</code> and skipped unless <code>--integration</code> is passed</li>
 <li>Use descriptive test names: <code>test_create_course_with_valid_data</code></li>
 <li>Test both success and failure cases</li>
-<li>Use fixtures from <code>conftest.py</code></li>
+<li>Use fixtures from <code>conftest.py</code>; use <code>create_temporary_course</code> for any
+  integration test that needs a throwaway course</li>
 </ul>
 <h3 id="troubleshooting-test-runs">Troubleshooting Test Runs<a class="headerlink" href="#troubleshooting-test-runs" title="Permanent link">&para;</a></h3>
 <ul>
@@ -2700,25 +2898,16 @@ work.</p>
 <li>For authentication and session issues during test setup, see
   <a href="../troubleshooting/">Troubleshooting</a>.</li>
 </ul>
-<p>Example test:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_create_course_success</span><span class="p">(</span><span class="n">moodle_session</span><span class="p">):</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Test successful course creation.&quot;&quot;&quot;</span>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="n">course_data</span> <span class="o">=</span> <span class="p">{</span>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>        <span class="s1">&#39;fullname&#39;</span><span class="p">:</span> <span class="s1">&#39;Test Course&#39;</span><span class="p">,</span>
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>        <span class="s1">&#39;shortname&#39;</span><span class="p">:</span> <span class="s1">&#39;test-001&#39;</span><span class="p">,</span>
-</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>        <span class="s1">&#39;categoryid&#39;</span><span class="p">:</span> <span class="mi">1</span>
-</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>    <span class="p">}</span>
-</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>
-</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>    <span class="n">course</span> <span class="o">=</span> <span class="n">create_course</span><span class="p">(</span>
-</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>        <span class="n">moodle_session</span><span class="o">.</span><span class="n">session</span><span class="p">,</span>
-</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>        <span class="n">moodle_session</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
-</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>        <span class="n">course_data</span><span class="p">,</span>
-</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>        <span class="n">token</span><span class="o">=</span><span class="n">moodle_session</span><span class="o">.</span><span class="n">token</span>
-</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>    <span class="p">)</span>
-</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>
-</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>    <span class="k">assert</span> <span class="n">course</span><span class="p">[</span><span class="s1">&#39;fullname&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Test Course&#39;</span>
-</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>    <span class="k">assert</span> <span class="n">course</span><span class="p">[</span><span class="s1">&#39;shortname&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;test-001&#39;</span>
-</span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a>    <span class="k">assert</span> <span class="s1">&#39;id&#39;</span> <span class="ow">in</span> <span class="n">course</span>
+<p>Example integration test using the shared factory:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_create_course_success</span><span class="p">(</span><span class="n">moodle</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">create_temporary_course</span><span class="p">):</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Test successful course creation via the shared factory.&quot;&quot;&quot;</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="n">base_url</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">moodle_target</span><span class="o">.</span><span class="n">url</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    <span class="n">course</span> <span class="o">=</span> <span class="n">create_temporary_course</span><span class="p">(</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>        <span class="n">moodle</span><span class="p">,</span> <span class="n">base_url</span><span class="p">,</span> <span class="n">moodle</span><span class="o">.</span><span class="n">sesskey</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;DEMO&quot;</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>    <span class="p">)</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>    <span class="k">assert</span> <span class="n">course</span><span class="p">[</span><span class="s2">&quot;shortname&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;DEMO&quot;</span><span class="p">)</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>    <span class="k">assert</span> <span class="s2">&quot;id&quot;</span> <span class="ow">in</span> <span class="n">course</span>
 </span></code></pre></div>
 <h2 id="project-structure">Project Structure<a class="headerlink" href="#project-structure" title="Permanent link">&para;</a></h2>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>python-moodle/
