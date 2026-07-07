@@ -1,11 +1,13 @@
 """Section management commands for ``py-moodle``."""
 
+from typing import Optional
+
 import typer
 from rich.box import SQUARE
 from rich.table import Table
 
 # Import the new centralized function and corresponding error
-from py_moodle.cli.output import OutputFormat, emit, get_console
+from py_moodle.cli.output import OutputFormat, emit, get_console, parse_fields
 from py_moodle.course import MoodleCourseError, get_course_with_sections_and_modules
 
 # Keep the action functions (create/delete) that are still valid
@@ -46,6 +48,15 @@ def list_course_sections(
         "--output",
         help="Output format: table, json, yaml, or csv.",
     ),
+    fields: Optional[str] = typer.Option(
+        None,
+        "--fields",
+        help=(
+            "Comma-separated top-level fields to keep in machine-readable "
+            "output (json/yaml/csv), in the given order. Ignored for table "
+            "output; an unknown field is an error."
+        ),
+    ),
 ):
     """
     Lists a summary of all sections in a specific course.
@@ -85,7 +96,13 @@ def list_course_sections(
                 )
             get_console(ctx).print(table)
 
-        emit(sections, output, table_fn=_render_table, csv_fields=_LIST_CSV_FIELDS)
+        emit(
+            sections,
+            output,
+            table_fn=_render_table,
+            csv_fields=_LIST_CSV_FIELDS,
+            fields=parse_fields(fields),
+        )
 
     except MoodleCourseError as e:
         typer.echo(f"Error listing sections: {e}", err=True)
