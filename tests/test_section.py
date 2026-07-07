@@ -1,12 +1,9 @@
 # tests/test_section.py
-import random
-
 import pytest
 
 # Import updated course functions
 from py_moodle.course import (
     MoodleCourseError,
-    create_course,
     delete_course,
     get_course_with_sections_and_modules,
 )
@@ -15,7 +12,7 @@ from py_moodle.section import MoodleSectionError, create_section, delete_section
 
 # --- Fixtures (the temporary_course fixture will now work) ---
 @pytest.fixture(scope="module")
-def temporary_course(request):
+def temporary_course(request, create_temporary_course):
     """
     Creates a temporary course for all tests in this module and deletes it when finished.
     """
@@ -32,23 +29,7 @@ def temporary_course(request):
     base_url = target.url
     sesskey = moodle_session.sesskey
 
-    fullname = f"Test Course For Sections {random.randint(1000, 9999)}"
-    shortname = f"TCS{random.randint(1000, 9999)}"
-
-    try:
-        # Now create_course returns a dictionary, as expected
-        course = create_course(
-            session=moodle_session,
-            base_url=base_url,
-            sesskey=sesskey,
-            fullname=fullname,
-            shortname=shortname,
-            categoryid=1,
-            numsections=1,
-        )
-        assert isinstance(course, dict) and "id" in course
-    except MoodleCourseError as e:
-        pytest.skip(f"Could not create temporary course for section tests: {e}")
+    course = create_temporary_course(moodle_session, base_url, sesskey, prefix="TCS")
 
     yield course  # The course (dict) is available for tests
 

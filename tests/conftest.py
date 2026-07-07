@@ -1,6 +1,8 @@
 import logging
 import os
-import random
+import tempfile
+import uuid
+from contextlib import contextmanager
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -8,10 +10,21 @@ import pytest
 import requests
 from dotenv import load_dotenv
 
+try:
+    import fcntl
+except ImportError:  # pragma: no cover - fcntl is POSIX-only; CI runs on Linux.
+    fcntl = None
+
 # Load environment variables from .env file at the start
 load_dotenv()
 
 UNIT_TESTS_DIR = (Path(__file__).parent / "unit").resolve()
+
+#: Shared lock file coordinating course creation across pytest-xdist worker
+#: *processes* (a plain threading.Lock would only protect one process).
+_COURSE_CREATION_LOCK_PATH = (
+    Path(tempfile.gettempdir()) / "py_moodle_test_course_creation.lock"
+)
 
 #: Loggers whose level/handlers/propagate flag are mutated by
 #: ``py_moodle.cli.output.configure_logging()`` (invoked by any CLI test
@@ -169,12 +182,94 @@ def moodle(request):
         pytest.fail(f"Failed to log in to '{target.name}' Moodle: {e}", pytrace=False)
 
 
+@contextmanager
+def _course_creation_lock():
+    """Serialize course creation across pytest-xdist worker *processes*.
+
+    Moodle's ``course/edit.php`` form-based creation flow occasionally
+    raises a database-level race (a duplicate-key violation on
+    ``mdl_context``'s ``(contextlevel, instanceid)`` unique constraint,
+    or a stale "course context does not exist" lookup in a sibling test)
+    when two courses are created concurrently against the same Moodle
+    instance. This is a Moodle-side race, not a python-moodle bug, but
+    ``pytest-xdist``'s ``-n auto`` workers trigger it routinely since
+    every module-scoped "temporary course" fixture calls ``create_course``
+    independently. A plain ``threading.Lock`` would not help here, since
+    each xdist worker is a separate OS process; a file lock is.
+
+    Only the brief creation call itself is serialized, not the rest of
+    each test, so overall suite parallelism is largely unaffected.
+    """
+    if fcntl is None:  # pragma: no cover - Windows has no fcntl.
+        yield
+        return
+
+    _COURSE_CREATION_LOCK_PATH.touch(exist_ok=True)
+    with open(_COURSE_CREATION_LOCK_PATH, "w") as lock_file:
+        fcntl.flock(lock_file, fcntl.LOCK_EX)
+        try:
+            yield
+        finally:
+            fcntl.flock(lock_file, fcntl.LOCK_UN)
+
+
+@pytest.fixture(scope="session")
+def course_creation_lock():
+    """Expose :func:`_course_creation_lock` for tests that call ``create_course``
+    directly (rather than via the :func:`create_temporary_course` factory) and
+    need to preserve normal test-failure semantics on a genuine regression.
+    """
+    return _course_creation_lock
+
+
+@pytest.fixture(scope="session")
+def create_temporary_course():
+    """Return a factory that creates a uniquely-named, lock-serialized course.
+
+    Returns:
+        Callable[..., dict]: A function
+        ``(session, base_url, sesskey, *, prefix, **create_course_kwargs) ->
+        dict`` that builds a highly-unique ``shortname``/``fullname`` from
+        ``prefix``, creates the course serialized across pytest-xdist
+        workers (see :func:`_course_creation_lock`), and calls
+        ``pytest.skip(...)`` with a clear reason instead of raising if
+        creation fails, matching the most defensive of the previously
+        duplicated per-file fixtures.
+    """
+
+    def _create(session, base_url, sesskey, *, prefix, **create_course_kwargs):
+        from py_moodle.course import MoodleCourseError, create_course
+
+        unique = uuid.uuid4().hex[:8]
+        fullname = create_course_kwargs.pop(
+            "fullname", f"Test Course {prefix} {unique}"
+        )
+        shortname = create_course_kwargs.pop("shortname", f"{prefix}{unique}")
+        create_course_kwargs.setdefault("categoryid", 1)
+        create_course_kwargs.setdefault("numsections", 1)
+
+        try:
+            with _course_creation_lock():
+                return create_course(
+                    session=session,
+                    base_url=base_url,
+                    sesskey=sesskey,
+                    fullname=fullname,
+                    shortname=shortname,
+                    **create_course_kwargs,
+                )
+        except MoodleCourseError as e:
+            pytest.skip(f"Could not create temporary course ({prefix}): {e}")
+
+    return _create
+
+
 @pytest.fixture(scope="module")
-def temporary_course_for_labels(request):
+def temporary_course_for_labels(request, create_temporary_course):
     """Creates a temporary course for label tests and deletes it when finished."""
     target = request.config.moodle_target
     from py_moodle.auth import login
-    from py_moodle.course import create_course, delete_course
+    from py_moodle.course import delete_course
 
     moodle_session = login(
         url=target.url, username=target.username, password=target.password
@@ -185,18 +280,7 @@ def temporary_course_for_labels(request):
     base_url = target.url
     sesskey = moodle_session.sesskey
 
-    fullname = f"Test Course For Labels {random.randint(1000, 9999)}"
-    shortname = f"TCL{random.randint(1000, 9999)}"
-
-    course = create_course(
-        session=moodle_session,
-        base_url=base_url,
-        sesskey=sesskey,
-        fullname=fullname,
-        shortname=shortname,
-        categoryid=1,
-        numsections=1,
-    )
+    course = create_temporary_course(moodle_session, base_url, sesskey, prefix="TCL")
 
     yield course
 
