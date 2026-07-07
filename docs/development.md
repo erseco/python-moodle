@@ -110,6 +110,31 @@ sites have been migrated so far (`session.py`'s `MoodleSession.call()` and
 `course.py`'s `list_courses()`/`create_course()`); migrating the remaining
 modules is tracked as follow-up work.
 
+### Transport Strategies
+
+`src/py_moodle/transport/` formalizes the three ways `py-moodle` talks to
+Moodle as explicit, independently testable strategy modules built on top
+of `http.py`:
+
+- `transport/webservice.py` — the webservice/REST API transport
+  (`{base_url}/webservice/rest/server.php` with a `wstoken`).
+- `transport/ajax.py` — the internal AJAX endpoint transport
+  (`{base_url}/lib/ajax/service.php?sesskey=...`).
+- `transport/html.py` — an interface-only placeholder for a future
+  HTML-scraping/form-submission transport (e.g. `course/edit.php`).
+
+Both `webservice.call(...)` and `ajax.call(...)` raise
+`transport.TransportUnavailableError` when that specific transport cannot
+be used for the call (invalid/expired token, missing `sesskey`), letting a
+caller fall back to the next transport in the chain, and
+`transport.TransportError` for any other failure. `course.py`'s
+`list_courses()` has been migrated as a proof of concept to use these two
+transports instead of inlining the webservice/AJAX request-building and
+fallback logic itself; migrating the remaining webservice/AJAX call sites
+(`get_course_state`, and the AJAX calls in `section.py`, `module.py`,
+`draftfile.py`) onto the same transport modules is tracked as follow-up
+work.
+
 ## Testing
 
 ### Running Tests

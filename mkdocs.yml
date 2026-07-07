@@ -108,6 +108,7 @@ nav:
       - Client: api/client.md
       - Session: api/session.md
       - HTTP: api/http.md
+      - Transport: api/transport.md
       - Settings: api/settings.md
       - Auth: api/auth.md
       - Doctor: api/doctor.md
