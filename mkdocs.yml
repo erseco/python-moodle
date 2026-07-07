@@ -107,6 +107,7 @@ nav:
     - Core:
       - Session: api/session.md
       - HTTP: api/http.md
+      - Transport: api/transport.md
       - Settings: api/settings.md
       - Auth: api/auth.md
     - Course Management:

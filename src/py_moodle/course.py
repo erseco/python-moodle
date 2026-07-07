@@ -14,14 +14,11 @@ from typing import Any, Dict, List
 
 import requests
 
-from .http import (
-    MoodleHttpError,
-    request_ajax,
-    request_form_post,
-    request_html_get,
-    request_webservice,
-)
+from .http import MoodleHttpError, request_form_post
 from .permissions import requires_role
+from .transport import TransportError, TransportUnavailableError
+from .transport import ajax as ajax_transport
+from .transport import webservice as webservice_transport
 
 
 class MoodleCourseError(Exception):
@@ -78,7 +75,13 @@ def list_courses(
     """List all courses visible to the user.
 
     Uses the ``core_course_get_courses`` webservice when a token is
-    available and falls back to the AJAX endpoint otherwise.
+    available and falls back to the AJAX endpoint otherwise. Internally,
+    each transport is delegated to :mod:`py_moodle.transport.webservice`
+    and :mod:`py_moodle.transport.ajax` respectively; their
+    ``TransportError``/``TransportUnavailableError`` exceptions are
+    translated into ``MoodleCourseError`` (or used to decide the
+    webservice-to-AJAX fallback) and never leak to callers of this
+    function.
 
     Args:
         session: Authenticated requests session.
@@ -98,20 +101,19 @@ def list_courses(
     if sesskey is None and hasattr(session, "sesskey"):
         sesskey = getattr(session, "sesskey", None)
 
-    # If token is present but invalid (or the call otherwise fails), fall
-    # back to the AJAX endpoint below.
     if token:
         try:
-            result = request_webservice(
-                session, base_url, "core_course_get_courses", token=token
+            result = webservice_transport.call(
+                session, base_url, "core_course_get_courses", token
             )
             # Sort by ID ascending before returning
             return sorted(result, key=lambda c: c.get("id", 0))
-        except Exception:
-            # Any webservice failure (invalid token, transient network
-            # error, unexpected payload shape, or a Moodle-reported error)
-            # falls back to the AJAX endpoint below.
+        except TransportUnavailableError:
+            # The token is invalid/expired: fall through to the AJAX
+            # transport below.
             pass
+        except TransportError as exc:
+            raise MoodleCourseError(str(exc)) from exc
 
     if not sesskey:
         raise MoodleCourseError(
@@ -120,21 +122,14 @@ def list_courses(
             "web service."
         )
 
-    # Refresh session before AJAX call to prevent "session expired" errors.
-    request_html_get(session, f"{base_url}/my/")
-
-    url = f"{base_url}/lib/ajax/service.php?sesskey={sesskey}"
-    payload = [{"index": 0, "methodname": "core_course_get_courses", "args": {}}]
     try:
-        result = request_ajax(session, url, payload)
-        # The data is in result[0]["data"]
-        courses = result[0]["data"]
+        result = ajax_transport.call(
+            session, base_url, "core_course_get_courses", sesskey
+        )
         # Sort by ID ascending before returning
-        return sorted(courses, key=lambda c: c.get("id", 0))
-    except MoodleHttpError as e:
-        raise MoodleCourseError(f"Failed to list courses: {e}") from e
-    except Exception as e:
-        raise MoodleCourseError(f"Failed to parse courses: {e}") from e
+        return sorted(result, key=lambda c: c.get("id", 0))
+    except TransportError as exc:
+        raise MoodleCourseError(str(exc)) from exc
 
 
 @requires_role("manager")
