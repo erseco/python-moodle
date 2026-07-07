@@ -820,6 +820,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../api/http/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HTTP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../api/settings/" class="md-nav__link">
         
   
@@ -1748,6 +1776,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#making-http-requests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Making HTTP Requests
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2175,6 +2214,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#making-http-requests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Making HTTP Requests
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2525,6 +2575,20 @@
 </span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>    <span class="c1"># Implementation here</span>
 </span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>    <span class="k">pass</span>
 </span></code></pre></div>
+<h3 id="making-http-requests">Making HTTP Requests<a class="headerlink" href="#making-http-requests" title="Permanent link">&para;</a></h3>
+<p><code>src/py_moodle/http.py</code> centralizes HTTP behavior for talking to Moodle:
+default timeouts (from <code>config.py</code>), conservative retry-with-backoff for
+safe GET-style requests only, typed exceptions (<code>MoodleHttpError</code>,
+<code>MoodleTimeoutError</code>, <code>MoodleWebserviceError</code>) instead of raw <code>requests</code>
+exceptions or <code>json.JSONDecodeError</code>, and redaction of secrets (webservice
+token, <code>sesskey</code>, password, cookies, <code>Authorization</code> header) from
+exception messages. New code that talks to Moodle should prefer the
+helpers in this module (<code>request_webservice</code>, <code>request_html_get</code>,
+<code>request_form_post</code>, <code>request_ajax</code>, <code>upload_file</code>) over calling
+<code>session.get</code>/<code>session.post</code>/<code>requests.post</code> directly. Only a few call
+sites have been migrated so far (<code>session.py</code>'s <code>MoodleSession.call()</code> and
+<code>course.py</code>'s <code>list_courses()</code>/<code>create_course()</code>); migrating the remaining
+modules is tracked as follow-up work.</p>
 <h2 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">&para;</a></h2>
 <h3 id="running-tests">Running Tests<a class="headerlink" href="#running-tests" title="Permanent link">&para;</a></h3>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Fast smoke tests that do not require Moodle</span>
