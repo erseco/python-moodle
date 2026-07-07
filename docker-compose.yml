@@ -69,11 +69,9 @@ services:
       - 80:8080
     volumes:
       - moodledata:/var/www/moodledata
-      - moodlehtml:/var/www/html
     depends_on:
       - postgres
 
 volumes:
   postgres: null
   moodledata: null
-  moodlehtml: null
