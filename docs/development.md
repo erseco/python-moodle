@@ -137,6 +137,21 @@ work.
 
 ## Testing
 
+### Test Layers
+
+The suite is split into two clearly separated layers:
+
+- **Unit / smoke tests** live in `tests/unit/`. They never talk to a Moodle
+  server, run fast, and are the default gate for every change. Anything under
+  `tests/unit/` runs unconditionally.
+- **Integration tests** live directly in `tests/` (the `tests/test_*.py`
+  modules outside `tests/unit/`). They require a live Moodle instance and are
+  opt-in: `conftest.py` automatically marks every test outside `tests/unit/`
+  with `@pytest.mark.integration` and *skips* it unless you pass
+  `--integration`. When `--integration` is given, the target Moodle
+  environment is selected with `--moodle-env` (`local` | `staging` | `prod`)
+  and its reachability is verified before collection.
+
 ### Running Tests
 
 ```bash
@@ -144,14 +159,82 @@ work.
 make test-unit
 pytest tests/unit
 
-# Moodle-backed integration tests (opt in)
+# Moodle-backed integration tests (opt in; require a live instance)
 make test-local
 make test-staging
 pytest --integration --moodle-env local -m integration -n auto
 
-# Full local workflow (starts Docker, then runs integration tests)
+# Full local workflow (starts Docker, waits for Moodle, then runs integration tests)
 make test
 ```
+
+`make test-unit` maps to `pytest tests/unit`, and `make test-local` maps to
+`pytest --integration --moodle-env local -m integration -n auto` (see the
+`Makefile`). Integration runs use `pytest-xdist` (`-n auto`) to parallelize
+across worker processes.
+
+### Shared Course-Creation Fixtures
+
+Many integration modules need a throwaway course to operate on. Instead of
+each module hand-rolling its own creation helper, `tests/conftest.py` provides
+two shared, session-scoped fixtures (consolidated in
+[#62](https://github.com/erseco/python-moodle/pull/62)):
+
+- **`create_temporary_course`** — returns a factory
+  `create_temporary_course(session, base_url, sesskey, *, prefix, **kwargs) -> dict`.
+  It builds a highly-unique `shortname`/`fullname` from `prefix` (plus a random
+  suffix), defaults `categoryid=1` and `numsections=1`, creates the course
+  **serialized across `pytest-xdist` workers** (see below), and calls
+  `pytest.skip(...)` with a clear reason instead of raising if creation fails.
+  Any extra keyword arguments are forwarded to the underlying `create_course()`.
+- **`course_creation_lock`** — exposes the same cross-process lock as a
+  context-manager factory for the rare test that must call `create_course()`
+  directly (for example, a regression test that needs a genuine failure to
+  fail the test rather than skip it) while still cooperating with the
+  serialization used everywhere else.
+
+#### Why course creation is serialized
+
+Moodle's `course/edit.php` form-based creation flow occasionally hits a
+database-level race when two courses are created concurrently against the same
+instance: a duplicate-key violation on `mdl_context`'s
+`(contextlevel, instanceid)` unique constraint, or a stale
+"course context does not exist" lookup in a sibling test. This is a
+**Moodle-side race, not a python-moodle bug**, but `pytest-xdist`'s `-n auto`
+workers trigger it routinely. Because each xdist worker is a separate OS
+process, a plain `threading.Lock` would not help; the fixtures use a file lock
+(`fcntl.flock`) so serialization holds across processes. Only the brief
+creation call itself is serialized, so overall suite parallelism is largely
+unaffected.
+
+> **New integration test modules that need a temporary course MUST use the
+> shared `create_temporary_course` factory** rather than calling
+> `create_course()` directly. This keeps creation serialized (avoiding the
+> `mdl_context` race), keeps course names unique across workers, and preserves
+> the "skip, don't crash" behavior on setup failure. Do not reintroduce a
+> per-file course-creation fixture.
+
+### HTML-Fixture Regression Tests
+
+The version-sensitive HTML parsers in `src/py_moodle/compat.py` (login token,
+`sesskey`, folder listings, dashboard version, edit forms) are the most likely
+code to break when Moodle changes its markup. Fast, network-free regression
+coverage that exercises these parsers against representative HTML **fixture
+files** under `tests/unit/` is being added as part of
+[#68](https://github.com/erseco/python-moodle/issues/68); once merged, those
+tests run inside the ordinary `make test-unit` gate. Refer to that scaffolding
+(and its `tests/unit/fixtures/html/` directory) when adding coverage for a new
+brittle parser — capture a minimal representative fixture rather than asserting
+against a live server.
+
+### CI Expectations
+
+GitHub Actions (`.github/workflows/ci.yml`) runs the unit layer on every
+supported Python version and the integration layer against a small matrix of
+representative Python/Moodle combinations. To keep a single source of truth,
+the authoritative Python and Moodle version numbers live in the **Testing**
+section of the project [README](https://github.com/erseco/python-moodle#testing)
+rather than being duplicated here.
 
 ### Writing Tests
 
@@ -161,7 +244,8 @@ make test
   `@pytest.mark.integration` and skipped unless `--integration` is passed
 - Use descriptive test names: `test_create_course_with_valid_data`
 - Test both success and failure cases
-- Use fixtures from `conftest.py`
+- Use fixtures from `conftest.py`; use `create_temporary_course` for any
+  integration test that needs a throwaway course
 
 ### Troubleshooting Test Runs
 
@@ -175,27 +259,18 @@ make test
 - For authentication and session issues during test setup, see
   [Troubleshooting](troubleshooting.md).
 
-Example test:
+Example integration test using the shared factory:
 
 ```python
-def test_create_course_success(moodle_session):
-    """Test successful course creation."""
-    course_data = {
-        'fullname': 'Test Course',
-        'shortname': 'test-001',
-        'categoryid': 1
-    }
-    
-    course = create_course(
-        moodle_session.session,
-        moodle_session.settings.url,
-        course_data,
-        token=moodle_session.token
+def test_create_course_success(moodle, request, create_temporary_course):
+    """Test successful course creation via the shared factory."""
+    base_url = request.config.moodle_target.url
+    course = create_temporary_course(
+        moodle, base_url, moodle.sesskey, prefix="DEMO"
     )
-    
-    assert course['fullname'] == 'Test Course'
-    assert course['shortname'] == 'test-001'
-    assert 'id' in course
+
+    assert course["shortname"].startswith("DEMO")
+    assert "id" in course
 ```
 
 ## Project Structure
