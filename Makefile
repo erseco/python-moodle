@@ -40,7 +40,7 @@ lint:
 
 docs:
 	python -m typer py_moodle.cli.app utils docs --output docs/cli.md --name py-moodle
-	mkdocs build --strict
+	zensical build
 
 test-unit:
 	pytest tests/unit
@@ -69,7 +69,7 @@ help:
 	@echo "  lint               - Lint code with black, isort, and flake8"
 	@echo ""
 	@echo "Documentation:"
-	@echo "  docs               - Build documentation with mkdocs"
+	@echo "  docs               - Build documentation with Zensical"
 	@echo ""
 	@echo "Testing:"
 	@echo "  test-unit          - Run fast smoke tests that do not require Moodle"
