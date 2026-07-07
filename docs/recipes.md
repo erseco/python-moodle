@@ -68,6 +68,28 @@ py-moodle modules add label \
 Replace the example course ID with the ID returned by the create command in
 your environment.
 
+### Equivalent recipe using `MoodleClient`
+
+The same workflow, scripted with the [`MoodleClient`](api/client.md) facade
+instead of the CLI:
+
+```python
+from py_moodle import MoodleClient
+
+with MoodleClient.from_env("prod") as moodle:
+    course = moodle.courses.create(
+        fullname="Automation Demo",
+        shortname="automation-demo",
+    )
+    section = moodle.sections.create(course["id"])
+    moodle.labels.add(
+        course_id=course["id"],
+        section_id=section.get("section", 1),
+        name="Welcome",
+        html="<p>Welcome to the course.</p>",
+    )
+```
+
 ## Upload materials into a folder
 
 Use the dedicated folder commands when you want to manage a reusable course
@@ -129,6 +151,28 @@ py-moodle courses ensure \
 
 `--update` only ever touches `fullname` and category membership; it never
 overwrites the course summary, visibility, or its sections/modules.
+
+## Get IDE-friendly typed models from raw dicts (optional)
+
+The library functions keep returning plain `dict`/`list[dict]` values, but
+`py_moodle.models` offers opt-in typed wrappers if you want autocompletion
+and static-typing safety in your own scripts.
+
+```python
+from py_moodle import MoodleSession
+from py_moodle.course import list_courses
+from py_moodle.models import Course
+
+ms = MoodleSession.get()
+
+for raw_course in list_courses(ms.session, ms.settings.url, token=ms.token):
+    typed_course = Course.from_moodle(raw_course)
+    print(typed_course.id, typed_course.fullname)
+```
+
+`Course.from_moodle()` (and the other `from_moodle()` classmethods) tolerate
+missing optional fields and ignore unknown/extra keys, so they are safe to
+use even as the underlying Moodle payload shape drifts across versions.
 
 ## Run the fastest contributor validation loop
 

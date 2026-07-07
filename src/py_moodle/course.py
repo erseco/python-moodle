@@ -16,11 +16,40 @@ from typing import Any, Dict, List, Literal, Optional
 import requests
 from bs4 import BeautifulSoup
 
+from .http import (
+    MoodleHttpError,
+    request_ajax,
+    request_form_post,
+    request_html_get,
+    request_webservice,
+)
 from .permissions import requires_role
 
 
 class MoodleCourseError(Exception):
     """Exception raised for errors in course operations."""
+
+
+class ConfirmationRequired(MoodleCourseError):
+    """Raised when a mutating operation needs interactive confirmation.
+
+    Attributes:
+        course_id: The course id pending confirmation.
+        course_title: The human-readable title, if it could be determined.
+    """
+
+    def __init__(self, course_id: int, course_title: str) -> None:
+        """Initialize the exception with the pending course id and title.
+
+        Args:
+            course_id: The course id pending confirmation.
+            course_title: The human-readable title, if it could be determined.
+        """
+        self.course_id = course_id
+        self.course_title = course_title
+        super().__init__(
+            f"Confirmation required to delete course '{course_title}' (ID {course_id})."
+        )
 
 
 EnsureStatus = Literal["created", "reused", "updated", "conflict"]
@@ -116,32 +145,19 @@ def list_courses(
     if sesskey is None and hasattr(session, "sesskey"):
         sesskey = getattr(session, "sesskey", None)
 
-    # If token is present but invalid, fallback to AJAX if possible
+    # If token is present but invalid (or the call otherwise fails), fall
+    # back to the AJAX endpoint below.
     if token:
-        url = f"{base_url}/webservice/rest/server.php"
-        params = {
-            "wstoken": token,
-            "wsfunction": "core_course_get_courses",
-            "moodlewsrestformat": "json",
-        }
-        resp = session.post(url, data=params)
         try:
-            result = resp.json()
-            # If token is invalid, fallback to AJAX if possible
-            if (
-                isinstance(result, dict)
-                and "exception" in result
-                and "Invalid token" in result.get("message", "")
-            ):
-                # fallback to AJAX below, do not raise
-                pass
-            elif isinstance(result, dict) and "exception" in result:
-                raise MoodleCourseError(result.get("message", "Unknown error"))
-            else:
-                # Sort by ID ascending before returning
-                return sorted(result, key=lambda c: c.get("id", 0))
+            result = request_webservice(
+                session, base_url, "core_course_get_courses", token=token
+            )
+            # Sort by ID ascending before returning
+            return sorted(result, key=lambda c: c.get("id", 0))
         except Exception:
-            # fallback to AJAX below if possible
+            # Any webservice failure (invalid token, transient network
+            # error, unexpected payload shape, or a Moodle-reported error)
+            # falls back to the AJAX endpoint below.
             pass
 
     if not sesskey:
@@ -150,34 +166,22 @@ def list_courses(
             "Log in again, or use a user that can access the Moodle mobile "
             "web service."
         )
-    url = f"{base_url}/lib/ajax/service.php?sesskey={sesskey}"
 
     # Refresh session before AJAX call to prevent "session expired" errors.
-    session.get(f"{base_url}/my/")
+    request_html_get(session, f"{base_url}/my/")
 
-    data = [{"index": 0, "methodname": "core_course_get_courses", "args": {}}]
-    headers = {"Content-Type": "application/json"}
-    resp = session.post(url, json=data, headers=headers)
-    if resp.status_code != 200:
-        raise MoodleCourseError(f"Failed to list courses. Status: {resp.status_code}")
+    url = f"{base_url}/lib/ajax/service.php?sesskey={sesskey}"
+    payload = [{"index": 0, "methodname": "core_course_get_courses", "args": {}}]
     try:
-        result = resp.json()
-        # Defensive: check for error in AJAX response
-        if (
-            result
-            and isinstance(result, list)
-            and "error" in result[0]
-            and result[0]["error"]
-        ):
-            raise MoodleCourseError(
-                result[0].get("exception", {}).get("message", "Unknown error")
-            )
+        result = request_ajax(session, url, payload)
         # The data is in result[0]["data"]
         courses = result[0]["data"]
         # Sort by ID ascending before returning
         return sorted(courses, key=lambda c: c.get("id", 0))
+    except MoodleHttpError as e:
+        raise MoodleCourseError(f"Failed to list courses: {e}") from e
     except Exception as e:
-        raise MoodleCourseError(f"Failed to parse courses: {e}")
+        raise MoodleCourseError(f"Failed to parse courses: {e}") from e
 
 
 @requires_role("manager")
@@ -313,9 +317,17 @@ def create_course(
     # Important: send data as application/x-www-form-urlencoded, not as a plain dict
 
     encoded_payload = urllib.parse.urlencode(payload)
-    resp = session.post(
-        url_plain, data=encoded_payload, headers=headers, allow_redirects=False
-    )
+    try:
+        resp = request_form_post(
+            session,
+            url_plain,
+            data=encoded_payload,
+            headers=headers,
+            allow_redirects=False,
+            raise_for_status=False,
+        )
+    except MoodleHttpError as e:
+        raise MoodleCourseError(f"Failed to create course: {e}") from e
 
     # Moodle can respond with 303, 302, or even 200 if it doesn't redirect
     # Check if the shortname already exists (typical Moodle error)
@@ -633,6 +645,10 @@ def delete_course(
 
     Raises:
         MoodleCourseError: If the request fails.
+        ConfirmationRequired: If ``force`` is ``False``. Callers must catch
+            this exception and re-invoke with ``force=True`` after obtaining
+            confirmation themselves; this function performs no stdin/stdout
+            I/O of its own.
     """
     import re
 
@@ -656,14 +672,9 @@ def delete_course(
     if not delete_token:
         raise MoodleCourseError("Could not find delete token in confirmation form.")
 
-    # If not forced, ask for interactive confirmation
+    # If not forced, the caller must confirm before we proceed.
     if not force:
-        confirm = input(
-            f"Are you sure you want to delete course '{course_title}' (ID {courseid})? [y/N]: "
-        )
-        if confirm.strip().lower() not in ("y", "yes"):
-            print("Aborted.")
-            return
+        raise ConfirmationRequired(courseid, course_title)
 
     # Step 2: send the confirmation form
     payload = {
@@ -879,6 +890,7 @@ def list_sections(course_contents: List[Dict[str, Any]]) -> List[Dict[str, Any]]
 
 __all__ = [
     "MoodleCourseError",
+    "ConfirmationRequired",
     "get_course_context_id",
     "list_courses",
     "create_course",
