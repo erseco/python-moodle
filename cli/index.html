@@ -25,18 +25,23 @@
       
       
       <link rel="icon" href="../images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="zensical-0.0.47">
     
     
       
-        <title>CLI Reference - py-moodle</title>
+        <title>py-moodle - py-moodle</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      <link rel="stylesheet" href="../assets/stylesheets/modern/main.5e19f6ca.min.css">
+      
+        
+          
+        
+        <link rel="stylesheet" href="../assets/stylesheets/modern/palette.dfe2e883.min.css">
       
       
 
@@ -50,14 +55,14 @@
         
         
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
-        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,500,500i,700,700i%7CJetBrains+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
       
     
     
-      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../stylesheets/extra.css">
     
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_scope.pathname.endsWith("/")||(__md_scope=new URL(__md_scope.pathname+"/",location)),__md_hash=e=>[...e].reduce(((e,t)=>(e<<5)-e+t.charCodeAt(0)),0),__md_get=(e,t=localStorage,_=__md_scope)=>JSON.parse(t.getItem(_.pathname+"."+e)),__md_set=(e,t,_=localStorage,a=__md_scope)=>{try{_.setItem(a.pathname+"."+e,JSON.stringify(t))}catch(e){}},document.documentElement.setAttribute("data-platform",navigator.platform)</script>
     
       
 
@@ -73,12 +78,12 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
-    <label class="md-overlay" for="__drawer"></label>
+    <label class="md-overlay" for="__drawer" aria-label="Navigation"></label>
     <div data-md-component="skip">
       
         
@@ -96,15 +101,15 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="py-moodle" class="md-header__button md-logo" aria-label="py-moodle" data-md-component="logo">
+    <a href="./.." title="py-moodle" class="md-header__button md-logo" aria-label="py-moodle" data-md-component="logo">
       
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 7v14M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg>
 
     </a>
-    <label class="md-header__button md-icon" for="__drawer">
+    <label class="md-header__button md-icon" for="__drawer" aria-label="Navigation">
       
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-menu" viewBox="0 0 24 24"><path d="M4 5h16M4 12h16M4 19h16"/></svg>
     </label>
     <div class="md-header__title" data-md-component="header-title">
       <div class="md-header__ellipsis">
@@ -116,7 +121,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              CLI Reference
+              py-moodle
             
           </span>
         </div>
@@ -129,7 +134,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    <input class="md-option" data-md-color-media="none" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
     
       <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
@@ -139,7 +144,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    <input class="md-option" data-md-color-media="none" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
     
       <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
@@ -156,62 +161,30 @@
     
       
       
-        <label class="md-header__button md-icon" for="__search">
+        <label class="md-header__button md-icon" for="__search" aria-label="Search">
           
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-search" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
         </label>
-        <div class="md-search" data-md-component="search" role="dialog">
-  <label class="md-search__overlay" for="__search"></label>
-  <div class="md-search__inner" role="search">
-    <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
-      <label class="md-search__icon md-icon" for="__search">
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
-      </label>
-      <nav class="md-search__options" aria-label="Search">
-        
-          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
-            
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
-          </a>
-        
-        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
-          
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-        </button>
-      </nav>
-      
-    </form>
-    <div class="md-search__output">
-      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
-        <div class="md-search-result" data-md-component="search-result">
-          <div class="md-search-result__meta">
-            Initializing search
-          </div>
-          <ol class="md-search-result__list" role="presentation"></ol>
-        </div>
-      </div>
-    </div>
-  </div>
+        <div class="md-search" data-md-component="search" role="dialog" aria-label="Search">
+  <button type="button" class="md-search__button">
+    Search
+  </button>
 </div>
       
     
-    
-      <div class="md-header__source">
+    <div class="md-header__source">
+      
         <a href="https://github.com/erseco/python-moodle" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
   </div>
   <div class="md-source__repository">
     erseco/python-moodle
   </div>
 </a>
-      </div>
-    
+      
+    </div>
   </nav>
   
 </header>
@@ -232,11 +205,8 @@
   
   
     <li class="md-tabs__item">
-      <a href=".." class="md-tabs__link">
+      <a href="./.." class="md-tabs__link">
         
-  
-  
-    
   
   Home
 
@@ -251,11 +221,13 @@
   
   
     
+      
+    
+    
     
       <li class="md-tabs__item">
         <a href="../getting-started/" class="md-tabs__link">
           
-  
   
   Getting Started
 
@@ -273,11 +245,8 @@
   
   
     <li class="md-tabs__item md-tabs__item--active">
-      <a href="./" class="md-tabs__link">
+      <a href="././" class="md-tabs__link">
         
-  
-  
-    
   
   CLI Reference
 
@@ -292,6 +261,9 @@
   
   
     
+      
+    
+    
     
       
   
@@ -299,11 +271,13 @@
   
   
     
+      
+    
+    
     
       <li class="md-tabs__item">
         <a href="../api/client/" class="md-tabs__link">
           
-  
   
   API Reference
 
@@ -325,9 +299,6 @@
       <a href="../examples/" class="md-tabs__link">
         
   
-  
-    
-  
   Examples
 
       </a>
@@ -343,9 +314,6 @@
     <li class="md-tabs__item">
       <a href="../recipes/" class="md-tabs__link">
         
-  
-  
-    
   
   Recipes
 
@@ -363,9 +331,6 @@
       <a href="../development/" class="md-tabs__link">
         
   
-  
-    
-  
   Development
 
       </a>
@@ -382,9 +347,6 @@
       <a href="../troubleshooting/" class="md-tabs__link">
         
   
-  
-    
-  
   Troubleshooting
 
       </a>
@@ -400,9 +362,6 @@
     <li class="md-tabs__item">
       <a href="../roadmap-plan/" class="md-tabs__link">
         
-  
-  
-    
   
   Improvement Roadmap
 
@@ -433,10 +392,10 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="py-moodle" class="md-nav__button md-logo" aria-label="py-moodle" data-md-component="logo">
+    <a href="./.." title="py-moodle" class="md-nav__button md-logo" aria-label="py-moodle" data-md-component="logo">
       
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 7v14M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg>
 
     </a>
     py-moodle
@@ -446,7 +405,7 @@
       <a href="https://github.com/erseco/python-moodle" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
   </div>
   <div class="md-source__repository">
     erseco/python-moodle
@@ -463,15 +422,14 @@
   
   
     <li class="md-nav__item">
-      <a href=".." class="md-nav__link">
+      <a href="./.." class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Home
-  
+  Home
 
     
   </span>
@@ -513,8 +471,7 @@
   <span class="md-ellipsis">
     
   
-    Getting Started
-  
+  Getting Started
 
     
   </span>
@@ -529,8 +486,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Getting Started
-  
+  Getting Started
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -549,8 +505,7 @@
   <span class="md-ellipsis">
     
   
-    Getting Started
-  
+  Getting Started
 
     
   </span>
@@ -577,8 +532,7 @@
   <span class="md-ellipsis">
     
   
-    Installation
-  
+  Installation
 
     
   </span>
@@ -605,8 +559,7 @@
   <span class="md-ellipsis">
     
   
-    Configuration
-  
+  Configuration
 
     
   </span>
@@ -633,8 +586,7 @@
   <span class="md-ellipsis">
     
   
-    Quick Start
-  
+  Quick Start
 
     
   </span>
@@ -664,7 +616,7 @@
   
     <li class="md-nav__item md-nav__item--active">
       
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
       
       
         
@@ -677,8 +629,7 @@
   <span class="md-ellipsis">
     
   
-    CLI Reference
-  
+  CLI Reference
 
     
   </span>
@@ -688,15 +639,14 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <a href="./" class="md-nav__link md-nav__link--active">
+      <a href="././" class="md-nav__link md-nav__link--active">
         
   
   
   <span class="md-ellipsis">
     
   
-    CLI Reference
-  
+  CLI Reference
 
     
   </span>
@@ -707,7 +657,8 @@
       
         
 
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
   
   
   
@@ -716,16 +667,16 @@
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
-      Table of contents
+      On this page
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
   <a href="#py-moodle-courses" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle courses
-      
+      <span class="md-typeset">
+        <code>py-moodle courses</code>
+      </span>
     </span>
   </a>
   
@@ -735,9 +686,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-courses-list" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle courses list
-      
+      <span class="md-typeset">
+        <code>py-moodle courses list</code>
+      </span>
     </span>
   </a>
   
@@ -746,9 +697,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-courses-show" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle courses show
-      
+      <span class="md-typeset">
+        <code>py-moodle courses show</code>
+      </span>
     </span>
   </a>
   
@@ -757,9 +708,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-courses-create" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle courses create
-      
+      <span class="md-typeset">
+        <code>py-moodle courses create</code>
+      </span>
     </span>
   </a>
   
@@ -768,9 +719,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-courses-ensure" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle courses ensure
-      
+      <span class="md-typeset">
+        <code>py-moodle courses ensure</code>
+      </span>
     </span>
   </a>
   
@@ -779,9 +730,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-courses-delete" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle courses delete
-      
+      <span class="md-typeset">
+        <code>py-moodle courses delete</code>
+      </span>
     </span>
   </a>
   
@@ -795,9 +746,9 @@
         <li class="md-nav__item">
   <a href="#py-moodle-categories" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle categories
-      
+      <span class="md-typeset">
+        <code>py-moodle categories</code>
+      </span>
     </span>
   </a>
   
@@ -807,9 +758,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-categories-list" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle categories list
-      
+      <span class="md-typeset">
+        <code>py-moodle categories list</code>
+      </span>
     </span>
   </a>
   
@@ -818,9 +769,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-categories-create" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle categories create
-      
+      <span class="md-typeset">
+        <code>py-moodle categories create</code>
+      </span>
     </span>
   </a>
   
@@ -829,9 +780,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-categories-delete" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle categories delete
-      
+      <span class="md-typeset">
+        <code>py-moodle categories delete</code>
+      </span>
     </span>
   </a>
   
@@ -845,9 +796,9 @@
         <li class="md-nav__item">
   <a href="#py-moodle-sections" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle sections
-      
+      <span class="md-typeset">
+        <code>py-moodle sections</code>
+      </span>
     </span>
   </a>
   
@@ -857,9 +808,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-sections-list" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle sections list
-      
+      <span class="md-typeset">
+        <code>py-moodle sections list</code>
+      </span>
     </span>
   </a>
   
@@ -868,9 +819,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-sections-show" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle sections show
-      
+      <span class="md-typeset">
+        <code>py-moodle sections show</code>
+      </span>
     </span>
   </a>
   
@@ -879,9 +830,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-sections-create" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle sections create
-      
+      <span class="md-typeset">
+        <code>py-moodle sections create</code>
+      </span>
     </span>
   </a>
   
@@ -890,9 +841,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-sections-delete" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle sections delete
-      
+      <span class="md-typeset">
+        <code>py-moodle sections delete</code>
+      </span>
     </span>
   </a>
   
@@ -906,9 +857,9 @@
         <li class="md-nav__item">
   <a href="#py-moodle-modules" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle modules
-      
+      <span class="md-typeset">
+        <code>py-moodle modules</code>
+      </span>
     </span>
   </a>
   
@@ -918,9 +869,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-modules-delete" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle modules delete
-      
+      <span class="md-typeset">
+        <code>py-moodle modules delete</code>
+      </span>
     </span>
   </a>
   
@@ -929,9 +880,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-modules-show" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle modules show
-      
+      <span class="md-typeset">
+        <code>py-moodle modules show</code>
+      </span>
     </span>
   </a>
   
@@ -940,9 +891,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-modules-list-types" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle modules list-types
-      
+      <span class="md-typeset">
+        <code>py-moodle modules list-types</code>
+      </span>
     </span>
   </a>
   
@@ -951,9 +902,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-modules-add" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle modules add
-      
+      <span class="md-typeset">
+        <code>py-moodle modules add</code>
+      </span>
     </span>
   </a>
   
@@ -963,9 +914,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-modules-add-label" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle modules add label
-      
+      <span class="md-typeset">
+        <code>py-moodle modules add label</code>
+      </span>
     </span>
   </a>
   
@@ -974,9 +925,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-modules-add-scorm" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle modules add scorm
-      
+      <span class="md-typeset">
+        <code>py-moodle modules add scorm</code>
+      </span>
     </span>
   </a>
   
@@ -985,9 +936,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-modules-add-assign" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle modules add assign
-      
+      <span class="md-typeset">
+        <code>py-moodle modules add assign</code>
+      </span>
     </span>
   </a>
   
@@ -1001,9 +952,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-modules-edit" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle modules edit
-      
+      <span class="md-typeset">
+        <code>py-moodle modules edit</code>
+      </span>
     </span>
   </a>
   
@@ -1013,9 +964,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-modules-edit-label" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle modules edit label
-      
+      <span class="md-typeset">
+        <code>py-moodle modules edit label</code>
+      </span>
     </span>
   </a>
   
@@ -1024,9 +975,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-modules-edit-name" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle modules edit name
-      
+      <span class="md-typeset">
+        <code>py-moodle modules edit name</code>
+      </span>
     </span>
   </a>
   
@@ -1045,9 +996,9 @@
         <li class="md-nav__item">
   <a href="#py-moodle-users" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle users
-      
+      <span class="md-typeset">
+        <code>py-moodle users</code>
+      </span>
     </span>
   </a>
   
@@ -1057,9 +1008,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-users-list" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle users list
-      
+      <span class="md-typeset">
+        <code>py-moodle users list</code>
+      </span>
     </span>
   </a>
   
@@ -1068,9 +1019,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-users-create" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle users create
-      
+      <span class="md-typeset">
+        <code>py-moodle users create</code>
+      </span>
     </span>
   </a>
   
@@ -1079,9 +1030,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-users-delete" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle users delete
-      
+      <span class="md-typeset">
+        <code>py-moodle users delete</code>
+      </span>
     </span>
   </a>
   
@@ -1095,9 +1046,9 @@
         <li class="md-nav__item">
   <a href="#py-moodle-admin" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle admin
-      
+      <span class="md-typeset">
+        <code>py-moodle admin</code>
+      </span>
     </span>
   </a>
   
@@ -1107,9 +1058,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-admin-enable-webservice" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle admin enable-webservice
-      
+      <span class="md-typeset">
+        <code>py-moodle admin enable-webservice</code>
+      </span>
     </span>
   </a>
   
@@ -1123,9 +1074,9 @@
         <li class="md-nav__item">
   <a href="#py-moodle-folders" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle folders
-      
+      <span class="md-typeset">
+        <code>py-moodle folders</code>
+      </span>
     </span>
   </a>
   
@@ -1135,9 +1086,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-folders-add" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle folders add
-      
+      <span class="md-typeset">
+        <code>py-moodle folders add</code>
+      </span>
     </span>
   </a>
   
@@ -1146,9 +1097,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-folders-delete" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle folders delete
-      
+      <span class="md-typeset">
+        <code>py-moodle folders delete</code>
+      </span>
     </span>
   </a>
   
@@ -1157,9 +1108,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-folders-list-content" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle folders list-content
-      
+      <span class="md-typeset">
+        <code>py-moodle folders list-content</code>
+      </span>
     </span>
   </a>
   
@@ -1168,9 +1119,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-folders-add-file" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle folders add-file
-      
+      <span class="md-typeset">
+        <code>py-moodle folders add-file</code>
+      </span>
     </span>
   </a>
   
@@ -1179,9 +1130,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-folders-delete-file" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle folders delete-file
-      
+      <span class="md-typeset">
+        <code>py-moodle folders delete-file</code>
+      </span>
     </span>
   </a>
   
@@ -1190,9 +1141,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-folders-rename-file" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle folders rename-file
-      
+      <span class="md-typeset">
+        <code>py-moodle folders rename-file</code>
+      </span>
     </span>
   </a>
   
@@ -1206,9 +1157,9 @@
         <li class="md-nav__item">
   <a href="#py-moodle-pages" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle pages
-      
+      <span class="md-typeset">
+        <code>py-moodle pages</code>
+      </span>
     </span>
   </a>
   
@@ -1218,9 +1169,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-pages-add" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle pages add
-      
+      <span class="md-typeset">
+        <code>py-moodle pages add</code>
+      </span>
     </span>
   </a>
   
@@ -1229,9 +1180,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-pages-delete" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle pages delete
-      
+      <span class="md-typeset">
+        <code>py-moodle pages delete</code>
+      </span>
     </span>
   </a>
   
@@ -1245,9 +1196,9 @@
         <li class="md-nav__item">
   <a href="#py-moodle-resources" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle resources
-      
+      <span class="md-typeset">
+        <code>py-moodle resources</code>
+      </span>
     </span>
   </a>
   
@@ -1257,9 +1208,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-resources-add" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle resources add
-      
+      <span class="md-typeset">
+        <code>py-moodle resources add</code>
+      </span>
     </span>
   </a>
   
@@ -1268,9 +1219,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-resources-delete" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle resources delete
-      
+      <span class="md-typeset">
+        <code>py-moodle resources delete</code>
+      </span>
     </span>
   </a>
   
@@ -1284,9 +1235,9 @@
         <li class="md-nav__item">
   <a href="#py-moodle-urls" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle urls
-      
+      <span class="md-typeset">
+        <code>py-moodle urls</code>
+      </span>
     </span>
   </a>
   
@@ -1296,9 +1247,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-urls-add" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle urls add
-      
+      <span class="md-typeset">
+        <code>py-moodle urls add</code>
+      </span>
     </span>
   </a>
   
@@ -1307,9 +1258,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-urls-delete" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle urls delete
-      
+      <span class="md-typeset">
+        <code>py-moodle urls delete</code>
+      </span>
     </span>
   </a>
   
@@ -1323,9 +1274,9 @@
         <li class="md-nav__item">
   <a href="#py-moodle-site" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle site
-      
+      <span class="md-typeset">
+        <code>py-moodle site</code>
+      </span>
     </span>
   </a>
   
@@ -1335,9 +1286,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-site-info" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle site info
-      
+      <span class="md-typeset">
+        <code>py-moodle site info</code>
+      </span>
     </span>
   </a>
   
@@ -1351,9 +1302,9 @@
         <li class="md-nav__item">
   <a href="#py-moodle-doctor" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle doctor
-      
+      <span class="md-typeset">
+        <code>py-moodle doctor</code>
+      </span>
     </span>
   </a>
   
@@ -1363,9 +1314,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-doctor-run" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle doctor run
-      
+      <span class="md-typeset">
+        <code>py-moodle doctor run</code>
+      </span>
     </span>
   </a>
   
@@ -1414,8 +1365,7 @@
   <span class="md-ellipsis">
     
   
-    API Reference
-  
+  API Reference
 
     
   </span>
@@ -1430,8 +1380,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    API Reference
-  
+  API Reference
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -1466,8 +1415,7 @@
   <span class="md-ellipsis">
     
   
-    Core
-  
+  Core
 
     
   </span>
@@ -1482,8 +1430,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Core
-  
+  Core
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -1502,8 +1449,7 @@
   <span class="md-ellipsis">
     
   
-    Client
-  
+  Client
 
     
   </span>
@@ -1530,8 +1476,7 @@
   <span class="md-ellipsis">
     
   
-    Session
-  
+  Session
 
     
   </span>
@@ -1558,8 +1503,7 @@
   <span class="md-ellipsis">
     
   
-    HTTP
-  
+  HTTP
 
     
   </span>
@@ -1586,8 +1530,7 @@
   <span class="md-ellipsis">
     
   
-    Transport
-  
+  Transport
 
     
   </span>
@@ -1614,8 +1557,7 @@
   <span class="md-ellipsis">
     
   
-    Settings
-  
+  Settings
 
     
   </span>
@@ -1642,8 +1584,7 @@
   <span class="md-ellipsis">
     
   
-    Auth
-  
+  Auth
 
     
   </span>
@@ -1670,8 +1611,7 @@
   <span class="md-ellipsis">
     
   
-    Doctor
-  
+  Doctor
 
     
   </span>
@@ -1698,8 +1638,7 @@
   <span class="md-ellipsis">
     
   
-    Models
-  
+  Models
 
     
   </span>
@@ -1750,8 +1689,7 @@
   <span class="md-ellipsis">
     
   
-    Course Management
-  
+  Course Management
 
     
   </span>
@@ -1766,8 +1704,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Course Management
-  
+  Course Management
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -1786,8 +1723,7 @@
   <span class="md-ellipsis">
     
   
-    Course
-  
+  Course
 
     
   </span>
@@ -1814,8 +1750,7 @@
   <span class="md-ellipsis">
     
   
-    Category
-  
+  Category
 
     
   </span>
@@ -1842,8 +1777,7 @@
   <span class="md-ellipsis">
     
   
-    Section
-  
+  Section
 
     
   </span>
@@ -1894,8 +1828,7 @@
   <span class="md-ellipsis">
     
   
-    Content Modules
-  
+  Content Modules
 
     
   </span>
@@ -1910,8 +1843,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Content Modules
-  
+  Content Modules
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -1930,8 +1862,7 @@
   <span class="md-ellipsis">
     
   
-    Module
-  
+  Module
 
     
   </span>
@@ -1958,8 +1889,7 @@
   <span class="md-ellipsis">
     
   
-    Label
-  
+  Label
 
     
   </span>
@@ -1986,8 +1916,7 @@
   <span class="md-ellipsis">
     
   
-    Page
-  
+  Page
 
     
   </span>
@@ -2014,8 +1943,7 @@
   <span class="md-ellipsis">
     
   
-    Resource
-  
+  Resource
 
     
   </span>
@@ -2042,8 +1970,7 @@
   <span class="md-ellipsis">
     
   
-    Folder
-  
+  Folder
 
     
   </span>
@@ -2070,8 +1997,7 @@
   <span class="md-ellipsis">
     
   
-    URL
-  
+  URL
 
     
   </span>
@@ -2098,8 +2024,7 @@
   <span class="md-ellipsis">
     
   
-    SCORM
-  
+  SCORM
 
     
   </span>
@@ -2126,8 +2051,7 @@
   <span class="md-ellipsis">
     
   
-    Assignment
-  
+  Assignment
 
     
   </span>
@@ -2178,8 +2102,7 @@
   <span class="md-ellipsis">
     
   
-    File Management
-  
+  File Management
 
     
   </span>
@@ -2194,8 +2117,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    File Management
-  
+  File Management
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -2214,8 +2136,7 @@
   <span class="md-ellipsis">
     
   
-    Upload
-  
+  Upload
 
     
   </span>
@@ -2242,8 +2163,7 @@
   <span class="md-ellipsis">
     
   
-    Draftfile
-  
+  Draftfile
 
     
   </span>
@@ -2294,8 +2214,7 @@
   <span class="md-ellipsis">
     
   
-    User Management
-  
+  User Management
 
     
   </span>
@@ -2310,8 +2229,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    User Management
-  
+  User Management
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -2330,8 +2248,7 @@
   <span class="md-ellipsis">
     
   
-    User
-  
+  User
 
     
   </span>
@@ -2373,8 +2290,7 @@
   <span class="md-ellipsis">
     
   
-    Examples
-  
+  Examples
 
     
   </span>
@@ -2400,8 +2316,7 @@
   <span class="md-ellipsis">
     
   
-    Recipes
-  
+  Recipes
 
     
   </span>
@@ -2427,8 +2342,7 @@
   <span class="md-ellipsis">
     
   
-    Development
-  
+  Development
 
     
   </span>
@@ -2454,8 +2368,7 @@
   <span class="md-ellipsis">
     
   
-    Troubleshooting
-  
+  Troubleshooting
 
     
   </span>
@@ -2481,8 +2394,7 @@
   <span class="md-ellipsis">
     
   
-    Improvement Roadmap
-  
+  Improvement Roadmap
 
     
   </span>
@@ -2504,10 +2416,24 @@
               
               <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
                 <div class="md-sidebar__scrollwrap">
+                  
+                    
+                    
+                    
+                      
+                    
+                    
+                      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+                      <div class="md-sidebar-button__wrapper">
+                        <label class="md-sidebar-button" for="__toc"></label>
+                      </div>
+                    
+                  
                   <div class="md-sidebar__inner">
                     
 
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
   
   
   
@@ -2516,16 +2442,16 @@
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
-      Table of contents
+      On this page
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
   <a href="#py-moodle-courses" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle courses
-      
+      <span class="md-typeset">
+        <code>py-moodle courses</code>
+      </span>
     </span>
   </a>
   
@@ -2535,9 +2461,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-courses-list" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle courses list
-      
+      <span class="md-typeset">
+        <code>py-moodle courses list</code>
+      </span>
     </span>
   </a>
   
@@ -2546,9 +2472,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-courses-show" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle courses show
-      
+      <span class="md-typeset">
+        <code>py-moodle courses show</code>
+      </span>
     </span>
   </a>
   
@@ -2557,9 +2483,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-courses-create" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle courses create
-      
+      <span class="md-typeset">
+        <code>py-moodle courses create</code>
+      </span>
     </span>
   </a>
   
@@ -2568,9 +2494,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-courses-ensure" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle courses ensure
-      
+      <span class="md-typeset">
+        <code>py-moodle courses ensure</code>
+      </span>
     </span>
   </a>
   
@@ -2579,9 +2505,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-courses-delete" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle courses delete
-      
+      <span class="md-typeset">
+        <code>py-moodle courses delete</code>
+      </span>
     </span>
   </a>
   
@@ -2595,9 +2521,9 @@
         <li class="md-nav__item">
   <a href="#py-moodle-categories" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle categories
-      
+      <span class="md-typeset">
+        <code>py-moodle categories</code>
+      </span>
     </span>
   </a>
   
@@ -2607,9 +2533,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-categories-list" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle categories list
-      
+      <span class="md-typeset">
+        <code>py-moodle categories list</code>
+      </span>
     </span>
   </a>
   
@@ -2618,9 +2544,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-categories-create" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle categories create
-      
+      <span class="md-typeset">
+        <code>py-moodle categories create</code>
+      </span>
     </span>
   </a>
   
@@ -2629,9 +2555,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-categories-delete" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle categories delete
-      
+      <span class="md-typeset">
+        <code>py-moodle categories delete</code>
+      </span>
     </span>
   </a>
   
@@ -2645,9 +2571,9 @@
         <li class="md-nav__item">
   <a href="#py-moodle-sections" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle sections
-      
+      <span class="md-typeset">
+        <code>py-moodle sections</code>
+      </span>
     </span>
   </a>
   
@@ -2657,9 +2583,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-sections-list" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle sections list
-      
+      <span class="md-typeset">
+        <code>py-moodle sections list</code>
+      </span>
     </span>
   </a>
   
@@ -2668,9 +2594,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-sections-show" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle sections show
-      
+      <span class="md-typeset">
+        <code>py-moodle sections show</code>
+      </span>
     </span>
   </a>
   
@@ -2679,9 +2605,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-sections-create" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle sections create
-      
+      <span class="md-typeset">
+        <code>py-moodle sections create</code>
+      </span>
     </span>
   </a>
   
@@ -2690,9 +2616,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-sections-delete" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle sections delete
-      
+      <span class="md-typeset">
+        <code>py-moodle sections delete</code>
+      </span>
     </span>
   </a>
   
@@ -2706,9 +2632,9 @@
         <li class="md-nav__item">
   <a href="#py-moodle-modules" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle modules
-      
+      <span class="md-typeset">
+        <code>py-moodle modules</code>
+      </span>
     </span>
   </a>
   
@@ -2718,9 +2644,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-modules-delete" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle modules delete
-      
+      <span class="md-typeset">
+        <code>py-moodle modules delete</code>
+      </span>
     </span>
   </a>
   
@@ -2729,9 +2655,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-modules-show" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle modules show
-      
+      <span class="md-typeset">
+        <code>py-moodle modules show</code>
+      </span>
     </span>
   </a>
   
@@ -2740,9 +2666,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-modules-list-types" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle modules list-types
-      
+      <span class="md-typeset">
+        <code>py-moodle modules list-types</code>
+      </span>
     </span>
   </a>
   
@@ -2751,9 +2677,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-modules-add" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle modules add
-      
+      <span class="md-typeset">
+        <code>py-moodle modules add</code>
+      </span>
     </span>
   </a>
   
@@ -2763,9 +2689,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-modules-add-label" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle modules add label
-      
+      <span class="md-typeset">
+        <code>py-moodle modules add label</code>
+      </span>
     </span>
   </a>
   
@@ -2774,9 +2700,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-modules-add-scorm" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle modules add scorm
-      
+      <span class="md-typeset">
+        <code>py-moodle modules add scorm</code>
+      </span>
     </span>
   </a>
   
@@ -2785,9 +2711,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-modules-add-assign" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle modules add assign
-      
+      <span class="md-typeset">
+        <code>py-moodle modules add assign</code>
+      </span>
     </span>
   </a>
   
@@ -2801,9 +2727,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-modules-edit" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle modules edit
-      
+      <span class="md-typeset">
+        <code>py-moodle modules edit</code>
+      </span>
     </span>
   </a>
   
@@ -2813,9 +2739,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-modules-edit-label" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle modules edit label
-      
+      <span class="md-typeset">
+        <code>py-moodle modules edit label</code>
+      </span>
     </span>
   </a>
   
@@ -2824,9 +2750,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-modules-edit-name" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle modules edit name
-      
+      <span class="md-typeset">
+        <code>py-moodle modules edit name</code>
+      </span>
     </span>
   </a>
   
@@ -2845,9 +2771,9 @@
         <li class="md-nav__item">
   <a href="#py-moodle-users" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle users
-      
+      <span class="md-typeset">
+        <code>py-moodle users</code>
+      </span>
     </span>
   </a>
   
@@ -2857,9 +2783,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-users-list" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle users list
-      
+      <span class="md-typeset">
+        <code>py-moodle users list</code>
+      </span>
     </span>
   </a>
   
@@ -2868,9 +2794,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-users-create" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle users create
-      
+      <span class="md-typeset">
+        <code>py-moodle users create</code>
+      </span>
     </span>
   </a>
   
@@ -2879,9 +2805,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-users-delete" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle users delete
-      
+      <span class="md-typeset">
+        <code>py-moodle users delete</code>
+      </span>
     </span>
   </a>
   
@@ -2895,9 +2821,9 @@
         <li class="md-nav__item">
   <a href="#py-moodle-admin" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle admin
-      
+      <span class="md-typeset">
+        <code>py-moodle admin</code>
+      </span>
     </span>
   </a>
   
@@ -2907,9 +2833,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-admin-enable-webservice" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle admin enable-webservice
-      
+      <span class="md-typeset">
+        <code>py-moodle admin enable-webservice</code>
+      </span>
     </span>
   </a>
   
@@ -2923,9 +2849,9 @@
         <li class="md-nav__item">
   <a href="#py-moodle-folders" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle folders
-      
+      <span class="md-typeset">
+        <code>py-moodle folders</code>
+      </span>
     </span>
   </a>
   
@@ -2935,9 +2861,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-folders-add" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle folders add
-      
+      <span class="md-typeset">
+        <code>py-moodle folders add</code>
+      </span>
     </span>
   </a>
   
@@ -2946,9 +2872,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-folders-delete" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle folders delete
-      
+      <span class="md-typeset">
+        <code>py-moodle folders delete</code>
+      </span>
     </span>
   </a>
   
@@ -2957,9 +2883,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-folders-list-content" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle folders list-content
-      
+      <span class="md-typeset">
+        <code>py-moodle folders list-content</code>
+      </span>
     </span>
   </a>
   
@@ -2968,9 +2894,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-folders-add-file" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle folders add-file
-      
+      <span class="md-typeset">
+        <code>py-moodle folders add-file</code>
+      </span>
     </span>
   </a>
   
@@ -2979,9 +2905,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-folders-delete-file" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle folders delete-file
-      
+      <span class="md-typeset">
+        <code>py-moodle folders delete-file</code>
+      </span>
     </span>
   </a>
   
@@ -2990,9 +2916,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-folders-rename-file" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle folders rename-file
-      
+      <span class="md-typeset">
+        <code>py-moodle folders rename-file</code>
+      </span>
     </span>
   </a>
   
@@ -3006,9 +2932,9 @@
         <li class="md-nav__item">
   <a href="#py-moodle-pages" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle pages
-      
+      <span class="md-typeset">
+        <code>py-moodle pages</code>
+      </span>
     </span>
   </a>
   
@@ -3018,9 +2944,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-pages-add" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle pages add
-      
+      <span class="md-typeset">
+        <code>py-moodle pages add</code>
+      </span>
     </span>
   </a>
   
@@ -3029,9 +2955,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-pages-delete" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle pages delete
-      
+      <span class="md-typeset">
+        <code>py-moodle pages delete</code>
+      </span>
     </span>
   </a>
   
@@ -3045,9 +2971,9 @@
         <li class="md-nav__item">
   <a href="#py-moodle-resources" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle resources
-      
+      <span class="md-typeset">
+        <code>py-moodle resources</code>
+      </span>
     </span>
   </a>
   
@@ -3057,9 +2983,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-resources-add" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle resources add
-      
+      <span class="md-typeset">
+        <code>py-moodle resources add</code>
+      </span>
     </span>
   </a>
   
@@ -3068,9 +2994,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-resources-delete" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle resources delete
-      
+      <span class="md-typeset">
+        <code>py-moodle resources delete</code>
+      </span>
     </span>
   </a>
   
@@ -3084,9 +3010,9 @@
         <li class="md-nav__item">
   <a href="#py-moodle-urls" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle urls
-      
+      <span class="md-typeset">
+        <code>py-moodle urls</code>
+      </span>
     </span>
   </a>
   
@@ -3096,9 +3022,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-urls-add" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle urls add
-      
+      <span class="md-typeset">
+        <code>py-moodle urls add</code>
+      </span>
     </span>
   </a>
   
@@ -3107,9 +3033,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-urls-delete" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle urls delete
-      
+      <span class="md-typeset">
+        <code>py-moodle urls delete</code>
+      </span>
     </span>
   </a>
   
@@ -3123,9 +3049,9 @@
         <li class="md-nav__item">
   <a href="#py-moodle-site" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle site
-      
+      <span class="md-typeset">
+        <code>py-moodle site</code>
+      </span>
     </span>
   </a>
   
@@ -3135,9 +3061,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-site-info" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle site info
-      
+      <span class="md-typeset">
+        <code>py-moodle site info</code>
+      </span>
     </span>
   </a>
   
@@ -3151,9 +3077,9 @@
         <li class="md-nav__item">
   <a href="#py-moodle-doctor" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle doctor
-      
+      <span class="md-typeset">
+        <code>py-moodle doctor</code>
+      </span>
     </span>
   </a>
   
@@ -3163,9 +3089,9 @@
           <li class="md-nav__item">
   <a href="#py-moodle-doctor-run" class="md-nav__link">
     <span class="md-ellipsis">
-      
-        py-moodle doctor run
-      
+      <span class="md-typeset">
+        <code>py-moodle doctor run</code>
+      </span>
     </span>
   </a>
   
@@ -3190,8 +3116,6 @@
               <article class="md-content__inner md-typeset">
                 
                   
-
-
   
   
 
@@ -3945,6 +3869,8 @@ This uses the centralized delete function from the library.</p>
 
 
 
+
+
                 
               </article>
             </div>
@@ -3955,7 +3881,7 @@ This uses the centralized delete function from the library.</p>
         
           <button type="button" class="md-top md-icon" data-md-component="top" hidden>
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-circle-arrow-up" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4M12 16V8"/></svg>
   Back to top
 </button>
         
@@ -3969,8 +3895,8 @@ This uses the centralized delete function from the library.</p>
   
   
     Made with
-    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-      Material for MkDocs
+    <a href="https://zensical.org/" target="_blank" rel="noopener">
+      Zensical
     </a>
   
 </div>
@@ -3983,7 +3909,7 @@ This uses the centralized delete function from the library.</p>
     
     
     <a href="https://github.com/erseco/python-moodle" target="_blank" rel="noopener" title="GitHub Repository" class="md-social__link">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
     </a>
   
     
@@ -3991,7 +3917,7 @@ This uses the centralized delete function from the library.</p>
     
     
     <a href="https://pypi.org/project/python-moodle/" target="_blank" rel="noopener" title="PyPI Package" class="md-social__link">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.8 200.5c-7.7-30.9-22.3-54.2-53.4-54.2h-40.1v47.4c0 36.8-31.2 67.8-66.8 67.8H172.7c-29.2 0-53.4 25-53.4 54.3v101.8c0 29 25.2 46 53.4 54.3 33.8 9.9 66.3 11.7 106.8 0 26.9-7.8 53.4-23.5 53.4-54.3v-40.7H226.2v-13.6h160.2c31.1 0 42.6-21.7 53.4-54.2 11.2-33.5 10.7-65.7 0-108.6M286.2 444.7a20.4 20.4 0 1 1 0-40.7 20.4 20.4 0 1 1 0 40.7M167.8 248.1h106.8c29.7 0 53.4-24.5 53.4-54.3V91.9c0-29-24.4-50.7-53.4-55.6-35.8-5.9-74.7-5.6-106.8.1-45.2 8-53.4 24.7-53.4 55.6v40.7h106.9v13.6h-147c-31.1 0-58.3 18.7-66.8 54.2-9.8 40.7-10.2 66.1 0 108.6 7.6 31.6 25.7 54.2 56.8 54.2H101v-48.8c0-35.3 30.5-66.4 66.8-66.4m-6.6-183.4a20.4 20.4 0 1 1 0 40.8 20.4 20.4 0 1 1 0-40.8"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M439.8 200.5c-7.7-30.9-22.3-54.2-53.4-54.2h-40.1v47.4c0 36.8-31.2 67.8-66.8 67.8H172.7c-29.2 0-53.4 25-53.4 54.3v101.8c0 29 25.2 46 53.4 54.3 33.8 9.9 66.3 11.7 106.8 0 26.9-7.8 53.4-23.5 53.4-54.3v-40.7H226.2v-13.6h160.2c31.1 0 42.6-21.7 53.4-54.2 11.2-33.5 10.7-65.7 0-108.6M286.2 444.7a20.4 20.4 0 1 1 0-40.7 20.4 20.4 0 1 1 0 40.7M167.8 248.1h106.8c29.7 0 53.4-24.5 53.4-54.3V91.9c0-29-24.4-50.7-53.4-55.6-35.8-5.9-74.7-5.6-106.8.1-45.2 8-53.4 24.7-53.4 55.6v40.7h106.9v13.6h-147c-31.1 0-58.3 18.7-66.8 54.2-9.8 40.7-10.2 66.1 0 108.6 7.6 31.6 25.7 54.2 56.8 54.2H101v-48.8c0-35.3 30.5-66.4 66.8-66.4m-6.6-183.4a20.4 20.4 0 1 1 0 40.8 20.4 20.4 0 1 1 0-40.8"/></svg>
     </a>
   
 </div>
@@ -4009,10 +3935,10 @@ This uses the centralized delete function from the library.</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.copy", "content.code.annotate", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate":null,"base":"..","features":["content.code.copy","content.code.annotate","navigation.sections","navigation.tabs","navigation.top","navigation.tracking","search.highlight","search.share","toc.follow"],"search":"../assets/javascripts/workers/search.b6b7e04f.min.js","tags":null,"translations":{"clipboard.copied":"Copied to clipboard","clipboard.copy":"Copy to clipboard","search.result.more.one":"1 more on this page","search.result.more.other":"# more on this page","search.result.none":"No matching documents","search.result.one":"1 matching document","search.result.other":"# matching documents","search.result.placeholder":"Type to start searching","search.result.term.missing":"Missing","select.version":"Select version"},"version":null}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.0df4f2d0.min.js"></script>
       
     
   </body>

@@ -1,7 +1,22 @@
-:root {
-  --md-primary-fg-color: #1976d2;
-  --md-primary-fg-color--light: #42a5f5;
-  --md-primary-fg-color--dark: #1565c0;
+/*
+ * Moodle brand orange (#f98012), per Moodle's Global Brand Guidelines.
+ * Moodle's own guidelines note that white-on-orange and orange-on-white
+ * both fail WCAG AA contrast, so header/nav text uses Moodle Black
+ * (#282828) instead of the Material default white, matching how Moodle's
+ * own brand materials pair orange buttons with dark text.
+ */
+[data-md-color-primary="custom"] {
+  --md-primary-fg-color: #f98012;
+  --md-primary-fg-color--light: #ffa64d;
+  --md-primary-fg-color--dark: #c96700;
+  --md-primary-bg-color: #282828;
+  --md-primary-bg-color--light: #282828;
+}
+
+[data-md-color-accent="custom"] {
+  --md-accent-fg-color: #f98012;
+  --md-accent-fg-color--transparent: #f980121a;
+  --md-accent-bg-color: #282828;
 }
 
 .md-typeset .admonition.warning {
