@@ -28,6 +28,11 @@ upd: check-docker ensure-env
 	  echo "Moodle did not become ready in time."; \
 	  exit 1; \
 	fi
+	@echo "Grace period: the login page can respond before Moodle's own"; \
+	echo "post-boot install/seed step (which creates the admin user) has"; \
+	echo "actually finished, causing spurious 'invalid username or"; \
+	echo "password' errors on the very first login attempt."; \
+	sleep 15
 
 format:
 	black .
