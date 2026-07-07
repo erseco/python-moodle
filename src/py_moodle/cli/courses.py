@@ -6,6 +6,7 @@ from rich.table import Table
 
 from py_moodle.cli.output import OutputFormat, emit
 from py_moodle.course import (
+    ConfirmationRequired,
     MoodleCourseError,
     create_course,
     delete_course,
@@ -179,6 +180,20 @@ def delete_a_course(
     try:
         delete_course(ms.session, ms.settings.url, ms.sesskey, course_id, force=force)
         typer.echo(f"Course {course_id} deleted successfully.")
+    except ConfirmationRequired as e:
+        confirm = typer.confirm(
+            f"Are you sure you want to delete course '{e.course_title}' "
+            f"(ID {e.course_id})?",
+            default=False,
+        )
+        if not confirm:
+            typer.echo("Aborted.")
+            raise typer.Exit(0)
+        delete_course(ms.session, ms.settings.url, ms.sesskey, course_id, force=True)
+        typer.echo(f"Course {course_id} deleted successfully.")
+    except MoodleCourseError as e:
+        typer.echo(f"Error deleting course: {e}", err=True)
+        raise typer.Exit(1)
     except Exception as e:
         typer.echo(f"Error deleting course: {e}", err=True)
         raise typer.Exit(1)
