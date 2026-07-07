@@ -18,6 +18,7 @@ from typing import Any, Dict, Optional
 from .auth import LoginError, login
 from .compat import DEFAULT_COMPATIBILITY, get_session_compatibility
 from .config import DEFAULT_REQUEST_TIMEOUT
+from .http import MoodleHttpError, MoodleWebserviceError, request_webservice
 
 
 class MoodleSessionError(RuntimeError):
@@ -131,30 +132,26 @@ class MoodleSession:
         if params is None:
             params = {}
 
-        request_params = {
-            "moodlewsrestformat": "json",
-            "wsfunction": wsfunction,
-            "wstoken": self.token,
-            **params,
-        }
-
-        response = self.session.post(
-            f"{self.settings.url}/webservice/rest/server.php",
-            params=request_params,
-            timeout=DEFAULT_REQUEST_TIMEOUT,
-        )
-        response.raise_for_status()
-        data = response.json()
-        # Check for Moodle-specific error response
-        if isinstance(data, dict) and (
-            "exception" in data or "errorcode" in data or "message" in data
-        ):
+        try:
+            return request_webservice(
+                self.session,
+                self.settings.url,
+                wsfunction,
+                params,
+                token=self.token,
+                timeout=DEFAULT_REQUEST_TIMEOUT,
+            )
+        except MoodleWebserviceError as exc:
             raise MoodleSessionError(
                 f"Moodle API call {wsfunction!r} failed: "
-                f"{data.get('message', 'Unknown error')} "
-                f"(errorcode: {data.get('errorcode', 'N/A')}, exception: {data.get('exception', 'N/A')})"
-            )
-        return data
+                f"{exc.args[0] if exc.args else 'Unknown error'} "
+                f"(errorcode: {exc.errorcode or 'N/A'}, "
+                f"exception: {exc.moodle_exception or 'N/A'})"
+            ) from exc
+        except MoodleHttpError as exc:
+            raise MoodleSessionError(
+                f"Moodle API call {wsfunction!r} failed: {exc}"
+            ) from exc
 
     # ------------- factory -------------
     @classmethod
