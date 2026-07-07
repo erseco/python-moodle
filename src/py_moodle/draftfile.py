@@ -9,6 +9,7 @@ All code and comments must be in English.
 """
 
 import json
+import logging
 import mimetypes
 import re
 import time
@@ -21,6 +22,8 @@ from py_moodle.module import MoodleModuleError
 
 from .config import DEFAULT_LARGE_UPLOAD_TIMEOUT, DEFAULT_REQUEST_TIMEOUT
 from .upload import ProgressTracker
+
+logger = logging.getLogger("py_moodle.draftfile")
 
 
 class MoodleDraftFileError(Exception):
@@ -189,7 +192,7 @@ def upload_file_to_draft_area(
 
     except (MoodleDraftFileError, MoodleModuleError) as e:
         # If detection fails, warn and fall back to 5 as a last resort
-        print(
+        logger.warning(
             f"Warning: Could not auto-detect repo_id ({e}). Falling back to default ID 5."
         )
         repo_id = 5  # '5' is typically the "Upload a file" repository

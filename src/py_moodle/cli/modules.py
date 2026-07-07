@@ -5,7 +5,7 @@ from typing import Optional
 import typer
 
 from py_moodle.assign import MoodleAssignError, add_assign
-from py_moodle.cli.output import OutputFormat, emit
+from py_moodle.cli.output import OutputFormat, emit, render_dry_run_plan
 from py_moodle.label import MoodleLabelError, add_label, update_label
 
 # Import functions from the library directly
@@ -142,10 +142,32 @@ def add_a_scorm_cmd(
     intro: str = typer.Option(
         "", "--intro", help="Introduction or description for the SCORM."
     ),
+    output: OutputFormat = typer.Option(
+        OutputFormat.TABLE, "--output", help="Output format: table, json, or yaml."
+    ),
+    dry_run: bool = typer.Option(
+        False,
+        "--dry-run",
+        help="Preview the SCORM package that would be added without uploading it.",
+    ),
 ):
     """
     Adds a new SCORM package to a course section.
     """
+    if dry_run:
+        plan = {
+            "action": "add_scorm",
+            "dry_run": True,
+            "target": {"course_id": course_id, "section_id": section_id},
+            "parameters": {
+                "name": name,
+                "file_path": file_path.name,
+                "intro": intro,
+            },
+        }
+        render_dry_run_plan(plan, output)
+        return
+
     ms = MoodleSession.get(ctx.obj["env"])
     try:
         new_cmid = add_scorm(

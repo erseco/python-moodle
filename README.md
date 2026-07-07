@@ -135,6 +135,8 @@ Use the `--env` flag or the `MOODLE_ENV` variable to select the environment, e.g
 
 > **Note**: For local development, you can quickly spin up a Moodle instance using the provided `docker-compose.yml`: `docker-compose up -d`.
 
+If something is not working for a given environment, run `py-moodle --env prod doctor run` to check base URL reachability, login, sesskey/webservice token availability, and a few other diagnostics in one command (see the [Recipes](https://erseco.github.io/python-moodle/recipes/#diagnosing-a-broken-environment) page for details).
+
 ---
 
 ## CLI Usage

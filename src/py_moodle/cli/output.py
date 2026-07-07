@@ -197,4 +197,36 @@ def configure_logging(verbose: bool = False, debug: bool = False) -> None:
     logger.propagate = False
 
 
-__all__ = ["OutputFormat", "emit", "get_console", "configure_logging"]
+def render_dry_run_plan(plan: dict, output_format: OutputFormat) -> None:
+    """Render a dry-run plan describing a mutating action that was skipped.
+
+    Used by ``--dry-run`` CLI commands to preview the action that *would*
+    have been taken (e.g. creating or deleting a course) without invoking
+    the underlying mutating library function.
+
+    Args:
+        plan: Structured plan describing the skipped action. Expected to
+            contain at least ``action``, ``dry_run``, ``target``, and
+            ``parameters`` keys.
+        output_format: The desired output format (table, json, or yaml).
+    """
+
+    def _render_table(data: dict) -> None:
+        typer.echo(f"[DRY RUN] {data.get('action')} (no changes made)")
+        target = data.get("target") or {}
+        for key, value in target.items():
+            typer.echo(f"  target.{key}: {value}")
+        parameters = data.get("parameters") or {}
+        for key, value in parameters.items():
+            typer.echo(f"  parameters.{key}: {value}")
+
+    emit(plan, output_format, table_fn=_render_table)
+
+
+__all__ = [
+    "OutputFormat",
+    "emit",
+    "get_console",
+    "configure_logging",
+    "render_dry_run_plan",
+]

@@ -94,6 +94,22 @@ def create_course(session: requests.Session, url: str, course_data: dict, token:
     pass
 ```
 
+### Making HTTP Requests
+
+`src/py_moodle/http.py` centralizes HTTP behavior for talking to Moodle:
+default timeouts (from `config.py`), conservative retry-with-backoff for
+safe GET-style requests only, typed exceptions (`MoodleHttpError`,
+`MoodleTimeoutError`, `MoodleWebserviceError`) instead of raw `requests`
+exceptions or `json.JSONDecodeError`, and redaction of secrets (webservice
+token, `sesskey`, password, cookies, `Authorization` header) from
+exception messages. New code that talks to Moodle should prefer the
+helpers in this module (`request_webservice`, `request_html_get`,
+`request_form_post`, `request_ajax`, `upload_file`) over calling
+`session.get`/`session.post`/`requests.post` directly. Only a few call
+sites have been migrated so far (`session.py`'s `MoodleSession.call()` and
+`course.py`'s `list_courses()`/`create_course()`); migrating the remaining
+modules is tracked as follow-up work.
+
 ## Testing
 
 ### Running Tests

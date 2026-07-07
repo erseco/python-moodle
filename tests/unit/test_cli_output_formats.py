@@ -36,22 +36,9 @@ def _cli_runner_with_separate_stderr() -> CliRunner:
         return CliRunner()
 
 
-@pytest.fixture(autouse=True)
-def _reset_py_moodle_logging():
-    """Snapshot and restore the shared ``py_moodle`` logger state per test.
-
-    ``configure_logging()`` and ``MoodleAuth(debug=True)`` intentionally
-    mutate shared, process-global logger objects (level, handlers,
-    propagate). Without this fixture, one test's configuration could leak
-    into another test running later in the same process.
-    """
-    loggers = [logging.getLogger("py_moodle"), logging.getLogger("py_moodle.auth")]
-    snapshots = [(lgr, lgr.level, list(lgr.handlers), lgr.propagate) for lgr in loggers]
-    yield
-    for lgr, level, handlers, propagate in snapshots:
-        lgr.level = level
-        lgr.handlers = handlers
-        lgr.propagate = propagate
+# Shared py_moodle.* logger state is reset around every test by the
+# autouse fixture in tests/conftest.py (configure_logging() mutates it
+# globally, and several other test files invoke the CLI too).
 
 
 # ---------------------------------------------------------------------------

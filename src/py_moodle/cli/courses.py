@@ -1,15 +1,23 @@
 """Course-related commands for ``py-moodle``."""
 
+from dataclasses import asdict
 from functools import partial
 
 import typer
 from rich.table import Table
 
-from py_moodle.cli.output import OutputFormat, emit, get_console
+from py_moodle.cli.output import (
+    OutputFormat,
+    emit,
+    get_console,
+    render_dry_run_plan,
+)
 from py_moodle.course import (
+    ConfirmationRequired,
     MoodleCourseError,
     create_course,
     delete_course,
+    ensure_course,
     get_course_with_sections_and_modules,
     list_courses,
 )
@@ -151,10 +159,36 @@ def create_new_course(
     ),
     visible: int = typer.Option(1, "--visible", help="1 for visible, 0 for hidden."),
     summary: str = typer.Option("", "--summary", help="Course summary."),
+    output: OutputFormat = typer.Option(
+        OutputFormat.TABLE, "--output", help="Output format: table, json, or yaml."
+    ),
+    dry_run: bool = typer.Option(
+        False,
+        "--dry-run",
+        help="Preview the course that would be created without calling Moodle.",
+    ),
 ):
     """
     Creates a new course.
     """
+    if dry_run:
+        plan = {
+            "action": "create_course",
+            "dry_run": True,
+            # The real course id is assigned by Moodle and cannot be known
+            # before the request is actually sent.
+            "target": {"course_id": "<assigned-by-moodle>"},
+            "parameters": {
+                "fullname": fullname,
+                "shortname": shortname,
+                "categoryid": categoryid,
+                "visible": visible,
+                "summary": summary,
+            },
+        }
+        render_dry_run_plan(plan, output)
+        return
+
     ms = MoodleSession.get(ctx.obj["env"])
     try:
         course = create_course(
@@ -183,6 +217,71 @@ def create_new_course(
             raise typer.Exit(1)
 
 
+def _render_ensure_table(ctx: typer.Context, data: dict) -> None:
+    """Prints a rich summary table for an ``ensure_course`` result."""
+    course = data.get("course") or {}
+    table = Table("Status", "ID", "Shortname", "Fullname", "Category")
+    table.add_row(
+        str(data.get("status", "")),
+        str(course.get("id", "")),
+        str(course.get("shortname", "")),
+        str(course.get("fullname", "")),
+        str(course.get("categoryid", "")),
+    )
+    get_console(ctx).print(table)
+
+    differences = data.get("differences")
+    if differences:
+        diff_table = Table("Field", "Existing", "Requested", title="Conflicting fields")
+        for field_name, values in differences.items():
+            existing_value, requested_value = values
+            diff_table.add_row(field_name, str(existing_value), str(requested_value))
+        get_console(ctx).print(diff_table)
+
+
+@app.command("ensure")
+def ensure_a_course(
+    ctx: typer.Context,
+    shortname: str = typer.Option(
+        ..., "--shortname", help="Unique shortname to look up or create."
+    ),
+    fullname: str = typer.Option(
+        ..., "--fullname", help="Desired full name of the course."
+    ),
+    category_id: int = typer.Option(..., "--category-id", help="Desired category ID."),
+    update: bool = typer.Option(
+        False,
+        "--update/--no-update",
+        help="Update fullname/category if the course already exists.",
+    ),
+    output: OutputFormat = typer.Option(
+        OutputFormat.TABLE, "--output", help="Output format: table, json, or yaml."
+    ),
+):
+    """
+    Ensures a course with the given shortname exists (create if missing).
+    """
+    ms = MoodleSession.get(ctx.obj["env"])
+    try:
+        result = ensure_course(
+            ms.session,
+            ms.settings.url,
+            ms.sesskey,
+            shortname=shortname,
+            fullname=fullname,
+            category_id=category_id,
+            token=ms.token,
+            update=update,
+        )
+    except MoodleCourseError as e:
+        typer.echo(f"Error ensuring course: {e}", err=True)
+        raise typer.Exit(1)
+
+    emit(asdict(result), output, table_fn=partial(_render_ensure_table, ctx))
+    if result.status == "conflict":
+        raise typer.Exit(code=1)
+
+
 @app.command("delete")
 def delete_a_course(
     ctx: typer.Context,
@@ -190,15 +289,51 @@ def delete_a_course(
     force: bool = typer.Option(
         False, "--force", help="Delete without asking for confirmation."
     ),
+    output: OutputFormat = typer.Option(
+        OutputFormat.TABLE, "--output", help="Output format: table, json, or yaml."
+    ),
+    dry_run: bool = typer.Option(
+        False,
+        "--dry-run",
+        help=(
+            "Preview the deletion without calling Moodle or prompting for "
+            "confirmation."
+        ),
+    ),
 ):
     """
     Deletes a course by its ID.
     """
+    if dry_run:
+        plan = {
+            "action": "delete_course",
+            "dry_run": True,
+            "target": {"course_id": course_id},
+            "parameters": {"force": force},
+        }
+        render_dry_run_plan(plan, output)
+        return
+
     ms = MoodleSession.get(ctx.obj["env"])
     try:
         delete_course(ms.session, ms.settings.url, ms.sesskey, course_id, force=force)
         if not ctx.obj.get("quiet"):
             typer.echo(f"Course {course_id} deleted successfully.")
+    except ConfirmationRequired as e:
+        confirm = typer.confirm(
+            f"Are you sure you want to delete course '{e.course_title}' "
+            f"(ID {e.course_id})?",
+            default=False,
+        )
+        if not confirm:
+            typer.echo("Aborted.")
+            raise typer.Exit(0)
+        delete_course(ms.session, ms.settings.url, ms.sesskey, course_id, force=True)
+        if not ctx.obj.get("quiet"):
+            typer.echo(f"Course {course_id} deleted successfully.")
+    except MoodleCourseError as e:
+        typer.echo(f"Error deleting course: {e}", err=True)
+        raise typer.Exit(1)
     except Exception as e:
         typer.echo(f"Error deleting course: {e}", err=True)
         raise typer.Exit(1)
