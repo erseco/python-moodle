@@ -211,6 +211,39 @@ def test_run_diagnostics_login_failure(monkeypatch, fake_settings, patch_probes)
     assert base_url_checks[0].status == CheckStatus.PASS
 
 
+def test_run_diagnostics_login_failure_redacts_secrets_from_exception_text(
+    monkeypatch, fake_settings, patch_probes
+):
+    """A login-failure message embedding the raw password/token must be redacted.
+
+    Regression guard for the "login" check message, which is built from an
+    arbitrary exception's ``str()``: nothing in the login flow guarantees
+    that text can never embed a secret, so ``doctor`` must actively scrub
+    it rather than relying on every upstream exception to already be safe.
+    """
+    monkeypatch.setattr("py_moodle.doctor.load_settings", lambda env: fake_settings)
+    monkeypatch.setattr(
+        MoodleSession,
+        "get",
+        MagicMock(
+            side_effect=MoodleSessionError(
+                f"bad credentials for password={FAKE_PASSWORD} token={FAKE_TOKEN}"
+            )
+        ),
+    )
+    patch_probes()
+
+    from py_moodle.doctor import CheckStatus, run_diagnostics
+
+    report = run_diagnostics("test")
+
+    login_checks = [c for c in report.checks if c.name == "login"]
+    assert len(login_checks) == 1
+    assert login_checks[0].status == CheckStatus.FAIL
+    assert FAKE_PASSWORD not in login_checks[0].message
+    assert FAKE_TOKEN not in login_checks[0].message
+
+
 def test_run_diagnostics_unknown_env_raises():
     """An unresolvable environment should raise ValueError, not be swallowed."""
     from py_moodle.doctor import run_diagnostics

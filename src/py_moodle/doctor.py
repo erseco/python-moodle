@@ -104,7 +104,32 @@ def _check_base_url(report: DoctorReport, settings: Settings) -> None:
         )
 
 
-def _check_login(report: DoctorReport, env: str) -> Optional[MoodleSession]:
+def _redact_secrets(text: str, settings: Settings) -> str:
+    """Scrub known secret values for ``settings`` out of ``text``.
+
+    Defensive measure for check messages that embed an arbitrary
+    exception's ``str()``: even though today's login/auth exceptions do not
+    happen to include the raw password or token, nothing guarantees a
+    future change in the login flow won't. This ensures the module's own
+    "never surfaces raw secret values" guarantee holds regardless.
+
+    Args:
+        text: Message text that may contain a secret value verbatim.
+        settings: Settings whose password/webservice_token must never
+            appear in ``text``.
+
+    Returns:
+        str: ``text`` with any known secret value replaced by a marker.
+    """
+    for secret in (settings.password, settings.webservice_token):
+        if secret:
+            text = text.replace(secret, "***REDACTED***")
+    return text
+
+
+def _check_login(
+    report: DoctorReport, env: str, settings: Settings
+) -> Optional[MoodleSession]:
     """Check that login succeeds (critical). Returns the session on success."""
     try:
         session = MoodleSession.get(env)
@@ -112,12 +137,10 @@ def _check_login(report: DoctorReport, env: str) -> Optional[MoodleSession]:
         _add(report, "login", CheckStatus.PASS, "Login succeeded.")
         return session
     except Exception as exc:
-        _add(
-            report,
-            "login",
-            CheckStatus.FAIL,
-            f"Login failed: {type(exc).__name__}: {exc}",
+        message = _redact_secrets(
+            f"Login failed: {type(exc).__name__}: {exc}", settings
         )
+        _add(report, "login", CheckStatus.FAIL, message)
         return None
 
 
@@ -433,7 +456,7 @@ def run_diagnostics(env: str) -> DoctorReport:
     report = DoctorReport(env=settings.env_name)
 
     _check_base_url(report, settings)
-    session = _check_login(report, env)
+    session = _check_login(report, env, settings)
     _check_cas(report, settings)
     _check_moodle_version(report, session)
     _check_sesskey(report, session)
