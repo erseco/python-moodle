@@ -24,6 +24,18 @@ def _strip_ansi(text: str) -> str:
     return re.sub(r"\x1b\[[0-9;]*m", "", text)
 
 
+def _cli_runner_with_separate_stderr() -> CliRunner:
+    """Build a CliRunner with stdout/stderr captured separately.
+
+    Click <8.2 requires ``mix_stderr=False`` for this; Click >=8.2 removed
+    that argument and always captures stderr separately. Support both.
+    """
+    try:
+        return CliRunner(mix_stderr=False)
+    except TypeError:
+        return CliRunner()
+
+
 @pytest.fixture(autouse=True)
 def _reset_py_moodle_logging():
     """Snapshot and restore the shared ``py_moodle`` logger state per test.
@@ -259,7 +271,7 @@ def test_quiet_flag_does_not_suppress_errors(monkeypatch):
 
     monkeypatch.setattr("py_moodle.cli.courses.create_course", _raise)
 
-    runner = CliRunner(mix_stderr=False)
+    runner = _cli_runner_with_separate_stderr()
     result = runner.invoke(
         app,
         [
@@ -593,7 +605,7 @@ def test_json_output_error_goes_to_stderr_not_stdout(monkeypatch):
         "py_moodle.cli.courses.MoodleSession.get", lambda env=None: MagicMock()
     )
 
-    runner = CliRunner(mix_stderr=False)
+    runner = _cli_runner_with_separate_stderr()
     result = runner.invoke(app, ["courses", "show", "1", "--output", "json"])
 
     assert result.exit_code == 1
@@ -616,7 +628,7 @@ def test_csv_output_error_goes_to_stderr_not_stdout(monkeypatch):
         "py_moodle.cli.courses.MoodleSession.get", lambda env=None: MagicMock()
     )
 
-    runner = CliRunner(mix_stderr=False)
+    runner = _cli_runner_with_separate_stderr()
     result = runner.invoke(app, ["courses", "show", "1", "--output", "csv"])
 
     assert result.exit_code == 1
