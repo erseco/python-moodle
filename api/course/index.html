@@ -1852,6 +1852,14 @@ and enumerate course sections using AJAX endpoints.</p>
               </div>
             </td>
           </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="ConfirmationRequired (py_moodle.course.ConfirmationRequired)" href="#py_moodle.course.ConfirmationRequired">ConfirmationRequired</a></code></td>
+            <td>
+              <div class="doc-md-description">
+                <p>Raised when a mutating operation needs interactive confirmation.</p>
+              </div>
+            </td>
+          </tr>
       </tbody>
     </table>
 
@@ -1971,6 +1979,197 @@ and enumerate course sections using AJAX endpoints.</p>
 
 
 
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="py_moodle.course.ConfirmationRequired" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">ConfirmationRequired</span>
+
+
+<a href="#py_moodle.course.ConfirmationRequired" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">ConfirmationRequired</span><span class="p">(</span><span class="n">course_id</span><span class="p">:</span> <span class="n"><span title="int">int</span></span><span class="p">,</span> <span class="n">course_title</span><span class="p">:</span> <span class="n"><span title="str">str</span></span><span class="p">)</span>
+</span></code></pre></div>
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="MoodleCourseError (py_moodle.course.MoodleCourseError)" href="#py_moodle.course.MoodleCourseError">MoodleCourseError</a></code></p>
+
+
+
+        <p>Raised when a mutating operation needs interactive confirmation.</p>
+
+
+<p><span class="doc-section-title">Attributes:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="course_id
+
+
+  
+      instance-attribute
+   (py_moodle.course.ConfirmationRequired.course_id)" href="#py_moodle.course.ConfirmationRequired.course_id">course_id</a></code></td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The course id pending confirmation.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="course_title
+
+
+  
+      instance-attribute
+   (py_moodle.course.ConfirmationRequired.course_title)" href="#py_moodle.course.ConfirmationRequired.course_title">course_title</a></code></td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The human-readable title, if it could be determined.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+        <p>Initialize the exception with the pending course id and title.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>course_id</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The course id pending confirmation.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>course_title</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The human-readable title, if it could be determined.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+<h4 id="py_moodle.course.ConfirmationRequired-attributes">Attributes<a href="#py_moodle.course.ConfirmationRequired-attributes" class="headerlink" title="Permanent link">&para;</a></h4>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h5 id="py_moodle.course.ConfirmationRequired.course_id" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">course_id</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#py_moodle.course.ConfirmationRequired.course_id" class="headerlink" title="Permanent link">&para;</a></h5>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">course_id</span> <span class="o">=</span> <span class="n"><span title="py_moodle.course.ConfirmationRequired(course_id)">course_id</span></span>
+</span></code></pre></div>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h5 id="py_moodle.course.ConfirmationRequired.course_title" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">course_title</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#py_moodle.course.ConfirmationRequired.course_title" class="headerlink" title="Permanent link">&para;</a></h5>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">course_title</span> <span class="o">=</span> <span class="n"><span title="py_moodle.course.ConfirmationRequired(course_title)">course_title</span></span>
+</span></code></pre></div>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+
+
+
+
+
+  </div>
 
     </div>
 
@@ -2666,6 +2865,19 @@ available and falls back to the AJAX endpoint otherwise.</p>
             <td>
               <div class="doc-md-description">
                 <p>If the request fails.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="ConfirmationRequired (py_moodle.course.ConfirmationRequired)" href="#py_moodle.course.ConfirmationRequired">ConfirmationRequired</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If <code>force</code> is <code>False</code>. Callers must catch
+this exception and re-invoke with <code>force=True</code> after obtaining
+confirmation themselves; this function performs no stdin/stdout
+I/O of its own.</p>
               </div>
             </td>
           </tr>
