@@ -110,6 +110,7 @@ nav:
       - HTTP: api/http.md
       - Settings: api/settings.md
       - Auth: api/auth.md
+      - Doctor: api/doctor.md
       - Models: api/models.md
     - Course Management:
       - Course: api/course.md
