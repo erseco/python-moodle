@@ -1238,6 +1238,34 @@
   
   
     <li class="md-nav__item">
+      <a href="api/doctor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Doctor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="api/models/" class="md-nav__link">
         
   
@@ -2507,6 +2535,7 @@
 <blockquote>
 <p><strong>Note</strong>: For local development, you can quickly spin up a Moodle instance using the provided <code>docker-compose.yml</code>: <code>docker-compose up -d</code>.</p>
 </blockquote>
+<p>If something is not working for a given environment, run <code>py-moodle --env prod doctor run</code> to check base URL reachability, login, sesskey/webservice token availability, and a few other diagnostics in one command (see the <a href="https://erseco.github.io/python-moodle/recipes/#diagnosing-a-broken-environment">Recipes</a> page for details).</p>
 <hr />
 <h2 id="cli-usage">CLI Usage<a class="headerlink" href="#cli-usage" title="Permanent link">&para;</a></h2>
 <p>Once installed, all functionality is available through the <code>py-moodle</code> command. Every command and subcommand includes detailed help with the <code>-h</code> or <code>--help</code> flag.</p>

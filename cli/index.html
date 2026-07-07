@@ -1348,6 +1348,34 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#py-moodle-doctor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        py-moodle doctor
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="py-moodle doctor">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#py-moodle-doctor-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        py-moodle doctor run
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1587,6 +1615,34 @@
     
   
     Auth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/doctor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Doctor
   
 
     
@@ -3064,6 +3120,34 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#py-moodle-doctor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        py-moodle doctor
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="py-moodle doctor">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#py-moodle-doctor-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        py-moodle doctor run
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -3109,6 +3193,7 @@
 <li><code>resources</code>: Manage resource modules: create and delete...</li>
 <li><code>urls</code>: Manage URL modules: create and delete...</li>
 <li><code>site</code>: Get site information.</li>
+<li><code>doctor</code>: Diagnose connectivity, credentials, and...</li>
 </ul>
 <h2 id="py-moodle-courses"><code>py-moodle courses</code><a class="headerlink" href="#py-moodle-courses" title="Permanent link">&para;</a></h2>
 <p>Manage courses: list, show, create, delete.</p>
@@ -3791,6 +3876,29 @@ This uses the centralized delete function from the library.</p>
 <p><strong>Options</strong>:</p>
 <ul>
 <li><code>--json</code>: Output as JSON.</li>
+<li><code>--help</code>: Show this message and exit.</li>
+</ul>
+<h2 id="py-moodle-doctor"><code>py-moodle doctor</code><a class="headerlink" href="#py-moodle-doctor" title="Permanent link">&para;</a></h2>
+<p>Diagnose connectivity, credentials, and session health.</p>
+<p><strong>Usage</strong>:</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-51-1"><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>doctor<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
+</span></code></pre></div>
+<p><strong>Options</strong>:</p>
+<ul>
+<li><code>--help</code>: Show this message and exit.</li>
+</ul>
+<p><strong>Commands</strong>:</p>
+<ul>
+<li><code>run</code>: Run all diagnostic checks for the selected...</li>
+</ul>
+<h3 id="py-moodle-doctor-run"><code>py-moodle doctor run</code><a class="headerlink" href="#py-moodle-doctor-run" title="Permanent link">&para;</a></h3>
+<p>Run all diagnostic checks for the selected --env and report status.</p>
+<p><strong>Usage</strong>:</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-52-1"><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>doctor<span class="w"> </span>run<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</span></code></pre></div>
+<p><strong>Options</strong>:</p>
+<ul>
+<li><code>-o, --output [table|json|yaml]</code>: Output format.  [default: table]</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 
