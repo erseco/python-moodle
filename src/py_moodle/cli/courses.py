@@ -1,5 +1,7 @@
 """Course-related commands for ``py-moodle``."""
 
+from dataclasses import asdict
+
 import typer
 from rich.console import Console
 from rich.table import Table
@@ -9,6 +11,7 @@ from py_moodle.course import (
     MoodleCourseError,
     create_course,
     delete_course,
+    ensure_course,
     get_course_with_sections_and_modules,
     list_courses,
 )
@@ -162,6 +165,71 @@ def create_new_course(
         else:
             typer.echo(f"Error creating course: {e}", err=True)
             raise typer.Exit(1)
+
+
+def _render_ensure_table(data: dict) -> None:
+    """Prints a rich summary table for an ``ensure_course`` result."""
+    course = data.get("course") or {}
+    table = Table("Status", "ID", "Shortname", "Fullname", "Category")
+    table.add_row(
+        str(data.get("status", "")),
+        str(course.get("id", "")),
+        str(course.get("shortname", "")),
+        str(course.get("fullname", "")),
+        str(course.get("categoryid", "")),
+    )
+    Console().print(table)
+
+    differences = data.get("differences")
+    if differences:
+        diff_table = Table("Field", "Existing", "Requested", title="Conflicting fields")
+        for field_name, values in differences.items():
+            existing_value, requested_value = values
+            diff_table.add_row(field_name, str(existing_value), str(requested_value))
+        Console().print(diff_table)
+
+
+@app.command("ensure")
+def ensure_a_course(
+    ctx: typer.Context,
+    shortname: str = typer.Option(
+        ..., "--shortname", help="Unique shortname to look up or create."
+    ),
+    fullname: str = typer.Option(
+        ..., "--fullname", help="Desired full name of the course."
+    ),
+    category_id: int = typer.Option(..., "--category-id", help="Desired category ID."),
+    update: bool = typer.Option(
+        False,
+        "--update/--no-update",
+        help="Update fullname/category if the course already exists.",
+    ),
+    output: OutputFormat = typer.Option(
+        OutputFormat.TABLE, "--output", help="Output format: table, json, or yaml."
+    ),
+):
+    """
+    Ensures a course with the given shortname exists (create if missing).
+    """
+    ms = MoodleSession.get(ctx.obj["env"])
+    try:
+        result = ensure_course(
+            ms.session,
+            ms.settings.url,
+            ms.sesskey,
+            shortname=shortname,
+            fullname=fullname,
+            category_id=category_id,
+            token=ms.token,
+            update=update,
+        )
+    except MoodleCourseError as e:
+        typer.echo(f"Error ensuring course: {e}", err=True)
+        raise typer.Exit(1)
+
+    emit(asdict(result), output, table_fn=_render_ensure_table)
+    if result.status == "conflict":
+        raise typer.Exit(code=1)
 
 
 @app.command("delete")
