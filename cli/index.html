@@ -766,6 +766,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#py-moodle-courses-ensure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        py-moodle courses ensure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#py-moodle-courses-delete" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2471,6 +2482,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#py-moodle-courses-ensure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        py-moodle courses ensure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#py-moodle-courses-delete" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3102,6 +3124,7 @@
 <li><code>list</code>: Lists all available courses.</li>
 <li><code>show</code>: Shows a detailed summary of a specific...</li>
 <li><code>create</code>: Creates a new course.</li>
+<li><code>ensure</code>: Ensures a course with the given shortname...</li>
 <li><code>delete</code>: Deletes a course by its ID.</li>
 </ul>
 <h3 id="py-moodle-courses-list"><code>py-moodle courses list</code><a class="headerlink" href="#py-moodle-courses-list" title="Permanent link">&para;</a></h3>
@@ -3142,10 +3165,24 @@
 <li><code>--summary TEXT</code>: Course summary.</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
+<h3 id="py-moodle-courses-ensure"><code>py-moodle courses ensure</code><a class="headerlink" href="#py-moodle-courses-ensure" title="Permanent link">&para;</a></h3>
+<p>Ensures a course with the given shortname exists (create if missing).</p>
+<p><strong>Usage</strong>:</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>courses<span class="w"> </span>ensure<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</span></code></pre></div>
+<p><strong>Options</strong>:</p>
+<ul>
+<li><code>--shortname TEXT</code>: Unique shortname to look up or create.  [required]</li>
+<li><code>--fullname TEXT</code>: Desired full name of the course.  [required]</li>
+<li><code>--category-id INTEGER</code>: Desired category ID.  [required]</li>
+<li><code>--update / --no-update</code>: Update fullname/category if the course already exists.  [default: no-update]</li>
+<li><code>--output [table|json|yaml]</code>: Output format: table, json, or yaml.  [default: table]</li>
+<li><code>--help</code>: Show this message and exit.</li>
+</ul>
 <h3 id="py-moodle-courses-delete"><code>py-moodle courses delete</code><a class="headerlink" href="#py-moodle-courses-delete" title="Permanent link">&para;</a></h3>
 <p>Deletes a course by its ID.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>courses<span class="w"> </span>delete<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COURSE_ID
+<div class="language-console highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>courses<span class="w"> </span>delete<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COURSE_ID
 </span></code></pre></div>
 <p><strong>Arguments</strong>:</p>
 <ul>
@@ -3159,7 +3196,7 @@
 <h2 id="py-moodle-categories"><code>py-moodle categories</code><a class="headerlink" href="#py-moodle-categories" title="Permanent link">&para;</a></h2>
 <p>Manage course categories: list, create, delete.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>categories<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
+<div class="language-console highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>categories<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
@@ -3174,7 +3211,7 @@
 <h3 id="py-moodle-categories-list"><code>py-moodle categories list</code><a class="headerlink" href="#py-moodle-categories-list" title="Permanent link">&para;</a></h3>
 <p>Lists all available course categories.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>categories<span class="w"> </span>list<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>categories<span class="w"> </span>list<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
@@ -3185,7 +3222,7 @@
 <p>Creates a new course category.
 This operation uses a session key (sesskey) and does not require a webservice token.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>categories<span class="w"> </span>create<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>categories<span class="w"> </span>create<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
@@ -3197,7 +3234,7 @@ This operation uses a session key (sesskey) and does not require a webservice to
 <p>Deletes a course category by its ID. The category must be empty.
 This operation uses a session key (sesskey).</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>categories<span class="w"> </span>delete<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>CATEGORY_ID
+<div class="language-console highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>categories<span class="w"> </span>delete<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>CATEGORY_ID
 </span></code></pre></div>
 <p><strong>Arguments</strong>:</p>
 <ul>
@@ -3211,7 +3248,7 @@ This operation uses a session key (sesskey).</p>
 <h2 id="py-moodle-sections"><code>py-moodle sections</code><a class="headerlink" href="#py-moodle-sections" title="Permanent link">&para;</a></h2>
 <p>Manage course sections: list, show, create, delete.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>sections<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
+<div class="language-console highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>sections<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
@@ -3227,7 +3264,7 @@ This operation uses a session key (sesskey).</p>
 <h3 id="py-moodle-sections-list"><code>py-moodle sections list</code><a class="headerlink" href="#py-moodle-sections-list" title="Permanent link">&para;</a></h3>
 <p>Lists a summary of all sections in a specific course.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>sections<span class="w"> </span>list<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>sections<span class="w"> </span>list<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
@@ -3238,7 +3275,7 @@ This operation uses a session key (sesskey).</p>
 <h3 id="py-moodle-sections-show"><code>py-moodle sections show</code><a class="headerlink" href="#py-moodle-sections-show" title="Permanent link">&para;</a></h3>
 <p>Shows detailed information of a specific section, including its modules.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>sections<span class="w"> </span>show<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>SECTION_ID
+<div class="language-console highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>sections<span class="w"> </span>show<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>SECTION_ID
 </span></code></pre></div>
 <p><strong>Arguments</strong>:</p>
 <ul>
@@ -3253,7 +3290,7 @@ This operation uses a session key (sesskey).</p>
 <h3 id="py-moodle-sections-create"><code>py-moodle sections create</code><a class="headerlink" href="#py-moodle-sections-create" title="Permanent link">&para;</a></h3>
 <p>Creates a new section at the end of a course.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>sections<span class="w"> </span>create<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>sections<span class="w"> </span>create<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
@@ -3263,7 +3300,7 @@ This operation uses a session key (sesskey).</p>
 <h3 id="py-moodle-sections-delete"><code>py-moodle sections delete</code><a class="headerlink" href="#py-moodle-sections-delete" title="Permanent link">&para;</a></h3>
 <p>Deletes a specific section by its ID.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>sections<span class="w"> </span>delete<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>SECTION_ID
+<div class="language-console highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>sections<span class="w"> </span>delete<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>SECTION_ID
 </span></code></pre></div>
 <p><strong>Arguments</strong>:</p>
 <ul>
@@ -3277,7 +3314,7 @@ This operation uses a session key (sesskey).</p>
 <h2 id="py-moodle-modules"><code>py-moodle modules</code><a class="headerlink" href="#py-moodle-modules" title="Permanent link">&para;</a></h2>
 <p>Manage course modules (resources/activities) like labels, SCORMs, etc.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>modules<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
+<div class="language-console highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>modules<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
@@ -3295,7 +3332,7 @@ This operation uses a session key (sesskey).</p>
 <p>Deletes any module (label, SCORM, folder, etc.) by its ID.
 This uses the centralized delete function from the library.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>modules<span class="w"> </span>delete<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>CMID
+<div class="language-console highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>modules<span class="w"> </span>delete<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>CMID
 </span></code></pre></div>
 <p><strong>Arguments</strong>:</p>
 <ul>
@@ -3308,7 +3345,7 @@ This uses the centralized delete function from the library.</p>
 <h3 id="py-moodle-modules-show"><code>py-moodle modules show</code><a class="headerlink" href="#py-moodle-modules-show" title="Permanent link">&para;</a></h3>
 <p>Shows detailed information for a specific module.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>modules<span class="w"> </span>show<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>CMID
+<div class="language-console highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>modules<span class="w"> </span>show<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>CMID
 </span></code></pre></div>
 <p><strong>Arguments</strong>:</p>
 <ul>
@@ -3322,7 +3359,7 @@ This uses the centralized delete function from the library.</p>
 <h3 id="py-moodle-modules-list-types"><code>py-moodle modules list-types</code><a class="headerlink" href="#py-moodle-modules-list-types" title="Permanent link">&para;</a></h3>
 <p>Lists all available module types (activities/resources) that can be added to a course.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>modules<span class="w"> </span>list-types<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>modules<span class="w"> </span>list-types<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
@@ -3333,7 +3370,7 @@ This uses the centralized delete function from the library.</p>
 <h3 id="py-moodle-modules-add"><code>py-moodle modules add</code><a class="headerlink" href="#py-moodle-modules-add" title="Permanent link">&para;</a></h3>
 <p>Add a new module to a course.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>modules<span class="w"> </span>add<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
+<div class="language-console highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>modules<span class="w"> </span>add<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
@@ -3348,7 +3385,7 @@ This uses the centralized delete function from the library.</p>
 <h4 id="py-moodle-modules-add-label"><code>py-moodle modules add label</code><a class="headerlink" href="#py-moodle-modules-add-label" title="Permanent link">&para;</a></h4>
 <p>Adds a new label to a course section.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>modules<span class="w"> </span>add<span class="w"> </span>label<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>modules<span class="w"> </span>add<span class="w"> </span>label<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
@@ -3361,7 +3398,7 @@ This uses the centralized delete function from the library.</p>
 <h4 id="py-moodle-modules-add-scorm"><code>py-moodle modules add scorm</code><a class="headerlink" href="#py-moodle-modules-add-scorm" title="Permanent link">&para;</a></h4>
 <p>Adds a new SCORM package to a course section.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>modules<span class="w"> </span>add<span class="w"> </span>scorm<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>modules<span class="w"> </span>add<span class="w"> </span>scorm<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
@@ -3375,7 +3412,7 @@ This uses the centralized delete function from the library.</p>
 <h4 id="py-moodle-modules-add-assign"><code>py-moodle modules add assign</code><a class="headerlink" href="#py-moodle-modules-add-assign" title="Permanent link">&para;</a></h4>
 <p>Adds a new assignment to a course section.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>modules<span class="w"> </span>add<span class="w"> </span>assign<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>modules<span class="w"> </span>add<span class="w"> </span>assign<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
@@ -3388,7 +3425,7 @@ This uses the centralized delete function from the library.</p>
 <h3 id="py-moodle-modules-edit"><code>py-moodle modules edit</code><a class="headerlink" href="#py-moodle-modules-edit" title="Permanent link">&para;</a></h3>
 <p>Edit existing course modules (labels, SCORMs, etc.)</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>modules<span class="w"> </span>edit<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
+<div class="language-console highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>modules<span class="w"> </span>edit<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
@@ -3402,7 +3439,7 @@ This uses the centralized delete function from the library.</p>
 <h4 id="py-moodle-modules-edit-label"><code>py-moodle modules edit label</code><a class="headerlink" href="#py-moodle-modules-edit-label" title="Permanent link">&para;</a></h4>
 <p>Edits an existing label module.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>modules<span class="w"> </span>edit<span class="w"> </span>label<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>CMID
+<div class="language-console highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>modules<span class="w"> </span>edit<span class="w"> </span>label<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>CMID
 </span></code></pre></div>
 <p><strong>Arguments</strong>:</p>
 <ul>
@@ -3418,7 +3455,7 @@ This uses the centralized delete function from the library.</p>
 <h4 id="py-moodle-modules-edit-name"><code>py-moodle modules edit name</code><a class="headerlink" href="#py-moodle-modules-edit-name" title="Permanent link">&para;</a></h4>
 <p>Edits the name of any module (label, assign, SCORM, etc.).</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>modules<span class="w"> </span>edit<span class="w"> </span>name<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>CMID
+<div class="language-console highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>modules<span class="w"> </span>edit<span class="w"> </span>name<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>CMID
 </span></code></pre></div>
 <p><strong>Arguments</strong>:</p>
 <ul>
@@ -3432,7 +3469,7 @@ This uses the centralized delete function from the library.</p>
 <h2 id="py-moodle-users"><code>py-moodle users</code><a class="headerlink" href="#py-moodle-users" title="Permanent link">&para;</a></h2>
 <p>Manage Moodle users: list, create, delete.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>users<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
+<div class="language-console highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>users<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
@@ -3447,7 +3484,7 @@ This uses the centralized delete function from the library.</p>
 <h3 id="py-moodle-users-list"><code>py-moodle users list</code><a class="headerlink" href="#py-moodle-users-list" title="Permanent link">&para;</a></h3>
 <p>Lists users enrolled in a specific course.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>users<span class="w"> </span>list<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>users<span class="w"> </span>list<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
@@ -3458,7 +3495,7 @@ This uses the centralized delete function from the library.</p>
 <h3 id="py-moodle-users-create"><code>py-moodle users create</code><a class="headerlink" href="#py-moodle-users-create" title="Permanent link">&para;</a></h3>
 <p>Creates a new user in Moodle.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>users<span class="w"> </span>create<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>users<span class="w"> </span>create<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
@@ -3472,7 +3509,7 @@ This uses the centralized delete function from the library.</p>
 <h3 id="py-moodle-users-delete"><code>py-moodle users delete</code><a class="headerlink" href="#py-moodle-users-delete" title="Permanent link">&para;</a></h3>
 <p>Deletes a user from Moodle by their ID.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>users<span class="w"> </span>delete<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>USER_ID
+<div class="language-console highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>users<span class="w"> </span>delete<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>USER_ID
 </span></code></pre></div>
 <p><strong>Arguments</strong>:</p>
 <ul>
@@ -3486,7 +3523,7 @@ This uses the centralized delete function from the library.</p>
 <h2 id="py-moodle-admin"><code>py-moodle admin</code><a class="headerlink" href="#py-moodle-admin" title="Permanent link">&para;</a></h2>
 <p>Moodle site administration tasks.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>admin<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
+<div class="language-console highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>admin<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
@@ -3499,7 +3536,7 @@ This uses the centralized delete function from the library.</p>
 <h3 id="py-moodle-admin-enable-webservice"><code>py-moodle admin enable-webservice</code><a class="headerlink" href="#py-moodle-admin-enable-webservice" title="Permanent link">&para;</a></h3>
 <p>Activates a web service in Moodle. Requires administrator permissions.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>admin<span class="w"> </span>enable-webservice<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>admin<span class="w"> </span>enable-webservice<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
@@ -3509,7 +3546,7 @@ This uses the centralized delete function from the library.</p>
 <h2 id="py-moodle-folders"><code>py-moodle folders</code><a class="headerlink" href="#py-moodle-folders" title="Permanent link">&para;</a></h2>
 <p>Manage folder modules: create, delete, and manage their content.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>folders<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
+<div class="language-console highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>folders<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
@@ -3527,7 +3564,7 @@ This uses the centralized delete function from the library.</p>
 <h3 id="py-moodle-folders-add"><code>py-moodle folders add</code><a class="headerlink" href="#py-moodle-folders-add" title="Permanent link">&para;</a></h3>
 <p>Adds a new folder to a course section, optionally with initial files.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>folders<span class="w"> </span>add<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>folders<span class="w"> </span>add<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
@@ -3541,7 +3578,7 @@ This uses the centralized delete function from the library.</p>
 <h3 id="py-moodle-folders-delete"><code>py-moodle folders delete</code><a class="headerlink" href="#py-moodle-folders-delete" title="Permanent link">&para;</a></h3>
 <p>Deletes a folder module from a course.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>folders<span class="w"> </span>delete<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>CMID
+<div class="language-console highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>folders<span class="w"> </span>delete<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>CMID
 </span></code></pre></div>
 <p><strong>Arguments</strong>:</p>
 <ul>
@@ -3555,7 +3592,7 @@ This uses the centralized delete function from the library.</p>
 <h3 id="py-moodle-folders-list-content"><code>py-moodle folders list-content</code><a class="headerlink" href="#py-moodle-folders-list-content" title="Permanent link">&para;</a></h3>
 <p>Lists the files and subdirectories inside a folder.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>folders<span class="w"> </span>list-content<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>CMID
+<div class="language-console highlight"><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>folders<span class="w"> </span>list-content<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>CMID
 </span></code></pre></div>
 <p><strong>Arguments</strong>:</p>
 <ul>
@@ -3568,7 +3605,7 @@ This uses the centralized delete function from the library.</p>
 <h3 id="py-moodle-folders-add-file"><code>py-moodle folders add-file</code><a class="headerlink" href="#py-moodle-folders-add-file" title="Permanent link">&para;</a></h3>
 <p>Adds a file to an existing folder.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>folders<span class="w"> </span>add-file<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>folders<span class="w"> </span>add-file<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
@@ -3580,7 +3617,7 @@ This uses the centralized delete function from the library.</p>
 <h3 id="py-moodle-folders-delete-file"><code>py-moodle folders delete-file</code><a class="headerlink" href="#py-moodle-folders-delete-file" title="Permanent link">&para;</a></h3>
 <p>Deletes a file from an existing folder.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>folders<span class="w"> </span>delete-file<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>folders<span class="w"> </span>delete-file<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
@@ -3592,7 +3629,7 @@ This uses the centralized delete function from the library.</p>
 <h3 id="py-moodle-folders-rename-file"><code>py-moodle folders rename-file</code><a class="headerlink" href="#py-moodle-folders-rename-file" title="Permanent link">&para;</a></h3>
 <p>Renames a file inside an existing folder.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>folders<span class="w"> </span>rename-file<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-39-1"><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>folders<span class="w"> </span>rename-file<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
@@ -3604,7 +3641,7 @@ This uses the centralized delete function from the library.</p>
 <h2 id="py-moodle-pages"><code>py-moodle pages</code><a class="headerlink" href="#py-moodle-pages" title="Permanent link">&para;</a></h2>
 <p>Manage page modules: create and delete HTML pages.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-39-1"><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>pages<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
+<div class="language-console highlight"><pre><span></span><code><span id="__span-40-1"><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>pages<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
@@ -3618,7 +3655,7 @@ This uses the centralized delete function from the library.</p>
 <h3 id="py-moodle-pages-add"><code>py-moodle pages add</code><a class="headerlink" href="#py-moodle-pages-add" title="Permanent link">&para;</a></h3>
 <p>Add a new page module with HTML content to a course section.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-40-1"><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>pages<span class="w"> </span>add<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-41-1"><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>pages<span class="w"> </span>add<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
@@ -3632,7 +3669,7 @@ This uses the centralized delete function from the library.</p>
 <h3 id="py-moodle-pages-delete"><code>py-moodle pages delete</code><a class="headerlink" href="#py-moodle-pages-delete" title="Permanent link">&para;</a></h3>
 <p>Delete a page module from a course.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-41-1"><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>pages<span class="w"> </span>delete<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>CMID
+<div class="language-console highlight"><pre><span></span><code><span id="__span-42-1"><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>pages<span class="w"> </span>delete<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>CMID
 </span></code></pre></div>
 <p><strong>Arguments</strong>:</p>
 <ul>
@@ -3646,7 +3683,7 @@ This uses the centralized delete function from the library.</p>
 <h2 id="py-moodle-resources"><code>py-moodle resources</code><a class="headerlink" href="#py-moodle-resources" title="Permanent link">&para;</a></h2>
 <p>Manage resource modules: create and delete single-file resources.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-42-1"><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>resources<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
+<div class="language-console highlight"><pre><span></span><code><span id="__span-43-1"><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>resources<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
@@ -3660,7 +3697,7 @@ This uses the centralized delete function from the library.</p>
 <h3 id="py-moodle-resources-add"><code>py-moodle resources add</code><a class="headerlink" href="#py-moodle-resources-add" title="Permanent link">&para;</a></h3>
 <p>Add a new resource (single file) to a course section.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-43-1"><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>resources<span class="w"> </span>add<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-44-1"><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>resources<span class="w"> </span>add<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
@@ -3674,7 +3711,7 @@ This uses the centralized delete function from the library.</p>
 <h3 id="py-moodle-resources-delete"><code>py-moodle resources delete</code><a class="headerlink" href="#py-moodle-resources-delete" title="Permanent link">&para;</a></h3>
 <p>Delete a resource module from a course.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-44-1"><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>resources<span class="w"> </span>delete<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>CMID
+<div class="language-console highlight"><pre><span></span><code><span id="__span-45-1"><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>resources<span class="w"> </span>delete<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>CMID
 </span></code></pre></div>
 <p><strong>Arguments</strong>:</p>
 <ul>
@@ -3688,7 +3725,7 @@ This uses the centralized delete function from the library.</p>
 <h2 id="py-moodle-urls"><code>py-moodle urls</code><a class="headerlink" href="#py-moodle-urls" title="Permanent link">&para;</a></h2>
 <p>Manage URL modules: create and delete external links.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-45-1"><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>urls<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
+<div class="language-console highlight"><pre><span></span><code><span id="__span-46-1"><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>urls<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
@@ -3702,7 +3739,7 @@ This uses the centralized delete function from the library.</p>
 <h3 id="py-moodle-urls-add"><code>py-moodle urls add</code><a class="headerlink" href="#py-moodle-urls-add" title="Permanent link">&para;</a></h3>
 <p>Add a new URL module to a course section.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-46-1"><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>urls<span class="w"> </span>add<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-47-1"><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>urls<span class="w"> </span>add<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
@@ -3716,7 +3753,7 @@ This uses the centralized delete function from the library.</p>
 <h3 id="py-moodle-urls-delete"><code>py-moodle urls delete</code><a class="headerlink" href="#py-moodle-urls-delete" title="Permanent link">&para;</a></h3>
 <p>Delete a URL module from a course.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-47-1"><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>urls<span class="w"> </span>delete<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>CMID
+<div class="language-console highlight"><pre><span></span><code><span id="__span-48-1"><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>urls<span class="w"> </span>delete<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>CMID
 </span></code></pre></div>
 <p><strong>Arguments</strong>:</p>
 <ul>
@@ -3730,7 +3767,7 @@ This uses the centralized delete function from the library.</p>
 <h2 id="py-moodle-site"><code>py-moodle site</code><a class="headerlink" href="#py-moodle-site" title="Permanent link">&para;</a></h2>
 <p>Get site information.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-48-1"><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>site<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
+<div class="language-console highlight"><pre><span></span><code><span id="__span-49-1"><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>site<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
@@ -3743,7 +3780,7 @@ This uses the centralized delete function from the library.</p>
 <h3 id="py-moodle-site-info"><code>py-moodle site info</code><a class="headerlink" href="#py-moodle-site-info" title="Permanent link">&para;</a></h3>
 <p>Get site info.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-49-1"><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>site<span class="w"> </span>info<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-50-1"><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a><span class="gp">$ </span>py-moodle<span class="w"> </span>site<span class="w"> </span>info<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
