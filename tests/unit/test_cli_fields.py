@@ -281,21 +281,44 @@ def test_each_list_command_applies_fields_for_json(monkeypatch, key):
     assert all(list(obj.keys()) == ["id"] for obj in payload)
 
 
-@pytest.mark.parametrize(
-    "subcmd",
-    [
-        ["courses", "list", "--help"],
-        ["categories", "list", "--help"],
-        ["sections", "list", "--help"],
-        ["users", "list", "--help"],
-    ],
-)
-def test_each_list_command_advertises_fields_option(subcmd):
-    """Each migrated list command advertises --fields in its --help output."""
+def _command_option_names(*path: str) -> list[str]:
+    """Return the declared option strings of a CLI subcommand.
+
+    Introspects the underlying Click command tree rather than parsing
+    rendered ``--help`` text, which is fragile across typer/rich versions
+    (the help panel truncates long content at narrow terminal widths).
+
+    Args:
+        *path: The subcommand path, e.g. ``"courses", "list"``.
+
+    Returns:
+        Every option string (e.g. ``"--fields"``) declared on the command.
+    """
+    import click
+    import typer
+
     from py_moodle.cli.app import app
 
-    runner = CliRunner()
-    result = runner.invoke(app, subcmd)
+    command: click.Command = typer.main.get_command(app)
+    ctx = click.Context(command)
+    for name in path:
+        command = command.get_command(ctx, name)
+        assert command is not None, f"subcommand {name!r} not found"
+    names: list[str] = []
+    for param in command.params:
+        names.extend(getattr(param, "opts", []))
+    return names
 
-    assert result.exit_code == 0
-    assert "--fields" in result.output
+
+@pytest.mark.parametrize(
+    "path",
+    [
+        ["courses", "list"],
+        ["categories", "list"],
+        ["sections", "list"],
+        ["users", "list"],
+    ],
+)
+def test_each_list_command_advertises_fields_option(path):
+    """Each migrated list command declares a --fields option."""
+    assert "--fields" in _command_option_names(*path)
