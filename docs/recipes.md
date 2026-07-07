@@ -89,6 +89,37 @@ py-moodle folders list-content 15
 
 In this recipe, `15` is the folder module ID returned by the add command.
 
+## Preview a mutating command with `--dry-run`
+
+`courses create`, `courses delete`, and `modules add scorm` support
+`--dry-run` to preview the action's plan without touching Moodle. Combine it
+with `--output json` for scripting or CI pipelines that want to validate a
+plan before running it for real.
+
+```bash
+# Preview a course creation without calling Moodle.
+py-moodle courses create \
+  --fullname "Automation Demo" \
+  --shortname "automation-demo" \
+  --dry-run --output json
+
+# Preview a deletion; no confirmation prompt is shown in dry-run mode.
+py-moodle courses delete 42 --dry-run --output json
+
+# Preview a SCORM upload without uploading the package.
+py-moodle modules add scorm \
+  --course-id 2 \
+  --section-id 1 \
+  --name "SCORM 1" \
+  --file ./package.zip \
+  --dry-run --output json
+```
+
+Each command prints a plan `dict` with `action`, `dry_run`, `target`, and
+`parameters` fields. Fields that cannot be known before contacting Moodle
+(such as the `course_id` assigned by `courses create`) are marked with a
+placeholder value instead of a real ID.
+
 ## Run the fastest contributor validation loop
 
 When you are changing code or documentation, this sequence gives the quickest
