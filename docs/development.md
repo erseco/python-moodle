@@ -25,8 +25,8 @@ pip install -e .
 # Core development tools
 pip install black isort flake8 pytest
 
-# Documentation tools
-pip install mkdocs mkdocs-material mkdocstrings[python]
+# Documentation tools (Zensical requires Python 3.10+)
+pip install zensical mkdocstrings[python]
 ```
 
 ## Code Style and Standards
@@ -264,16 +264,21 @@ might log a secret-bearing value:
 
 ### Building Documentation
 
+The site is built with [Zensical](https://zensical.org/), the actively-maintained
+successor to MkDocs from the Material for MkDocs team. It reads the existing
+`mkdocs.yml` directly, so no separate config file is needed. Zensical requires
+Python 3.10+.
+
 ```bash
 # Build documentation
 make docs
 
 # Serve documentation locally
-mkdocs serve
-
-# Deploy to GitHub Pages
-mkdocs gh-deploy
+zensical serve
 ```
+
+Deployment to GitHub Pages happens automatically via
+`.github/workflows/docs.yml` on every push to `main`.
 
 ### Adding API Documentation
 

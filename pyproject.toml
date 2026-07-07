@@ -51,13 +51,9 @@ dev = [
     "black",
     "mypy",
     "isort",
-    "mkdocs",
     "mkdocstrings[python]",
     "pymdown-extensions",
-    "mkdocs-material",
-    "mkdocs-autorefs",
-    "mkdocs-git-revision-date-localized-plugin",
-    "mkdocs-minify-plugin"
+    "zensical; python_version >= '3.10'",
 ]
 
 [project.urls]

@@ -281,14 +281,14 @@ make docs     # build the MkDocs site
 
 ## Documentation
 
-Documentation is generated with [MkDocs](https://www.mkdocs.org/) using the Read the Docs theme and published automatically to the `gh-pages` branch.
+Documentation is generated with [Zensical](https://zensical.org/) using the Material theme and published automatically to the `gh-pages` branch.
 Every push to `main` builds the API reference and CLI guide from the source code and makes it available via GitHub Pages.
 
-To build the documentation locally:
+To build the documentation locally (requires Python 3.10+):
 
 ```bash
-pip install mkdocs 'mkdocstrings[python]'
-mkdocs build --strict
+pip install zensical 'mkdocstrings[python]'
+zensical build
 ```
 
 The rendered site will be available under the `site/` directory.

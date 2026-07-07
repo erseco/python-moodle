@@ -17,13 +17,15 @@ jobs:
           fetch-depth: 0
 
       - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
 
       - name: Install Python deps
         run: |
           pip install -r requirements.txt
           pip install -e .
 
-      - name: Build MkDocs site
+      - name: Build documentation site
         run: make docs
 
       - name: Deploy to GitHub Pages

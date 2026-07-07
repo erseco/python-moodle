@@ -18,11 +18,6 @@ flake8-docstrings
 black
 mypy
 isort
-mkdocs
 mkdocstrings[python]
 pymdown-extensions
-mkdocs-material
-mkdocs-autorefs
-mkdocs-git-revision-date-localized-plugin
-mkdocs-minify-plugin
-pymdown-extensions
+zensical; python_version >= "3.10"
