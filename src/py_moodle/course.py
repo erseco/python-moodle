@@ -10,9 +10,11 @@ from __future__ import annotations
 import json
 import time
 import urllib.parse
-from typing import Any, Dict, List
+from dataclasses import dataclass
+from typing import Any, Dict, List, Literal, Optional
 
 import requests
+from bs4 import BeautifulSoup
 
 from .http import (
     MoodleHttpError,
@@ -48,6 +50,29 @@ class ConfirmationRequired(MoodleCourseError):
         super().__init__(
             f"Confirmation required to delete course '{course_title}' (ID {course_id})."
         )
+
+
+EnsureStatus = Literal["created", "reused", "updated", "conflict"]
+
+
+@dataclass
+class EnsureCourseResult:
+    """Outcome of an :func:`ensure_course` call.
+
+    Attributes:
+        status: One of ``"created"``, ``"reused"``, ``"updated"``, or
+            ``"conflict"``.
+        course: The resulting course dictionary (existing, created, or
+            updated, depending on ``status``).
+        differences: Populated only when ``status == "conflict"``, mapping
+            each differing field name (``"fullname"`` and/or
+            ``"categoryid"``) to a ``(existing_value, requested_value)``
+            tuple. ``None`` otherwise.
+    """
+
+    status: EnsureStatus
+    course: Dict[str, Any]
+    differences: Optional[Dict[str, tuple]] = None
 
 
 def get_course_context_id(
@@ -371,6 +396,237 @@ def create_course(
         )
 
 
+def _extract_course_edit_form_data(soup: BeautifulSoup) -> Dict[str, Any]:
+    """Extract current field values from a Moodle course edit form.
+
+    Scrapes every ``input``, ``textarea``, and ``select`` element of the
+    ``course/edit.php`` form so an update can resubmit each field unchanged
+    except the ones the caller explicitly wants to change, mirroring the
+    fetch-modify-submit pattern used elsewhere in this project for module
+    edit forms.
+
+    Args:
+        soup: Parsed HTML of the ``course/edit.php`` page.
+
+    Returns:
+        Dict[str, Any]: Mapping of form field name to its current value.
+        Empty if the course edit form could not be located in ``soup``.
+    """
+    marker = soup.find("input", attrs={"name": "_qf__course_edit_form"})
+    form = marker.find_parent("form") if marker else None
+    if form is None:
+        return {}
+
+    form_data: Dict[str, Any] = {}
+    for field in form.find_all(["input", "textarea", "select"]):
+        name = field.get("name")
+        if not name or field.get("type") in ("submit", "button", "reset", "file"):
+            continue
+
+        if field.name == "textarea":
+            form_data[name] = field.text or ""
+        elif field.name == "select":
+            selected_options = [
+                option["value"]
+                for option in field.find_all("option", selected=True)
+                if option.has_attr("value")
+            ]
+            if field.has_attr("multiple"):
+                if selected_options:
+                    form_data[name] = selected_options
+            elif selected_options:
+                form_data[name] = selected_options[0]
+            else:
+                first_option = next(
+                    (
+                        option
+                        for option in field.find_all("option")
+                        if option.has_attr("value")
+                    ),
+                    None,
+                )
+                if first_option:
+                    form_data[name] = first_option["value"]
+        elif field.get("type") in ("checkbox", "radio"):
+            if field.has_attr("checked"):
+                form_data[name] = field.get("value", "1")
+        else:
+            form_data[name] = field.get("value", "")
+
+    return form_data
+
+
+def update_course_basic(
+    session: requests.Session,
+    base_url: str,
+    sesskey: str,
+    courseid: int,
+    *,
+    fullname: str | None = None,
+    categoryid: int | None = None,
+) -> Dict[str, Any]:
+    """Apply a minimal, safe update to a course's name and/or category.
+
+    Deliberately restricted to ``fullname`` and ``categoryid``: this helper
+    fetches the current ``course/edit.php`` form, changes only the fields
+    explicitly requested, and resubmits every other field unchanged, so it
+    must never touch ``summary``, ``visible``, sections, or modules.
+
+    Args:
+        session: Authenticated requests session.
+        base_url: Base URL of the Moodle instance.
+        sesskey: Session key for form calls.
+        courseid: ID of the course to update.
+        fullname: New full name, or None to leave unchanged.
+        categoryid: New category ID, or None to leave unchanged.
+
+    Returns:
+        Dict[str, Any]: The updated course dictionary, as looked up via
+        ``list_courses`` after the update is applied.
+
+    Raises:
+        MoodleCourseError: If the update request fails.
+    """
+    if fullname is None and categoryid is None:
+        courses = list_courses(session, base_url, sesskey=sesskey)
+        return next((c for c in courses if c.get("id") == courseid), {})
+
+    edit_url = f"{base_url}/course/edit.php?id={courseid}"
+    try:
+        resp = session.get(edit_url)
+        resp.raise_for_status()
+    except requests.RequestException as e:
+        raise MoodleCourseError(
+            f"Failed to load course edit form for course {courseid}: {e}"
+        )
+
+    soup = BeautifulSoup(resp.text, "lxml")
+    form_data = _extract_course_edit_form_data(soup)
+    if not form_data:
+        raise MoodleCourseError(
+            f"Could not find the course edit form for course {courseid}."
+        )
+
+    form_data["sesskey"] = sesskey
+    if fullname is not None:
+        form_data["fullname"] = fullname
+    if categoryid is not None:
+        form_data["category"] = str(categoryid)
+
+    headers = {"Content-Type": "application/x-www-form-urlencoded"}
+    encoded_payload = urllib.parse.urlencode(form_data, doseq=True)
+    resp2 = session.post(
+        f"{base_url}/course/edit.php",
+        data=encoded_payload,
+        headers=headers,
+        allow_redirects=False,
+    )
+
+    if resp2.status_code == 200 and "_qf__course_edit_form" in resp2.text:
+        raise MoodleCourseError(
+            f"Failed to update course {courseid}. Moodle returned the edit "
+            "form again; check required fields or permissions."
+        )
+    if resp2.status_code not in (200, 302, 303):
+        raise MoodleCourseError(
+            f"Failed to update course {courseid}. Status: {resp2.status_code}"
+        )
+
+    updated_courses = list_courses(session, base_url, sesskey=sesskey)
+    updated = next((c for c in updated_courses if c.get("id") == courseid), None)
+    if updated is None:
+        raise MoodleCourseError(f"Course {courseid} could not be found after updating.")
+    return updated
+
+
+def ensure_course(
+    session: requests.Session,
+    base_url: str,
+    sesskey: str,
+    *,
+    shortname: str,
+    fullname: str,
+    category_id: int,
+    token: str | None = None,
+    update: bool = False,
+    **create_kwargs: Any,
+) -> EnsureCourseResult:
+    """Ensure a course with the given shortname exists.
+
+    Looks up an existing course by ``shortname`` via ``list_courses()``. If no
+    course with that shortname is found, creates one via ``create_course()``.
+    If a course is found and ``update`` is False, the existing course is left
+    untouched: if ``fullname``/``category_id`` match the request the result is
+    ``"reused"``; if they differ the result is ``"conflict"`` (nothing is
+    changed, but the caller can inspect ``differences``). If a course is found
+    and ``update`` is True, the differing fields among ``fullname``/
+    ``category_id`` are updated via ``update_course_basic()`` and the result
+    is ``"updated"``.
+
+    Args:
+        session: Authenticated requests session.
+        base_url: Base URL of the Moodle instance.
+        sesskey: Session key for AJAX/form calls.
+        shortname: Unique shortname used to look up an existing course.
+        fullname: Desired full name of the course.
+        category_id: Desired category ID of the course.
+        token: Optional webservice token, forwarded to ``list_courses``.
+        update: If True and a course is found, apply a safe update to
+            ``fullname``/``category_id`` instead of leaving it untouched.
+        **create_kwargs: Extra keyword arguments forwarded to
+            ``create_course`` when a new course must be created (e.g.
+            ``visible``, ``summary``, ``numsections``).
+
+    Returns:
+        EnsureCourseResult: Typed result with ``status`` of ``"created"``,
+        ``"reused"``, ``"updated"``, or ``"conflict"``.
+
+    Raises:
+        MoodleCourseError: If listing, creating, or updating fails.
+    """
+    existing_courses = list_courses(session, base_url, token=token, sesskey=sesskey)
+    existing = next(
+        (c for c in existing_courses if c.get("shortname") == shortname), None
+    )
+
+    if existing is None:
+        created = create_course(
+            session,
+            base_url,
+            sesskey,
+            fullname=fullname,
+            shortname=shortname,
+            categoryid=category_id,
+            **create_kwargs,
+        )
+        return EnsureCourseResult(status="created", course=created)
+
+    differences: Dict[str, tuple] = {}
+    if existing.get("fullname") != fullname:
+        differences["fullname"] = (existing.get("fullname"), fullname)
+    if existing.get("categoryid") != category_id:
+        differences["categoryid"] = (existing.get("categoryid"), category_id)
+
+    if not differences:
+        return EnsureCourseResult(status="reused", course=existing)
+
+    if not update:
+        return EnsureCourseResult(
+            status="conflict", course=existing, differences=differences
+        )
+
+    update_kwargs: Dict[str, Any] = {}
+    if "fullname" in differences:
+        update_kwargs["fullname"] = fullname
+    if "categoryid" in differences:
+        update_kwargs["categoryid"] = category_id
+
+    updated_course = update_course_basic(
+        session, base_url, sesskey, existing["id"], **update_kwargs
+    )
+    return EnsureCourseResult(status="updated", course=updated_course)
+
+
 def delete_course(
     session: requests.Session,
     base_url: str,
@@ -638,6 +894,8 @@ __all__ = [
     "get_course_context_id",
     "list_courses",
     "create_course",
+    "ensure_course",
+    "update_course_basic",
     "delete_course",
     "get_course",
     "get_course_with_sections_and_modules",
