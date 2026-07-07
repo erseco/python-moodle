@@ -3163,6 +3163,8 @@
 <li><code>--categoryid INTEGER</code>: Category ID for the new course.  [default: 1]</li>
 <li><code>--visible INTEGER</code>: 1 for visible, 0 for hidden.  [default: 1]</li>
 <li><code>--summary TEXT</code>: Course summary.</li>
+<li><code>--output [table|json|yaml]</code>: Output format: table, json, or yaml.  [default: table]</li>
+<li><code>--dry-run</code>: Preview the course that would be created without calling Moodle.</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h3 id="py-moodle-courses-ensure"><code>py-moodle courses ensure</code><a class="headerlink" href="#py-moodle-courses-ensure" title="Permanent link">&para;</a></h3>
@@ -3191,6 +3193,8 @@
 <p><strong>Options</strong>:</p>
 <ul>
 <li><code>--force</code>: Delete without asking for confirmation.</li>
+<li><code>--output [table|json|yaml]</code>: Output format: table, json, or yaml.  [default: table]</li>
+<li><code>--dry-run</code>: Preview the deletion without calling Moodle or prompting for confirmation.</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h2 id="py-moodle-categories"><code>py-moodle categories</code><a class="headerlink" href="#py-moodle-categories" title="Permanent link">&para;</a></h2>
@@ -3407,6 +3411,8 @@ This uses the centralized delete function from the library.</p>
 <li><code>--name TEXT</code>: Name of the SCORM package.  [required]</li>
 <li><code>--file FILENAME</code>: Path to the SCORM package .zip file.  [required]</li>
 <li><code>--intro TEXT</code>: Introduction or description for the SCORM.</li>
+<li><code>--output [table|json|yaml]</code>: Output format: table, json, or yaml.  [default: table]</li>
+<li><code>--dry-run</code>: Preview the SCORM package that would be added without uploading it.</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h4 id="py-moodle-modules-add-assign"><code>py-moodle modules add assign</code><a class="headerlink" href="#py-moodle-modules-add-assign" title="Permanent link">&para;</a></h4>

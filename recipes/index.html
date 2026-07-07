@@ -1755,6 +1755,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#preview-a-mutating-command-with-dry-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preview a mutating command with --dry-run
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#idempotent-provisioning-ensure-a-course-exists" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1964,6 +1975,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#preview-a-mutating-command-with-dry-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preview a mutating command with --dry-run
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#idempotent-provisioning-ensure-a-course-exists" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2103,33 +2125,59 @@ materials area.</p>
 </span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>py-moodle<span class="w"> </span>folders<span class="w"> </span>list-content<span class="w"> </span><span class="m">15</span>
 </span></code></pre></div>
 <p>In this recipe, <code>15</code> is the folder module ID returned by the add command.</p>
+<h2 id="preview-a-mutating-command-with-dry-run">Preview a mutating command with <code>--dry-run</code><a class="headerlink" href="#preview-a-mutating-command-with-dry-run" title="Permanent link">&para;</a></h2>
+<p><code>courses create</code>, <code>courses delete</code>, and <code>modules add scorm</code> support
+<code>--dry-run</code> to preview the action's plan without touching Moodle. Combine it
+with <code>--output json</code> for scripting or CI pipelines that want to validate a
+plan before running it for real.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Preview a course creation without calling Moodle.</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>py-moodle<span class="w"> </span>courses<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span>--fullname<span class="w"> </span><span class="s2">&quot;Automation Demo&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span>--shortname<span class="w"> </span><span class="s2">&quot;automation-demo&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">  </span>--dry-run<span class="w"> </span>--output<span class="w"> </span>json
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># Preview a deletion; no confirmation prompt is shown in dry-run mode.</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>py-moodle<span class="w"> </span>courses<span class="w"> </span>delete<span class="w"> </span><span class="m">42</span><span class="w"> </span>--dry-run<span class="w"> </span>--output<span class="w"> </span>json
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="c1"># Preview a SCORM upload without uploading the package.</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>py-moodle<span class="w"> </span>modules<span class="w"> </span>add<span class="w"> </span>scorm<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">  </span>--course-id<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">  </span>--section-id<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="w">  </span>--name<span class="w"> </span><span class="s2">&quot;SCORM 1&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="w">  </span>--file<span class="w"> </span>./package.zip<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="w">  </span>--dry-run<span class="w"> </span>--output<span class="w"> </span>json
+</span></code></pre></div>
+<p>Each command prints a plan <code>dict</code> with <code>action</code>, <code>dry_run</code>, <code>target</code>, and
+<code>parameters</code> fields. Fields that cannot be known before contacting Moodle
+(such as the <code>course_id</code> assigned by <code>courses create</code>) are marked with a
+placeholder value instead of a real ID.</p>
 <h2 id="idempotent-provisioning-ensure-a-course-exists">Idempotent provisioning: ensure a course exists<a class="headerlink" href="#idempotent-provisioning-ensure-a-course-exists" title="Permanent link">&para;</a></h2>
 <p>Use <code>courses ensure</code> in CI pipelines or onboarding scripts that need to
 provision a course without failing (or creating duplicates) on repeat runs.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Safe to run every time: creates the course only if it is missing.</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>py-moodle<span class="w"> </span>courses<span class="w"> </span>ensure<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span>--shortname<span class="w"> </span><span class="s2">&quot;ci-smoke-test&quot;</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span>--fullname<span class="w"> </span><span class="s2">&quot;CI Smoke Test&quot;</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">  </span>--category-id<span class="w"> </span><span class="m">1</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Safe to run every time: creates the course only if it is missing.</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>py-moodle<span class="w"> </span>courses<span class="w"> </span>ensure<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span>--shortname<span class="w"> </span><span class="s2">&quot;ci-smoke-test&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">  </span>--fullname<span class="w"> </span><span class="s2">&quot;CI Smoke Test&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">  </span>--category-id<span class="w"> </span><span class="m">1</span>
 </span></code></pre></div>
 <p>Re-running the same command reports <code>status: reused</code> instead of failing with
 a "shortname already in use" error. If the course already exists with a
 different <code>--fullname</code>/<code>--category-id</code>, the command reports
 <code>status: conflict</code> (and exits with code <code>1</code>) without changing anything,
 letting you inspect the <code>differences</code> before deciding what to do:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>py-moodle<span class="w"> </span>courses<span class="w"> </span>ensure<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span>--shortname<span class="w"> </span><span class="s2">&quot;ci-smoke-test&quot;</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span>--fullname<span class="w"> </span><span class="s2">&quot;Renamed CI Smoke Test&quot;</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">  </span>--category-id<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">  </span>--output<span class="w"> </span>json
-</span></code></pre></div>
-<p>Pass <code>--update</code> to have the command bring <code>fullname</code>/<code>--category-id</code> in line
-with the request instead of reporting a conflict:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>py-moodle<span class="w"> </span>courses<span class="w"> </span>ensure<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span>--shortname<span class="w"> </span><span class="s2">&quot;ci-smoke-test&quot;</span><span class="w"> </span><span class="se">\</span>
 </span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span>--fullname<span class="w"> </span><span class="s2">&quot;Renamed CI Smoke Test&quot;</span><span class="w"> </span><span class="se">\</span>
 </span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">  </span>--category-id<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">  </span>--update
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">  </span>--output<span class="w"> </span>json
+</span></code></pre></div>
+<p>Pass <code>--update</code> to have the command bring <code>fullname</code>/<code>--category-id</code> in line
+with the request instead of reporting a conflict:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>py-moodle<span class="w"> </span>courses<span class="w"> </span>ensure<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span>--shortname<span class="w"> </span><span class="s2">&quot;ci-smoke-test&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span>--fullname<span class="w"> </span><span class="s2">&quot;Renamed CI Smoke Test&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span>--category-id<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">  </span>--update
 </span></code></pre></div>
 <p><code>--update</code> only ever touches <code>fullname</code> and category membership; it never
 overwrites the course summary, visibility, or its sections/modules.</p>
@@ -2137,15 +2185,15 @@ overwrites the course summary, visibility, or its sections/modules.</p>
 <p>The library functions keep returning plain <code>dict</code>/<code>list[dict]</code> values, but
 <code>py_moodle.models</code> offers opt-in typed wrappers if you want autocompletion
 and static-typing safety in your own scripts.</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kn">from</span> <span class="nn">py_moodle</span> <span class="kn">import</span> <span class="n">MoodleSession</span>
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kn">from</span> <span class="nn">py_moodle.course</span> <span class="kn">import</span> <span class="n">list_courses</span>
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="kn">from</span> <span class="nn">py_moodle.models</span> <span class="kn">import</span> <span class="n">Course</span>
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="n">ms</span> <span class="o">=</span> <span class="n">MoodleSession</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
-</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="k">for</span> <span class="n">raw_course</span> <span class="ow">in</span> <span class="n">list_courses</span><span class="p">(</span><span class="n">ms</span><span class="o">.</span><span class="n">session</span><span class="p">,</span> <span class="n">ms</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="n">token</span><span class="o">=</span><span class="n">ms</span><span class="o">.</span><span class="n">token</span><span class="p">):</span>
-</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>    <span class="n">typed_course</span> <span class="o">=</span> <span class="n">Course</span><span class="o">.</span><span class="n">from_moodle</span><span class="p">(</span><span class="n">raw_course</span><span class="p">)</span>
-</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">typed_course</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">typed_course</span><span class="o">.</span><span class="n">fullname</span><span class="p">)</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kn">from</span> <span class="nn">py_moodle</span> <span class="kn">import</span> <span class="n">MoodleSession</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="kn">from</span> <span class="nn">py_moodle.course</span> <span class="kn">import</span> <span class="n">list_courses</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="kn">from</span> <span class="nn">py_moodle.models</span> <span class="kn">import</span> <span class="n">Course</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="n">ms</span> <span class="o">=</span> <span class="n">MoodleSession</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="k">for</span> <span class="n">raw_course</span> <span class="ow">in</span> <span class="n">list_courses</span><span class="p">(</span><span class="n">ms</span><span class="o">.</span><span class="n">session</span><span class="p">,</span> <span class="n">ms</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="n">token</span><span class="o">=</span><span class="n">ms</span><span class="o">.</span><span class="n">token</span><span class="p">):</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>    <span class="n">typed_course</span> <span class="o">=</span> <span class="n">Course</span><span class="o">.</span><span class="n">from_moodle</span><span class="p">(</span><span class="n">raw_course</span><span class="p">)</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">typed_course</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">typed_course</span><span class="o">.</span><span class="n">fullname</span><span class="p">)</span>
 </span></code></pre></div>
 <p><code>Course.from_moodle()</code> (and the other <code>from_moodle()</code> classmethods) tolerate
 missing optional fields and ignore unknown/extra keys, so they are safe to
@@ -2153,14 +2201,14 @@ use even as the underlying Moodle payload shape drifts across versions.</p>
 <h2 id="run-the-fastest-contributor-validation-loop">Run the fastest contributor validation loop<a class="headerlink" href="#run-the-fastest-contributor-validation-loop" title="Permanent link">&para;</a></h2>
 <p>When you are changing code or documentation, this sequence gives the quickest
 feedback with the existing repository tooling.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Fast smoke tests with no live Moodle requirement.</span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>make<span class="w"> </span>test-unit
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># Static checks used by CI.</span>
-</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>make<span class="w"> </span>lint
-</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
-</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="c1"># Rebuild the documentation site, including generated CLI docs.</span>
-</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>make<span class="w"> </span>docs
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># Fast smoke tests with no live Moodle requirement.</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>make<span class="w"> </span>test-unit
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="c1"># Static checks used by CI.</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>make<span class="w"> </span>lint
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="c1"># Rebuild the documentation site, including generated CLI docs.</span>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>make<span class="w"> </span>docs
 </span></code></pre></div>
 <p>Use <code>make test-local</code> only when you need Docker-backed integration coverage
 against the local Moodle environment.</p>
