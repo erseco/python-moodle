@@ -76,6 +76,43 @@ py-moodle sections list 2
 This flow is useful for scripts and manual operations because it reduces the
 chance of targeting the wrong course or section.
 
+## Export data for spreadsheets or shell pipelines
+
+`courses`, `categories`, `sections`, and `users` `list` commands accept
+`--output csv`, in addition to the existing `table`, `json`, and `yaml`
+formats. CSV output is written to stdout only (no banners or extra text), so
+it can be redirected straight into a file or another tool.
+
+```bash
+# Save the course list as a CSV file for a spreadsheet.
+py-moodle courses list --output csv > courses.csv
+
+# Pipe user emails into another shell tool.
+py-moodle users list --course-id 2 --output csv | cut -d, -f3
+```
+
+## Automate `py-moodle` in scripts and CI jobs
+
+Combine `--quiet`, `--no-color`, and `--output csv`/`--output json` to keep
+automated output clean and machine-readable. `--quiet` suppresses incidental
+status/confirmation messages (the command's result and any errors are always
+shown); `--no-color` (also respected via the `NO_COLOR` environment variable)
+strips ANSI styling from table output.
+
+```bash
+# A CI-friendly invocation: no banners, no color, CSV on stdout.
+py-moodle --quiet --no-color courses list --output csv
+
+# Diagnose a failing login without leaking secrets into logs: tokens,
+# session keys, and passwords are always redacted from --verbose/--debug
+# output.
+py-moodle --debug site info
+```
+
+Errors are always written to stderr, never mixed into `--output json`/`csv`
+stdout, so `courses=$(py-moodle courses list --output json)` is safe to use
+even when the command fails.
+
 ## Create a course and add a welcome label
 
 This is a minimal end-to-end content bootstrap workflow.

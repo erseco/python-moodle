@@ -228,6 +228,38 @@ def duplicate_course_cmd(
     typer.echo(f"Duplicated course: {result['id']}")
 ```
 
+### Diagnostics: `--verbose`/`--debug` and secret redaction
+
+The root CLI callback (`src/py_moodle/cli/app.py`) configures the shared
+`py_moodle` logger via `py_moodle.cli.output.configure_logging()` based on
+the `--verbose`/`--debug` flags:
+
+- Neither flag: the logger stays at `WARNING` (silent for diagnostics).
+- `--verbose`/`-v`: the logger is raised to `INFO`, which enables high-level
+  milestone messages (e.g. "Logging in to ...", "Login completed: ...").
+- `--debug`: the logger is raised to `DEBUG`, which additionally enables
+  HTTP-level tracing from `src/py_moodle/auth.py` (requests, status codes,
+  response URLs).
+
+All diagnostic output is written to stderr (never stdout), so it never mixes
+with the machine-readable payload of `--output json`/`csv`.
+
+When extending `auth.py`'s login/CAS diagnostics, or any other code path that
+might log a secret-bearing value:
+
+- Never log a token, sesskey, password, or cookie value directly. Use the
+  `_REDACTED` placeholder instead (see the existing `sesskey obtained: %s`
+  and `webservice_token obtained: %s` call sites).
+- URLs and headers can carry secrets too (e.g. a CAS `ticket=` query
+  parameter, or a `Set-Cookie` header). Route them through the
+  `_redact_url()`/`_redact_headers()` helpers in `auth.py` before logging.
+- Avoid logging raw HTTP response bodies. Moodle pages routinely embed the
+  current user's `sesskey` inline (e.g. `M.cfg.sesskey = "..."`), so even a
+  short preview of response text can leak it.
+- Add or update a unit test in `tests/unit/test_cli_output_formats.py` that
+  plants a fake secret value and asserts (via `caplog`) that it never
+  appears in the logged output, only a redacted placeholder.
+
 ## Documentation
 
 ### Building Documentation

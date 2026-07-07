@@ -1,3 +1,4 @@
+import logging
 import os
 import random
 from dataclasses import dataclass
@@ -11,6 +12,30 @@ from dotenv import load_dotenv
 load_dotenv()
 
 UNIT_TESTS_DIR = (Path(__file__).parent / "unit").resolve()
+
+#: Loggers whose level/handlers/propagate flag are mutated by
+#: ``py_moodle.cli.output.configure_logging()`` (invoked by any CLI test
+#: through ``CliRunner``) or directly by ``MoodleAuth``. These are shared,
+#: process-global objects, so without a reset between every test, one
+#: test's CLI invocation can permanently disable propagation for the rest
+#: of the suite, silently breaking unrelated tests that rely on ``caplog``.
+_SHARED_PY_MOODLE_LOGGERS = (
+    "py_moodle",
+    "py_moodle.auth",
+    "py_moodle.draftfile",
+)
+
+
+@pytest.fixture(autouse=True)
+def _reset_py_moodle_logging():
+    """Snapshot and restore shared ``py_moodle.*`` logger state per test."""
+    loggers = [logging.getLogger(name) for name in _SHARED_PY_MOODLE_LOGGERS]
+    snapshots = [(lgr, lgr.level, list(lgr.handlers), lgr.propagate) for lgr in loggers]
+    yield
+    for lgr, level, handlers, propagate in snapshots:
+        lgr.level = level
+        lgr.handlers = handlers
+        lgr.propagate = propagate
 
 
 @dataclass(frozen=True)

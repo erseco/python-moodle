@@ -2,11 +2,10 @@
 
 import typer
 from rich.box import SQUARE
-from rich.console import Console
 from rich.table import Table
 
 # Import the new centralized function and corresponding error
-from py_moodle.cli.output import OutputFormat, emit
+from py_moodle.cli.output import OutputFormat, emit, get_console
 from py_moodle.course import MoodleCourseError, get_course_with_sections_and_modules
 
 # Keep the action functions (create/delete) that are still valid
@@ -15,6 +14,15 @@ from py_moodle.session import MoodleSession
 
 # Create a Typer "sub-app" for section commands
 app = typer.Typer(help="Manage course sections: list, show, create, delete.")
+
+# CSV column definitions mirroring the fields shown by _render_table below.
+_LIST_CSV_FIELDS = [
+    ("ID", "id"),
+    ("Position", "section"),
+    ("Name", lambda s: s.get("name") or f"Section {s.get('section', '')}"),
+    ("Modules (Count)", lambda s: len(s.get("modules", []))),
+    ("Visible", "visible"),
+]
 
 
 @app.callback(invoke_without_command=True)
@@ -34,7 +42,9 @@ def list_course_sections(
         ..., "--course-id", help="ID of the course to list sections from."
     ),
     output: OutputFormat = typer.Option(
-        OutputFormat.TABLE, "--output", help="Output format: table, json, or yaml."
+        OutputFormat.TABLE,
+        "--output",
+        help="Output format: table, json, yaml, or csv.",
     ),
 ):
     """
@@ -73,9 +83,9 @@ def list_course_sections(
                     str(len(section.get("modules", []))),
                     visible_text,
                 )
-            Console().print(table)
+            get_console(ctx).print(table)
 
-        emit(sections, output, table_fn=_render_table)
+        emit(sections, output, table_fn=_render_table, csv_fields=_LIST_CSV_FIELDS)
 
     except MoodleCourseError as e:
         typer.echo(f"Error listing sections: {e}", err=True)
@@ -90,7 +100,9 @@ def show_section_details(
         ..., "--course-id", help="ID of the course the section belongs to."
     ),
     output: OutputFormat = typer.Option(
-        OutputFormat.TABLE, "--output", help="Output format: table, json, or yaml."
+        OutputFormat.TABLE,
+        "--output",
+        help="Output format: table, json, yaml, or csv.",
     ),
 ):
     """
@@ -121,7 +133,7 @@ def show_section_details(
             raise typer.Exit(1)
 
         def _render_table(data):
-            console = Console()
+            console = get_console(ctx)
             section_name = data.get("name") or f"Section {data.get('section')}"
             console.print(
                 f"\n[bold cyan]Details for Section: '{section_name}'[/bold cyan]"
@@ -191,7 +203,10 @@ def create_new_section(
         )
         # The create section response is complex, extract the ID if possible
         new_section_id = new_section_event.get("fields", {}).get("id")
-        typer.echo(f"Section created successfully. New section ID: {new_section_id}")
+        if not ctx.obj.get("quiet"):
+            typer.echo(
+                f"Section created successfully. New section ID: {new_section_id}"
+            )
     except MoodleCourseError as e:  # Keep the specific error if relevant
         typer.echo(f"Error creating section: {e}", err=True)
         raise typer.Exit(1)
@@ -219,7 +234,8 @@ def delete_a_section(
 
     try:
         delete_section(ms.session, ms.settings.url, ms.sesskey, course_id, section_id)
-        typer.echo(f"Section {section_id} deleted successfully.")
+        if not ctx.obj.get("quiet"):
+            typer.echo(f"Section {section_id} deleted successfully.")
     except MoodleCourseError as e:
         typer.echo(f"Error deleting section: {e}", err=True)
         raise typer.Exit(1)

@@ -1,12 +1,17 @@
 """Course-related commands for ``py-moodle``."""
 
 from dataclasses import asdict
+from functools import partial
 
 import typer
-from rich.console import Console
 from rich.table import Table
 
-from py_moodle.cli.output import OutputFormat, emit, render_dry_run_plan
+from py_moodle.cli.output import (
+    OutputFormat,
+    emit,
+    get_console,
+    render_dry_run_plan,
+)
 from py_moodle.course import (
     ConfirmationRequired,
     MoodleCourseError,
@@ -20,6 +25,15 @@ from py_moodle.session import MoodleSession
 
 # Create a Typer "sub-app" for course commands
 app = typer.Typer(help="Manage courses: list, show, create, delete.")
+
+# CSV column definitions mirroring the fields shown by _render_table below.
+_LIST_CSV_FIELDS = [
+    ("ID", "id"),
+    ("Shortname", "shortname"),
+    ("Fullname", "fullname"),
+    ("Category", "categoryid"),
+    ("Visible", "visible"),
+]
 
 
 @app.callback(invoke_without_command=True)
@@ -36,7 +50,9 @@ def main(ctx: typer.Context):
 def list_all_courses(
     ctx: typer.Context,
     output: OutputFormat = typer.Option(
-        OutputFormat.TABLE, "--output", help="Output format: table, json, or yaml."
+        OutputFormat.TABLE,
+        "--output",
+        help="Output format: table, json, yaml, or csv.",
     ),
 ):
     """
@@ -57,14 +73,14 @@ def list_all_courses(
                 str(course.get("categoryid", "")),
                 str(course.get("visible", "")),
             )
-        Console().print(table)
+        get_console(ctx).print(table)
 
-    emit(courses, output, table_fn=_render_table)
+    emit(courses, output, table_fn=_render_table, csv_fields=_LIST_CSV_FIELDS)
 
 
-def _print_course_summary_table(course_data: dict):
+def _print_course_summary_table(ctx: typer.Context, course_data: dict):
     """Prints a rich summary table of the course contents."""
-    console = Console()
+    console = get_console(ctx)
 
     # Print main course info
     console.print(
@@ -103,7 +119,9 @@ def show_course(
     ctx: typer.Context,
     course_id: int = typer.Argument(..., help="ID of the course to show."),
     output: OutputFormat = typer.Option(
-        OutputFormat.TABLE, "--output", help="Output format: table, json, or yaml."
+        OutputFormat.TABLE,
+        "--output",
+        help="Output format: table, json, yaml, or csv.",
     ),
 ):
     """
@@ -116,7 +134,11 @@ def show_course(
             ms.session, ms.settings.url, ms.sesskey, course_id, token=ms.token
         )
 
-        emit(course_data, output, table_fn=_print_course_summary_table)
+        emit(
+            course_data,
+            output,
+            table_fn=partial(_print_course_summary_table, ctx),
+        )
 
     except MoodleCourseError as e:
         typer.echo(f"Error getting course details: {e}", err=True)
@@ -179,9 +201,10 @@ def create_new_course(
             visible,
             summary,
         )
-        typer.echo(
-            f"Course created: {course['id']} - {course['fullname']} ({course['shortname']})"
-        )
+        if not ctx.obj.get("quiet"):
+            typer.echo(
+                f"Course created: {course['id']} - {course['fullname']} ({course['shortname']})"
+            )
     except Exception as e:
         if "shortname" in str(e).lower() and "use" in str(e).lower():
             typer.echo(
@@ -194,7 +217,7 @@ def create_new_course(
             raise typer.Exit(1)
 
 
-def _render_ensure_table(data: dict) -> None:
+def _render_ensure_table(ctx: typer.Context, data: dict) -> None:
     """Prints a rich summary table for an ``ensure_course`` result."""
     course = data.get("course") or {}
     table = Table("Status", "ID", "Shortname", "Fullname", "Category")
@@ -205,7 +228,7 @@ def _render_ensure_table(data: dict) -> None:
         str(course.get("fullname", "")),
         str(course.get("categoryid", "")),
     )
-    Console().print(table)
+    get_console(ctx).print(table)
 
     differences = data.get("differences")
     if differences:
@@ -213,7 +236,7 @@ def _render_ensure_table(data: dict) -> None:
         for field_name, values in differences.items():
             existing_value, requested_value = values
             diff_table.add_row(field_name, str(existing_value), str(requested_value))
-        Console().print(diff_table)
+        get_console(ctx).print(diff_table)
 
 
 @app.command("ensure")
@@ -254,7 +277,7 @@ def ensure_a_course(
         typer.echo(f"Error ensuring course: {e}", err=True)
         raise typer.Exit(1)
 
-    emit(asdict(result), output, table_fn=_render_ensure_table)
+    emit(asdict(result), output, table_fn=partial(_render_ensure_table, ctx))
     if result.status == "conflict":
         raise typer.Exit(code=1)
 
@@ -294,7 +317,8 @@ def delete_a_course(
     ms = MoodleSession.get(ctx.obj["env"])
     try:
         delete_course(ms.session, ms.settings.url, ms.sesskey, course_id, force=force)
-        typer.echo(f"Course {course_id} deleted successfully.")
+        if not ctx.obj.get("quiet"):
+            typer.echo(f"Course {course_id} deleted successfully.")
     except ConfirmationRequired as e:
         confirm = typer.confirm(
             f"Are you sure you want to delete course '{e.course_title}' "
@@ -305,7 +329,8 @@ def delete_a_course(
             typer.echo("Aborted.")
             raise typer.Exit(0)
         delete_course(ms.session, ms.settings.url, ms.sesskey, course_id, force=True)
-        typer.echo(f"Course {course_id} deleted successfully.")
+        if not ctx.obj.get("quiet"):
+            typer.echo(f"Course {course_id} deleted successfully.")
     except MoodleCourseError as e:
         typer.echo(f"Error deleting course: {e}", err=True)
         raise typer.Exit(1)

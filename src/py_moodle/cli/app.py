@@ -22,6 +22,7 @@ from . import (
     urls,
     users,
 )
+from .output import configure_logging
 
 load_dotenv()
 
@@ -42,14 +43,53 @@ def main(
         "-e",
         help="Environment to use: local | staging | prod (also respects MOODLE_ENV)",
     ),
+    quiet: bool = typer.Option(
+        False,
+        "--quiet",
+        "-q",
+        help=(
+            "Suppress incidental status output (banners, progress/confirmation "
+            "messages). The command's primary result and any errors are still shown."
+        ),
+    ),
+    no_color: bool = typer.Option(
+        False,
+        "--no-color",
+        help=(
+            "Disable ANSI colors in table output. The NO_COLOR environment "
+            "variable is also respected."
+        ),
+    ),
+    verbose: bool = typer.Option(
+        False,
+        "--verbose",
+        "-v",
+        help="Enable verbose (INFO-level) diagnostics on stderr.",
+    ),
+    debug: bool = typer.Option(
+        False,
+        "--debug",
+        help=(
+            "Enable debug-level diagnostics on stderr, including HTTP tracing "
+            "from the authentication layer. Secret values are redacted."
+        ),
+    ),
 ):
     """
     Main callback for the Moodle CLI.
-    Loads the environment and passes it to the subcommands.
+    Loads the environment and global output/diagnostic options and passes
+    them to the subcommands via ``ctx.obj``.
     """
     ctx.ensure_object(dict)
-    # Store the 'env' in the context so subcommands can access it.
-    ctx.obj = {"env": env}
+    # Store the CLI-wide options in the context so subcommands can access them.
+    ctx.obj = {
+        "env": env,
+        "quiet": quiet,
+        "no_color": no_color,
+        "verbose": verbose,
+        "debug": debug,
+    }
+    configure_logging(verbose=verbose, debug=debug)
 
 
 # Add commands from other files to the main app

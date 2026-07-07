@@ -47,7 +47,7 @@ def test_cas_login_logs_via_logging_and_redacts_password(caplog, capsys):
 
 
 def test_login_debug_logs_sesskey_obtained_via_logging(monkeypatch, caplog, capsys):
-    """login() should log the obtained sesskey via logging, never via print()."""
+    """login() should log via logging (never print()), redacting the sesskey."""
     auth = MoodleAuth(
         base_url="https://moodle.example.test",
         username="user",
@@ -75,7 +75,8 @@ def test_login_debug_logs_sesskey_obtained_via_logging(monkeypatch, caplog, caps
     messages = [
         record.message for record in caplog.records if record.name == "py_moodle.auth"
     ]
-    assert any("sesskey obtained: sesskey-abc" in message for message in messages)
+    assert any("sesskey obtained: ***REDACTED***" in message for message in messages)
+    assert not any("sesskey-abc" in message for message in messages)
 
 
 def test_auth_module_has_no_print_calls():

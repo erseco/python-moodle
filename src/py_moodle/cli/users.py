@@ -1,14 +1,20 @@
 """User management commands for ``py-moodle``."""
 
 import typer
-from rich.console import Console
 from rich.table import Table
 
-from py_moodle.cli.output import OutputFormat, emit
+from py_moodle.cli.output import OutputFormat, emit, get_console
 from py_moodle.session import MoodleSession
 from py_moodle.user import MoodleUserError, create_user, delete_user, list_course_users
 
 app = typer.Typer(help="Manage Moodle users: list, create, delete.")
+
+# CSV column definitions mirroring the fields shown by _render_table below.
+_LIST_CSV_FIELDS = [
+    ("ID", "id"),
+    ("Full Name", "fullname"),
+    ("Email", "email"),
+]
 
 
 @app.callback(invoke_without_command=True)
@@ -25,7 +31,9 @@ def list_users_in_course(
         ..., "--course-id", help="ID of the course to list users from."
     ),
     output: OutputFormat = typer.Option(
-        OutputFormat.TABLE, "--output", help="Output format: table, json, or yaml."
+        OutputFormat.TABLE,
+        "--output",
+        help="Output format: table, json, yaml, or csv.",
     ),
 ):
     """Lists users enrolled in a specific course."""
@@ -47,9 +55,9 @@ def list_users_in_course(
                     user.get("fullname", ""),
                     user.get("email", ""),
                 )
-            Console().print(table)
+            get_console(ctx).print(table)
 
-        emit(users, output, table_fn=_render_table)
+        emit(users, output, table_fn=_render_table, csv_fields=_LIST_CSV_FIELDS)
     except MoodleUserError as e:
         typer.echo(f"Error listing users: {e}", err=True)
         raise typer.Exit(1)
@@ -85,9 +93,10 @@ def create_new_user(
             email,
             sesskey=ms.sesskey,
         )
-        typer.echo(
-            f"User created successfully. ID: {new_user['id']}, Username: {new_user['username']}"
-        )
+        if not ctx.obj.get("quiet"):
+            typer.echo(
+                f"User created successfully. ID: {new_user['id']}, Username: {new_user['username']}"
+            )
     except MoodleUserError as e:
         typer.echo(f"Error creating user: {e}", err=True)
         raise typer.Exit(1)
@@ -120,7 +129,8 @@ def delete_a_user(
 
     try:
         delete_user(ms.session, ms.settings.url, ms.token, user_id, sesskey=ms.sesskey)
-        typer.echo(f"User {user_id} deleted successfully.")
+        if not ctx.obj.get("quiet"):
+            typer.echo(f"User {user_id} deleted successfully.")
     except MoodleUserError as e:
         typer.echo(f"Error deleting user: {e}", err=True)
         raise typer.Exit(1)
