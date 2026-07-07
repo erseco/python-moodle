@@ -14,10 +14,22 @@ import requests
 from ..http import MoodleHttpError, MoodleWebserviceError, request_webservice
 from . import TransportError, TransportUnavailableError
 
-#: Substring (case-insensitive) that identifies an invalid/expired token
-#: Moodle exception, distinguishing "try another transport" from a genuine
-#: webservice-level failure.
-_INVALID_TOKEN_MARKER = "invalid token"
+#: Substrings (case-insensitive) identifying a Moodle webservice failure
+#: that means "this call path isn't usable right now, try another
+#: transport" rather than a genuine webservice-level failure worth
+#: surfacing immediately:
+#:   - an invalid/expired token;
+#:   - a webservice-side context-validation failure (observed in practice
+#:     as "You cannot execute functions in the course context (course
+#:     id:N). ... Context does not exist"), e.g. when the target course's
+#:     context is momentarily stale relative to the calling user's cached
+#:     session state. The AJAX transport re-derives context from the
+#:     current page/session instead of a cached webservice-side lookup,
+#:     so it is not subject to the same failure.
+_TRANSPORT_UNAVAILABLE_MARKERS = (
+    "invalid token",
+    "cannot execute functions in the course context",
+)
 
 
 def call(
@@ -41,15 +53,17 @@ def call(
 
     Raises:
         TransportUnavailableError: If Moodle reports an invalid/expired
-            token, indicating the caller should fall back to another
-            transport.
+            token, or a context-validation failure, indicating the caller
+            should fall back to another transport (see
+            :data:`_TRANSPORT_UNAVAILABLE_MARKERS`).
         TransportError: If the call fails for any other reason (network
-            error, non-token Moodle exception, invalid JSON).
+            error, non-token/context Moodle exception, invalid JSON).
     """
     try:
         return request_webservice(session, base_url, wsfunction, params, token=token)
     except MoodleWebserviceError as exc:
-        if _INVALID_TOKEN_MARKER in str(exc).lower():
+        message = str(exc).lower()
+        if any(marker in message for marker in _TRANSPORT_UNAVAILABLE_MARKERS):
             raise TransportUnavailableError(str(exc)) from exc
         raise TransportError(str(exc)) from exc
     except MoodleHttpError as exc:
