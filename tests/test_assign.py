@@ -5,11 +5,7 @@ import pytest
 
 # Import the new assign functionality
 from py_moodle.assign import MoodleAssignError, add_assign
-from py_moodle.course import (
-    create_course,
-    delete_course,
-    get_course_with_sections_and_modules,
-)
+from py_moodle.course import delete_course, get_course_with_sections_and_modules
 
 # Import helpers needed for testing
 from py_moodle.module import delete_module
@@ -17,7 +13,7 @@ from py_moodle.module import delete_module
 
 # --- Fixtures ---
 @pytest.fixture(scope="module")
-def temporary_course_for_assign(request):
+def temporary_course_for_assign(request, create_temporary_course):
     """Creates a temporary course for the assign tests and deletes it afterwards."""
     target = request.config.moodle_target
     from py_moodle.auth import login
@@ -31,18 +27,7 @@ def temporary_course_for_assign(request):
     base_url = target.url
     sesskey = moodle_session.sesskey
 
-    fullname = f"Test Course For Assigns {random.randint(1000, 9999)}"
-    shortname = f"TCA{random.randint(1000, 9999)}"
-
-    course = create_course(
-        session=moodle_session,
-        base_url=base_url,
-        sesskey=sesskey,
-        fullname=fullname,
-        shortname=shortname,
-        categoryid=1,
-        numsections=1,
-    )
+    course = create_temporary_course(moodle_session, base_url, sesskey, prefix="TCA")
 
     yield course
 

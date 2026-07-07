@@ -1,17 +1,10 @@
 # tests/test_draftfile.py
-# tests/test_draftfile.py
-import random
 import time
 from pathlib import Path
 
 import pytest
 
-from py_moodle.course import (
-    MoodleCourseError,
-    create_course,
-    delete_course,
-    get_course_context_id,
-)
+from py_moodle.course import MoodleCourseError, delete_course, get_course_context_id
 from py_moodle.draftfile import (
     MoodleDraftFileError,
     detect_upload_repo,
@@ -51,7 +44,7 @@ def temp_text_file(tmp_path: Path) -> Path:
 
 
 @pytest.fixture(scope="module")
-def temporary_course_for_draftfile(request):
+def temporary_course_for_draftfile(request, create_temporary_course):
     """
     Creates a temporary course for all tests in this module and deletes it afterwards.
     """
@@ -68,22 +61,8 @@ def temporary_course_for_draftfile(request):
 
     base_url = target.url
     sesskey = moodle_session.sesskey
-    fullname = f"Test Course For Draftfile {random.randint(1000, 9999)}"
-    shortname = f"TCDF{random.randint(1000, 9999)}"
 
-    try:
-        course = create_course(
-            session=moodle_session,
-            base_url=base_url,
-            sesskey=sesskey,
-            fullname=fullname,
-            shortname=shortname,
-            categoryid=1,
-            numsections=1,
-        )
-        assert isinstance(course, dict) and "id" in course
-    except MoodleCourseError as e:
-        pytest.skip(f"Could not create temporary course for draftfile tests: {e}")
+    course = create_temporary_course(moodle_session, base_url, sesskey, prefix="TCDF")
 
     yield course
 

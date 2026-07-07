@@ -8,7 +8,6 @@ import pytest
 
 from py_moodle.course import (
     MoodleCourseError,
-    create_course,
     delete_course,
     get_course_with_sections_and_modules,
 )
@@ -27,7 +26,7 @@ from py_moodle.upload import MoodleUploadError, upload_file_webservice
 
 
 @pytest.fixture(scope="module")
-def temporary_course_for_folders(request):
+def temporary_course_for_folders(request, create_temporary_course):
     """
     Creates a temporary course for all folder tests and deletes it when finished.
     Improved to be more robust against creation/deletion failures.
@@ -46,22 +45,7 @@ def temporary_course_for_folders(request):
     base_url = target.url
     sesskey = moodle_session.sesskey
 
-    fullname = f"Test Course For Folders {random.randint(1000, 9999)}"
-    shortname = f"TCF{random.randint(1000, 9999)}"
-
-    try:
-        course = create_course(
-            session=moodle_session,
-            base_url=base_url,
-            sesskey=sesskey,
-            fullname=fullname,
-            shortname=shortname,
-            categoryid=1,
-            numsections=1,
-        )
-        assert isinstance(course, dict) and "id" in course
-    except MoodleCourseError as e:
-        pytest.skip(f"Could not create temporary course for folder tests: {e}")
+    course = create_temporary_course(moodle_session, base_url, sesskey, prefix="TCF")
 
     yield course
 

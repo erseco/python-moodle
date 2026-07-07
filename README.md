@@ -285,10 +285,11 @@ make test
 GitHub Actions automatically runs:
 
 - linting on Python 3.13
-- smoke tests on Python 3.8 through 3.13
+- smoke tests on Python 3.9 through 3.13
 - Docker-backed integration tests on representative Python/Moodle combinations:
-  - Python 3.8 with Moodle 4.5.5
+  - Python 3.9 with Moodle 4.5.5
   - Python 3.13 with Moodle 5.0.1
+  - Python 3.13 with Moodle 5.2.1
 
 ## Development
 

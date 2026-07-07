@@ -1,6 +1,6 @@
 # tests/test_course.py
 import datetime
-import random
+import uuid
 
 import pytest
 
@@ -17,7 +17,7 @@ from py_moodle.course import (
 
 
 @pytest.fixture(scope="module")
-def temporary_course_for_context(request):
+def temporary_course_for_context(request, create_temporary_course):
     """Create a temporary course for the context test and delete it afterwards."""
     target = request.config.moodle_target
     from py_moodle.auth import login
@@ -30,15 +30,12 @@ def temporary_course_for_context(request):
 
     base_url = target.url
     sesskey = moodle_session.sesskey
-    fullname = f"Test Course For Context ID {random.randint(1000, 9999)}"
-    shortname = f"TCCID{random.randint(1000, 9999)}"
 
-    try:
-        course = create_course(moodle_session, base_url, sesskey, fullname, shortname)
-        yield course
-        delete_course(moodle_session, base_url, sesskey, course["id"], force=True)
-    except MoodleCourseError as e:
-        pytest.skip(f"Could not manage temporary course for context test: {e}")
+    course = create_temporary_course(
+        moodle_session, base_url, sesskey, prefix="TCCID", numsections=4
+    )
+    yield course
+    delete_course(moodle_session, base_url, sesskey, course["id"], force=True)
 
 
 @pytest.fixture
@@ -68,41 +65,48 @@ def test_list_courses(moodle, base_url, token):
     assert any("fullname" in c for c in courses)
 
 
-def test_create_and_delete_course(moodle, base_url, sesskey, token):
+def test_create_and_delete_course(
+    moodle, base_url, sesskey, token, course_creation_lock
+):
     """
     Tests the full lifecycle of a course: creation, verification, and deletion.
     """
-    fullname = f"pytest-course-{random.randint(1000, 9999)}"
-    shortname = f"pyt-c-{random.randint(1000, 9999)}"
+    unique = uuid.uuid4().hex[:8]
+    fullname = f"pytest-course-{unique}"
+    shortname = f"pyt-c-{unique}"
     now = datetime.datetime.now()
 
-    # 1. Create the course
-    course = create_course(
-        session=moodle,
-        base_url=base_url,
-        sesskey=sesskey,
-        fullname=fullname,
-        shortname=shortname,
-        categoryid=1,
-        summary="Created by test_create_and_delete_course",
-        # startdate={"day": now.day, "month": now.month, "year": now.year},
-        startdate={
-            "day": now.day,
-            "month": now.month,
-            "year": now.year,
-            "hour": 0,
-            "minute": 0,
-        },
-        # enddate={"enabled": 0} # Disable end date for simplicity
-        enddate={
-            "enabled": 0,
-            "day": now.day,
-            "month": now.month,
-            "year": now.year + 1,
-            "hour": 0,
-            "minute": 0,
-        },
-    )
+    # 1. Create the course. Serialized across pytest-xdist worker processes
+    # (see tests/conftest.py's course_creation_lock) since Moodle's own
+    # course/edit.php occasionally races on its context-ID auto-increment
+    # when two courses are created concurrently.
+    with course_creation_lock():
+        course = create_course(
+            session=moodle,
+            base_url=base_url,
+            sesskey=sesskey,
+            fullname=fullname,
+            shortname=shortname,
+            categoryid=1,
+            summary="Created by test_create_and_delete_course",
+            # startdate={"day": now.day, "month": now.month, "year": now.year},
+            startdate={
+                "day": now.day,
+                "month": now.month,
+                "year": now.year,
+                "hour": 0,
+                "minute": 0,
+            },
+            # enddate={"enabled": 0} # Disable end date for simplicity
+            enddate={
+                "enabled": 0,
+                "day": now.day,
+                "month": now.month,
+                "year": now.year + 1,
+                "hour": 0,
+                "minute": 0,
+            },
+        )
 
     # Assert that create_course returns a dictionary with the expected keys
     assert isinstance(course, dict)
