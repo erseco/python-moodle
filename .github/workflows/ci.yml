@@ -92,6 +92,11 @@ jobs:
             moodle-label: Moodle 5.0.1
             moodle-cache-key: moodle-5-0-1
             run-examples: true
+          - python-version: '3.13'
+            moodle-image: erseco/alpine-moodle:v5.1.5
+            moodle-label: Moodle 5.1.5
+            moodle-cache-key: moodle-5-1-5
+            run-examples: false
 
     steps:
       - name: Checkout code

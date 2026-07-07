@@ -2,17 +2,13 @@ import random
 
 import pytest
 
-from py_moodle.course import (
-    create_course,
-    delete_course,
-    get_course_with_sections_and_modules,
-)
+from py_moodle.course import delete_course, get_course_with_sections_and_modules
 from py_moodle.module import delete_module
 from py_moodle.page import MoodlePageError, add_page
 
 
 @pytest.fixture(scope="module")
-def temporary_course_for_pages(request):
+def temporary_course_for_pages(request, create_temporary_course):
     """Create a temporary course for page tests and delete it afterwards."""
     target = request.config.moodle_target
     from py_moodle.auth import login
@@ -26,18 +22,7 @@ def temporary_course_for_pages(request):
     base_url = target.url
     sesskey = moodle_session.sesskey
 
-    fullname = f"Test Course For Pages {random.randint(1000, 9999)}"
-    shortname = f"TCP{random.randint(1000, 9999)}"
-
-    course = create_course(
-        session=moodle_session,
-        base_url=base_url,
-        sesskey=sesskey,
-        fullname=fullname,
-        shortname=shortname,
-        categoryid=1,
-        numsections=1,
-    )
+    course = create_temporary_course(moodle_session, base_url, sesskey, prefix="TCP")
 
     yield course
 
