@@ -2213,8 +2213,9 @@ delegating the actual socket-level request to the shared HTTP client in
             <td>
               <div class="doc-md-description">
                 <p>If Moodle reports an invalid/expired
-token, indicating the caller should fall back to another
-transport.</p>
+token, or a context-validation failure, indicating the caller
+should fall back to another transport (see
+:data:<code>_TRANSPORT_UNAVAILABLE_MARKERS</code>).</p>
               </div>
             </td>
           </tr>
@@ -2225,7 +2226,7 @@ transport.</p>
             <td>
               <div class="doc-md-description">
                 <p>If the call fails for any other reason (network
-error, non-token Moodle exception, invalid JSON).</p>
+error, non-token/context Moodle exception, invalid JSON).</p>
               </div>
             </td>
           </tr>
