@@ -622,6 +622,55 @@ def ensure_course(
     return EnsureCourseResult(status="updated", course=updated_course)
 
 
+def create_or_update_course(
+    session: requests.Session,
+    base_url: str,
+    sesskey: str,
+    *,
+    shortname: str,
+    fullname: str,
+    category_id: int,
+    token: str | None = None,
+    **create_kwargs: Any,
+) -> EnsureCourseResult:
+    """Create a course, or update it if one with the shortname already exists.
+
+    Convenience wrapper over :func:`ensure_course` with ``update=True``: if a
+    course with ``shortname`` exists it is updated in place (differing
+    ``fullname``/``category_id`` fields are applied) instead of reporting a
+    conflict; otherwise a new course is created.
+
+    Args:
+        session: Authenticated requests session.
+        base_url: Base URL of the Moodle instance.
+        sesskey: Session key for AJAX/form calls.
+        shortname: Unique shortname used to look up an existing course.
+        fullname: Desired full name of the course.
+        category_id: Desired category ID of the course.
+        token: Optional webservice token, forwarded to ``list_courses``.
+        **create_kwargs: Extra keyword arguments forwarded to
+            ``create_course`` when a new course must be created.
+
+    Returns:
+        EnsureCourseResult: Typed result with ``status`` of ``"created"``,
+        ``"reused"``, or ``"updated"``.
+
+    Raises:
+        MoodleCourseError: If listing, creating, or updating fails.
+    """
+    return ensure_course(
+        session,
+        base_url,
+        sesskey,
+        shortname=shortname,
+        fullname=fullname,
+        category_id=category_id,
+        token=token,
+        update=True,
+        **create_kwargs,
+    )
+
+
 def delete_course(
     session: requests.Session,
     base_url: str,
@@ -890,6 +939,7 @@ __all__ = [
     "list_courses",
     "create_course",
     "ensure_course",
+    "create_or_update_course",
     "update_course_basic",
     "delete_course",
     "get_course",

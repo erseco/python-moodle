@@ -281,6 +281,57 @@ py-moodle courses ensure \
 `--update` only ever touches `fullname` and category membership; it never
 overwrites the course summary, visibility, or its sections/modules.
 
+## Idempotent content provisioning
+
+The `py_moodle.ensure` module extends the same create-or-reuse pattern to
+sections and content modules, so a provisioning script can be re-run safely
+without creating duplicate sections, labels, resources, or folders. Each
+helper keys on a human-readable natural key: sections on their `name`, and
+modules on the `(name, modname)` pair within the course.
+
+```python
+from py_moodle import MoodleSession
+from py_moodle.course import create_or_update_course
+from py_moodle.ensure import ensure_label, ensure_section
+
+ms = MoodleSession.get()
+session, url, sesskey = ms.session, ms.settings.url, ms.sesskey
+
+# Create the course if missing, or bring its fullname/category in line.
+course = create_or_update_course(
+    session,
+    url,
+    sesskey,
+    shortname="ci-smoke-test",
+    fullname="CI Smoke Test",
+    category_id=1,
+).course
+
+# Ensure a named section exists (created and renamed only when missing).
+section = ensure_section(
+    session, url, sesskey, course["id"], name="Welcome"
+)
+
+# Ensure a welcome label exists in that section; a second run reuses it.
+label = ensure_label(
+    session,
+    url,
+    sesskey,
+    course["id"],
+    section.section["id"],
+    name="Welcome message",
+    html="<p>Welcome to the course!</p>",
+)
+
+print(section.status, label.status)  # e.g. "created created", then "reused reused"
+```
+
+`ensure_resource` and `ensure_folder` work the same way, forwarding their
+entity-specific arguments (`file_path`, `files_itemid`, ...) to the underlying
+`add_*` primitives only when a matching module does not already exist. Because
+the idempotency keys are human names, renaming a section or module in Moodle
+makes the next run treat it as absent and re-create it -- pick stable names.
+
 ## Get IDE-friendly typed models from raw dicts (optional)
 
 The library functions keep returning plain `dict`/`list[dict]` values, but
