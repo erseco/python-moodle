@@ -1985,7 +1985,7 @@
 
 
 <h1 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h1>
-<p>py-moodle uses environment variables for configuration, typically stored in a <code>.env</code> file.</p>
+<p>python-moodle uses environment variables for configuration, typically stored in a <code>.env</code> file.</p>
 <h2 id="setting-up-credentials">Setting Up Credentials<a class="headerlink" href="#setting-up-credentials" title="Permanent link">&para;</a></h2>
 <ol>
 <li>
@@ -2052,14 +2052,14 @@
 </table>
 <h2 id="selecting-the-environment">Selecting the Environment<a class="headerlink" href="#selecting-the-environment" title="Permanent link">&para;</a></h2>
 <p>Choose which environment configuration to use with the <code>--env</code> option or by setting <code>MOODLE_ENV</code>.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nv">MOODLE_ENV</span><span class="o">=</span>prod<span class="w"> </span>py-moodle<span class="w"> </span>courses<span class="w"> </span>list
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nv">MOODLE_ENV</span><span class="o">=</span>prod<span class="w"> </span>python-moodle<span class="w"> </span>courses<span class="w"> </span>list
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1"># or</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>py-moodle<span class="w"> </span>--env<span class="w"> </span>prod<span class="w"> </span>courses<span class="w"> </span>list
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>python-moodle<span class="w"> </span>--env<span class="w"> </span>prod<span class="w"> </span>courses<span class="w"> </span>list
 </span></code></pre></div>
 <p>If omitted, the environment defaults to <code>local</code>.</p>
 <h2 id="testing-your-configuration">Testing Your Configuration<a class="headerlink" href="#testing-your-configuration" title="Permanent link">&para;</a></h2>
 <p>Verify your credentials work:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>py-moodle<span class="w"> </span>courses<span class="w"> </span>list
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>python-moodle<span class="w"> </span>courses<span class="w"> </span>list
 </span></code></pre></div>
 <p>If configured correctly, you should see a list of available courses.</p>
 <h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>

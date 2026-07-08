@@ -698,10 +698,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-use-py-moodle-as-a-library" class="md-nav__link">
+  <a href="#5-use-python-moodle-as-a-library" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        5. Use py-moodle as a Library
+        5. Use python-moodle as a Library
       </span>
     </span>
   </a>
@@ -1955,10 +1955,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-use-py-moodle-as-a-library" class="md-nav__link">
+  <a href="#5-use-python-moodle-as-a-library" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        5. Use py-moodle as a Library
+        5. Use python-moodle as a Library
       </span>
     </span>
   </a>
@@ -1995,7 +1995,7 @@
 
 
 <h1 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h1>
-<p>Get up and running with py-moodle in minutes!</p>
+<p>Get up and running with python-moodle in minutes!</p>
 <h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Python 3.8+ installed</li>
@@ -2005,7 +2005,7 @@
 <h2 id="1-install-python-moodle">1. Install python-moodle<a class="headerlink" href="#1-install-python-moodle" title="Permanent link">&para;</a></h2>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>python-moodle
 </span></code></pre></div>
-<p>The CLI is then available as either <code>py-moodle</code> or <code>python-moodle</code> (the examples use <code>py-moodle</code>).</p>
+<p>The CLI is then available as <code>python-moodle</code> (used in the examples below) or its shorter alias <code>py-moodle</code>.</p>
 <h2 id="2-configure-credentials">2. Configure Credentials<a class="headerlink" href="#2-configure-credentials" title="Permanent link">&para;</a></h2>
 <p>Create a <code>.env</code> file with your Moodle credentials:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>cp<span class="w"> </span>.env.example<span class="w"> </span>.env
@@ -2021,7 +2021,7 @@
 <p>Select this environment by running commands with <code>--env prod</code> or by setting <code>MOODLE_ENV=prod</code>.</p>
 <h2 id="3-test-your-setup">3. Test Your Setup<a class="headerlink" href="#3-test-your-setup" title="Permanent link">&para;</a></h2>
 <p>List all available courses:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>py-moodle<span class="w"> </span>courses<span class="w"> </span>list
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>python-moodle<span class="w"> </span>courses<span class="w"> </span>list
 </span></code></pre></div>
 <p>You should see output like:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>┏━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
@@ -2033,16 +2033,16 @@
 </span></code></pre></div>
 <h2 id="4-try-some-commands">4. Try Some Commands<a class="headerlink" href="#4-try-some-commands" title="Permanent link">&para;</a></h2>
 <p><strong>Show course details:</strong>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>py-moodle<span class="w"> </span>courses<span class="w"> </span>show<span class="w"> </span><span class="m">2</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>python-moodle<span class="w"> </span>courses<span class="w"> </span>show<span class="w"> </span><span class="m">2</span>
 </span></code></pre></div></p>
 <p><strong>Create a new course:</strong>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>py-moodle<span class="w"> </span>courses<span class="w"> </span>create<span class="w"> </span>--fullname<span class="w"> </span><span class="s2">&quot;Test Course&quot;</span><span class="w"> </span>--shortname<span class="w"> </span><span class="s2">&quot;test-001&quot;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>python-moodle<span class="w"> </span>courses<span class="w"> </span>create<span class="w"> </span>--fullname<span class="w"> </span><span class="s2">&quot;Test Course&quot;</span><span class="w"> </span>--shortname<span class="w"> </span><span class="s2">&quot;test-001&quot;</span>
 </span></code></pre></div></p>
 <p><strong>Add content to a course:</strong>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>py-moodle<span class="w"> </span>modules<span class="w"> </span>add<span class="w"> </span>label<span class="w"> </span>--course-id<span class="w"> </span><span class="m">2</span><span class="w"> </span>--section-id<span class="w"> </span><span class="m">1</span><span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;Welcome&quot;</span><span class="w"> </span>--intro<span class="w"> </span><span class="s2">&quot;Welcome to the course!&quot;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>python-moodle<span class="w"> </span>modules<span class="w"> </span>add<span class="w"> </span>label<span class="w"> </span>--course-id<span class="w"> </span><span class="m">2</span><span class="w"> </span>--section-id<span class="w"> </span><span class="m">1</span><span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;Welcome&quot;</span><span class="w"> </span>--intro<span class="w"> </span><span class="s2">&quot;Welcome to the course!&quot;</span>
 </span></code></pre></div></p>
-<h2 id="5-use-py-moodle-as-a-library">5. Use py-moodle as a Library<a class="headerlink" href="#5-use-py-moodle-as-a-library" title="Permanent link">&para;</a></h2>
-<p>Besides the CLI, py-moodle can be used directly from Python scripts.</p>
+<h2 id="5-use-python-moodle-as-a-library">5. Use python-moodle as a Library<a class="headerlink" href="#5-use-python-moodle-as-a-library" title="Permanent link">&para;</a></h2>
+<p>Besides the CLI, python-moodle can be used directly from Python scripts.</p>
 <p>The low-level modules (<code>course.py</code>, <code>section.py</code>, <code>folder.py</code>, etc.) expose
 plain functions that take <code>session</code>, <code>base_url</code>, <code>token</code> and <code>sesskey</code>
 explicitly - see <a href="../../examples/">Examples</a> for that style.</p>
@@ -2077,11 +2077,11 @@ resource namespaces.</p>
 <ul>
 <li>Check out the <a href="../../cli/">CLI Reference</a> for all available commands</li>
 <li>Read the <a href="../configuration/">Configuration</a> guide for advanced setup</li>
-<li>Browse <a href="../../api/client/">API Reference</a> to use py-moodle as a library</li>
+<li>Browse <a href="../../api/client/">API Reference</a> to use python-moodle as a library</li>
 </ul>
 <div class="admonition tip">
 <p class="admonition-title">Need Help?</p>
-<p>Use <code>py-moodle --help</code> or <code>py-moodle COMMAND --help</code> for detailed command information.</p>
+<p>Use <code>python-moodle --help</code> or <code>python-moodle COMMAND --help</code> for detailed command information.</p>
 </div>
 
 

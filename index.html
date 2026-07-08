@@ -2378,7 +2378,7 @@
 
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/erseco/python-moodle/main/docs/images/py-moodle-icon.png" alt="py-moodle logo" width="128">
+  <img src="https://raw.githubusercontent.com/erseco/python-moodle/main/docs/images/py-moodle-icon.png" alt="python-moodle logo" width="128">
 </p>
 
 <h1 id="python-moodle">python-moodle<a class="headerlink" href="#python-moodle" title="Permanent link">&para;</a></h1>
@@ -2441,7 +2441,7 @@
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>python-moodle
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>cp<span class="w"> </span>.env.example<span class="w"> </span>.env
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># Edit .env with your Moodle URL and credentials</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>py-moodle<span class="w"> </span>courses<span class="w"> </span>list
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>python-moodle<span class="w"> </span>courses<span class="w"> </span>list
 </span></code></pre></div>
 <h3 id="typical-automation-tasks">Typical automation tasks<a class="headerlink" href="#typical-automation-tasks" title="Permanent link">&para;</a></h3>
 <table>
@@ -2454,11 +2454,11 @@
 <tbody>
 <tr>
 <td>Bulk course creation</td>
-<td><code>py-moodle courses create</code></td>
+<td><code>python-moodle courses create</code></td>
 </tr>
 <tr>
 <td>SCORM upload pipelines</td>
-<td><code>py-moodle modules add scorm</code></td>
+<td><code>python-moodle modules add scorm</code></td>
 </tr>
 <tr>
 <td>Content migration</td>
@@ -2479,7 +2479,7 @@
 <p class="admonition-title">Experimental</p>
 <p>This library is under active development. Use a test Moodle instance and back up data before running commands that create, modify, or delete content.</p>
 </div>
-<p><code>py-moodle</code> allows you to automate tedious Moodle tasks—like creating courses, uploading content, and managing modules—directly from your terminal or in your Python scripts. It works by simulating a real user's web session, so it doesn't require API tokens or special Moodle plugins.</p>
+<p><code>python-moodle</code> allows you to automate tedious Moodle tasks—like creating courses, uploading content, and managing modules—directly from your terminal or in your Python scripts. It works by simulating a real user's web session, so it doesn't require API tokens or special Moodle plugins.</p>
 <hr />
 <h2 id="features">Features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h2>
 <ul>
@@ -2489,7 +2489,7 @@
 <li><strong>Authentication</strong>: Supports standard Moodle login and SSO/CAS authentication.</li>
 <li><strong>Dual Use</strong>: Can be used as a powerful CLI or imported as a library into your own Python projects.</li>
 <li><strong>High-level <code>MoodleClient</code> facade</strong>: A discoverable, object-oriented API (<code>moodle.courses.list()</code>, <code>moodle.scorm.add(...)</code>) over the function-based library, plus opt-in typed domain models (<code>Course</code>, <code>User</code>, <code>Folder</code>, ...) for IDE autocompletion.</li>
-<li><strong>Diagnostics</strong>: <code>py-moodle doctor run</code> checks base URL reachability, login, sesskey/webservice token availability, and more in one command.</li>
+<li><strong>Diagnostics</strong>: <code>python-moodle doctor run</code> checks base URL reachability, login, sesskey/webservice token availability, and more in one command.</li>
 <li><strong>Idempotent automation</strong>: <code>courses ensure</code> creates a course only if it doesn't already exist, safe to run repeatedly in CI/onboarding scripts.</li>
 <li><strong>Safe previews</strong>: <code>--dry-run</code> on <code>courses create</code>, <code>courses delete</code>, and <code>modules add scorm</code> shows the planned action without touching Moodle.</li>
 <li><strong>Scripting-friendly output</strong>: <code>--output table|json|yaml|csv</code>, plus <code>--quiet</code>, <code>--no-color</code>, <code>--verbose</code>, and <code>--debug</code> (with automatic secret redaction) for CI pipelines and shell automation.</li>
@@ -2498,7 +2498,7 @@
 </ul>
 <hr />
 <h2 id="moodle-compatibility">Moodle Compatibility<a class="headerlink" href="#moodle-compatibility" title="Permanent link">&para;</a></h2>
-<p><code>py-moodle</code> interacts with Moodle through authenticated web sessions, HTML forms, and page parsing. To make those flows more resilient across Moodle releases, the library now centralizes version-sensitive logic in <code>py_moodle.compat</code>.</p>
+<p><code>python-moodle</code> interacts with Moodle through authenticated web sessions, HTML forms, and page parsing. To make those flows more resilient across Moodle releases, the library now centralizes version-sensitive logic in <code>py_moodle.compat</code>.</p>
 <ul>
 <li><strong>Version detection</strong> happens during login/session initialization. The library first tries <code>core_webservice_get_site_info</code> when a webservice token is available, then falls back to probing the dashboard HTML (<code>/my/</code>) for Moodle release metadata.</li>
 <li><strong>Version-aware strategies</strong> are grouped into compatibility ranges instead of scattering selectors throughout the codebase. The current built-in strategies cover legacy Moodle 3.x layouts and modern Moodle 4.x/5.x layouts.</li>
@@ -2537,18 +2537,18 @@
 </span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a># Optional: Predefined webservice token (required for CAS)
 </span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a># MOODLE_PROD_WS_TOKEN=your_webservice_token
 </span></code></pre></div>
-<p>Use the <code>--env</code> flag or the <code>MOODLE_ENV</code> variable to select the environment, e.g. <code>py-moodle --env prod courses list</code>.</p>
+<p>Use the <code>--env</code> flag or the <code>MOODLE_ENV</code> variable to select the environment, e.g. <code>python-moodle --env prod courses list</code>.</p>
 <blockquote>
 <p><strong>Note</strong>: For local development, you can quickly spin up a Moodle instance using the provided <code>docker-compose.yml</code>: <code>docker-compose up -d</code>.</p>
 </blockquote>
-<p>If something is not working for a given environment, run <code>py-moodle --env prod doctor run</code> to check base URL reachability, login, sesskey/webservice token availability, and a few other diagnostics in one command (see the <a href="https://erseco.github.io/python-moodle/recipes/#diagnosing-a-broken-environment">Recipes</a> page for details).</p>
+<p>If something is not working for a given environment, run <code>python-moodle --env prod doctor run</code> to check base URL reachability, login, sesskey/webservice token availability, and a few other diagnostics in one command (see the <a href="https://erseco.github.io/python-moodle/recipes/#diagnosing-a-broken-environment">Recipes</a> page for details).</p>
 <hr />
 <h2 id="cli-usage">CLI Usage<a class="headerlink" href="#cli-usage" title="Permanent link">&para;</a></h2>
-<p>Once installed, all functionality is available through the <code>py-moodle</code> command. Every command and subcommand includes detailed help with the <code>-h</code> or <code>--help</code> flag.</p>
+<p>Once installed, all functionality is available through the <code>python-moodle</code> command (or its shorter alias <code>py-moodle</code>). Every command and subcommand includes detailed help with the <code>-h</code> or <code>--help</code> flag.</p>
 <h3 id="common-commands">Common Commands<a class="headerlink" href="#common-commands" title="Permanent link">&para;</a></h3>
 <p>Here are a few examples of common commands:</p>
 <p><strong>List all available courses:</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>py-moodle<span class="w"> </span>courses<span class="w"> </span>list
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>python-moodle<span class="w"> </span>courses<span class="w"> </span>list
 </span></code></pre></div>
 <p><em>Output:</em></p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>┏━━━━┳━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━┓
@@ -2559,20 +2559,20 @@
 </span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>└────┴────────────────────┴────────────────────┴──────────┴─────────┘
 </span></code></pre></div>
 <p><strong>Show the structure of a single course:</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>py-moodle<span class="w"> </span>courses<span class="w"> </span>show<span class="w"> </span><span class="m">2</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>python-moodle<span class="w"> </span>courses<span class="w"> </span>show<span class="w"> </span><span class="m">2</span>
 </span></code></pre></div>
 <p><strong>Create a new course:</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>py-moodle<span class="w"> </span>courses<span class="w"> </span>create<span class="w"> </span>--fullname<span class="w"> </span><span class="s2">&quot;My New Automated Course&quot;</span><span class="w"> </span>--shortname<span class="w"> </span><span class="s2">&quot;auto-course-01&quot;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>python-moodle<span class="w"> </span>courses<span class="w"> </span>create<span class="w"> </span>--fullname<span class="w"> </span><span class="s2">&quot;My New Automated Course&quot;</span><span class="w"> </span>--shortname<span class="w"> </span><span class="s2">&quot;auto-course-01&quot;</span>
 </span></code></pre></div>
 <p><strong>Add a label to a course section:</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>py-moodle<span class="w"> </span>modules<span class="w"> </span>add<span class="w"> </span>label<span class="w"> </span>--course-id<span class="w"> </span><span class="m">2</span><span class="w"> </span>--section-id<span class="w"> </span><span class="m">1</span><span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;Welcome&quot;</span><span class="w"> </span>--intro<span class="w"> </span><span class="s2">&quot;&lt;h1&gt;Welcome to the course!&lt;/h1&gt;&quot;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>python-moodle<span class="w"> </span>modules<span class="w"> </span>add<span class="w"> </span>label<span class="w"> </span>--course-id<span class="w"> </span><span class="m">2</span><span class="w"> </span>--section-id<span class="w"> </span><span class="m">1</span><span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;Welcome&quot;</span><span class="w"> </span>--intro<span class="w"> </span><span class="s2">&quot;&lt;h1&gt;Welcome to the course!&lt;/h1&gt;&quot;</span>
 </span></code></pre></div>
 <p><strong>Upload a SCORM package to a course:</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>py-moodle<span class="w"> </span>modules<span class="w"> </span>add<span class="w"> </span>scorm<span class="w"> </span>--course-id<span class="w"> </span><span class="m">2</span><span class="w"> </span>--section-id<span class="w"> </span><span class="m">1</span><span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;My SCORM Package&quot;</span><span class="w"> </span>--path<span class="w"> </span><span class="s2">&quot;path/to/your/scorm.zip&quot;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>python-moodle<span class="w"> </span>modules<span class="w"> </span>add<span class="w"> </span>scorm<span class="w"> </span>--course-id<span class="w"> </span><span class="m">2</span><span class="w"> </span>--section-id<span class="w"> </span><span class="m">1</span><span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;My SCORM Package&quot;</span><span class="w"> </span>--path<span class="w"> </span><span class="s2">&quot;path/to/your/scorm.zip&quot;</span>
 </span></code></pre></div>
 <hr />
 <h2 id="library-usage-automation-scripting">Library Usage (Automation Scripting)<a class="headerlink" href="#library-usage-automation-scripting" title="Permanent link">&para;</a></h2>
-<p>You can also import <code>py-moodle</code>'s functions into your own Python scripts to automate complex workflows. The <code>example_script.py</code> file provides a comprehensive tutorial.</p>
+<p>You can also import <code>python-moodle</code>'s functions into your own Python scripts to automate complex workflows. The <code>example_script.py</code> file provides a comprehensive tutorial.</p>
 <h3 id="quick-example">Quick Example<a class="headerlink" href="#quick-example" title="Permanent link">&para;</a></h3>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">py_moodle</span><span class="w"> </span><span class="kn">import</span> <span class="n">MoodleSession</span>
 </span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">py_moodle.course</span><span class="w"> </span><span class="kn">import</span> <span class="n">list_courses</span>

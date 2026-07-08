@@ -2702,11 +2702,11 @@
 
 
 <h1 id="development">Development<a class="headerlink" href="#development" title="Permanent link">&para;</a></h1>
-<p>Welcome to py-moodle development! This guide covers everything you need to contribute to the project.</p>
+<p>Welcome to python-moodle development! This guide covers everything you need to contribute to the project.</p>
 <h2 id="development-setup">Development Setup<a class="headerlink" href="#development-setup" title="Permanent link">&para;</a></h2>
 <h3 id="1-clone-and-setup">1. Clone and Setup<a class="headerlink" href="#1-clone-and-setup" title="Permanent link">&para;</a></h3>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/erseco/python-moodle.git
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nb">cd</span><span class="w"> </span>py-moodle
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nb">cd</span><span class="w"> </span>python-moodle
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Create virtual environment</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>env
@@ -2795,7 +2795,7 @@ sites have been migrated so far (<code>session.py</code>'s <code>MoodleSession.c
 <code>course.py</code>'s <code>list_courses()</code>/<code>create_course()</code>); migrating the remaining
 modules is tracked as follow-up work.</p>
 <h3 id="transport-strategies">Transport Strategies<a class="headerlink" href="#transport-strategies" title="Permanent link">&para;</a></h3>
-<p><code>src/py_moodle/transport/</code> formalizes the three ways <code>py-moodle</code> talks to
+<p><code>src/py_moodle/transport/</code> formalizes the three ways <code>python-moodle</code> talks to
 Moodle as explicit, independently testable strategy modules built on top
 of <code>http.py</code>:</p>
 <ul>
