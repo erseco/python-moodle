@@ -2236,9 +2236,12 @@ plan can be read against reality.</p>
   <code>config.py</code>, #22/#39), Subtask 9 (bounded, backoff retry for idempotent
   GET-style requests only — mutations are never auto-retried, #39).</li>
 <li><strong>Phase D</strong> — Subtask 12/13 (typed <code>Course</code>, <code>CourseSection</code>,
-  <code>CourseModule</code>, <code>User</code>, <code>UploadResult</code> dataclasses in <code>models.py</code>), plus the
-  <code>MoodleClient</code> facade, <code>doctor</code>, and <code>ensure_course</code>/dry-run work
-  (#37–#57, #62, #64).</li>
+  <code>CourseModule</code>, <code>User</code>, <code>UploadResult</code> dataclasses in <code>models.py</code>),
+  Subtask 14 (ship <code>py.typed</code> / PEP 561, #78/#79), Subtasks 18–20 (ensure-style
+  API extended: <code>ensure_section</code>, <code>ensure_label</code>, <code>ensure_resource</code>,
+  <code>ensure_folder</code>, <code>create_or_update_course</code> in <code>ensure.py</code>/<code>course.py</code>,
+  #77/#80), plus the <code>MoodleClient</code> facade, <code>doctor</code>, and
+  <code>ensure_course</code>/dry-run work (#37–#57, #62, #64).</li>
 <li><strong>Phase G</strong> — Subtask 15 (<code>--dry-run</code> for mutating commands),
   partial Subtask 16 (<code>--force</code> / <code>ConfirmationRequired</code> on ensure paths).</li>
 <li><strong>Reliability/infra (not a numbered subtask)</strong> — de-flaked the Docker-backed
@@ -2251,10 +2254,8 @@ plan can be read against reality.</p>
 <ul>
 <li><strong>Phase B</strong> — Subtask 34 (CLI help/option consistency), 35 (exit codes &amp;
   batch summaries), 36 (shell completion).</li>
-<li><strong>Phase D</strong> — Subtask 14 (ship <code>py.typed</code> now that the typed surface is
-  real), 17–20 (extend the ensure-style API beyond <code>ensure_course</code>:
-  <code>ensure_section</code>, <code>ensure_label</code>, <code>ensure_resource</code>, <code>ensure_folder</code>,
-  <code>create_or_update_course</code>).</li>
+<li><strong>Phase D</strong> — the ensure-style API and <code>py.typed</code> have landed; remaining
+  polish is wiring the new <code>ensure_*</code> functions into CLI commands.</li>
 <li><strong>Phase E/F</strong> — compatibility-flow audit, hybrid backend selection, and the
   module registration system remain largely greenfield.</li>
 </ul>
