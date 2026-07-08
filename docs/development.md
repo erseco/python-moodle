@@ -61,6 +61,11 @@ flake8 src/ tests/
 - **Type hints**: Encouraged for new code
 - **Line length**: 88 characters (Black default)
 
+The package is PEP 561 typed: it ships a `py.typed` marker
+(`src/py_moodle/py.typed`, packaged via `[tool.setuptools.package-data]` in
+`pyproject.toml`), so type checkers such as mypy and pyright pick up the inline
+annotations that `py_moodle` already exposes for downstream consumers.
+
 Example function with proper docstring:
 
 ```python
