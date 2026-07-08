@@ -119,6 +119,7 @@ nav:
       - Course: api/course.md
       - Category: api/category.md
       - Section: api/section.md
+      - Ensure: api/ensure.md
     - Content Modules:
       - Module: api/module.md
       - Label: api/label.md
