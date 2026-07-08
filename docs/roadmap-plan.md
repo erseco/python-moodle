@@ -56,6 +56,49 @@ maintainability without forcing broad refactors.
 The sequence below starts with the smallest changes that reduce risk and unlock
 later work.
 
+### Progress update (2026-07-08)
+
+The phased plan below is the original forward-looking design and is kept intact
+for reference. This section records what has actually landed so far, so the
+plan can be read against reality.
+
+**Done:**
+
+- **Phase A** — Subtask 1 (this roadmap document), Subtask 2 (CI matrix now
+  covers Moodle 4.5.5 / 5.0.1 / 5.1.5 across Python 3.9–3.13), Subtask 3
+  (test-layer & shared-fixture docs, #67/#69), Subtask 25 (HTML-fixture
+  regression scaffolding, #68/#70), Subtask 10 (task-oriented recipes,
+  including the `--fields` recipe).
+- **Phase B** — Subtask 4 (`--output table|json|yaml`, plus `csv`, #25/#55),
+  Subtask 5 (`--fields` machine-readable field selection, #66/#71).
+- **Phase C** — Subtask 6 (exception wording + `troubleshooting.md`, first
+  pass, #23), Subtask 7 (redacted `--debug` HTTP tracing, in `auth.py` and the
+  centralized `http.py` layer), Subtask 8 (centralized timeout policy in
+  `config.py`, #22/#39), Subtask 9 (bounded, backoff retry for idempotent
+  GET-style requests only — mutations are never auto-retried, #39).
+- **Phase D** — Subtask 12/13 (typed `Course`, `CourseSection`,
+  `CourseModule`, `User`, `UploadResult` dataclasses in `models.py`), plus the
+  `MoodleClient` facade, `doctor`, and `ensure_course`/dry-run work
+  (#37–#57, #62, #64).
+- **Phase G** — Subtask 15 (`--dry-run` for mutating commands),
+  partial Subtask 16 (`--force` / `ConfirmationRequired` on ensure paths).
+- **Reliability/infra (not a numbered subtask)** — de-flaked the Docker-backed
+  integration suite (cross-worker course-creation lock #62; AJAX fallback on
+  webservice context errors #64; post-boot login warmup #74; ephemeral CI
+  containers + boot diagnostics #73) and fixed the Moodle 5.1 image boot
+  (moosh `public/` dir, erseco/alpine-moodle#149).
+
+**Partially done / next up:**
+
+- **Phase B** — Subtask 34 (CLI help/option consistency), 35 (exit codes &
+  batch summaries), 36 (shell completion).
+- **Phase D** — Subtask 14 (ship `py.typed` now that the typed surface is
+  real), 17–20 (extend the ensure-style API beyond `ensure_course`:
+  `ensure_section`, `ensure_label`, `ensure_resource`, `ensure_folder`,
+  `create_or_update_course`).
+- **Phase E/F** — compatibility-flow audit, hybrid backend selection, and the
+  module registration system remain largely greenfield.
+
 ### Phase A: Lock in the baseline and smooth contributor workflows
 
 - **Subtask 1: Publish the technical baseline and roadmap plan.**

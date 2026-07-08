@@ -28,6 +28,7 @@ the helpers in this module.
 from __future__ import annotations
 
 import json
+import logging
 import time
 from typing import Any, Dict, List, Mapping, Optional
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
@@ -65,6 +66,14 @@ _RETRY_ATTEMPTS = 3
 
 #: Base backoff delay, in seconds, multiplied by the attempt number.
 _RETRY_BACKOFF_BASE_SECONDS = 0.01
+
+#: Logger for redacted HTTP-flow tracing. It is a child of the shared
+#: ``py_moodle`` logger, so the CLI ``--debug`` flag (which raises that
+#: logger to ``DEBUG``) surfaces these traces on stderr, and library users
+#: can enable them with ``logging.getLogger("py_moodle").setLevel(DEBUG)``.
+#: Only the request method, the *redacted* URL, and the response status are
+#: ever logged -- never params, form/JSON bodies, headers, or response text.
+_logger = logging.getLogger("py_moodle.http")
 
 
 class MoodleHttpError(Exception):
@@ -264,12 +273,32 @@ def _send_request(
     request_kwargs.update(kwargs)
 
     secrets = _collect_secrets(url=url, params=kwargs.get("params"), headers=headers)
+    redacted_url = _redact_url(url)
+    method_label = method.upper()
     attempts = _RETRY_ATTEMPTS if retryable else 1
     last_error_kind: Optional[str] = None
 
     for attempt in range(1, attempts + 1):
+        if attempt == 1:
+            _logger.debug("HTTP %s %s", method_label, redacted_url)
+        else:
+            _logger.debug(
+                "HTTP %s %s (retry %d/%d after %s error)",
+                method_label,
+                redacted_url,
+                attempt,
+                attempts,
+                last_error_kind,
+            )
         try:
-            return call(url, **request_kwargs)
+            response = call(url, **request_kwargs)
+            _logger.debug(
+                "HTTP %s %s -> %s",
+                method_label,
+                redacted_url,
+                getattr(response, "status_code", "?"),
+            )
+            return response
         except requests.exceptions.Timeout:
             last_error_kind = "timeout"
         except requests.exceptions.ConnectionError:
@@ -277,7 +306,13 @@ def _send_request(
         if attempt < attempts:
             time.sleep(_RETRY_BACKOFF_BASE_SECONDS * attempt)
 
-    redacted_url = _redact_url(url)
+    _logger.debug(
+        "HTTP %s %s failed after %d attempt(s): %s error",
+        method_label,
+        redacted_url,
+        attempts,
+        last_error_kind,
+    )
     message = _redact_text(
         f"Request to {redacted_url} failed after {attempts} attempt(s) "
         f"due to a {last_error_kind} error.",

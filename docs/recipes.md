@@ -91,6 +91,35 @@ py-moodle courses list --output csv > courses.csv
 py-moodle users list --course-id 2 --output csv | cut -d, -f3
 ```
 
+## Select only the fields you need with `--fields`
+
+The `courses`, `categories`, `sections`, and `users` `list` commands accept
+`--fields field1,field2,...` to project the machine-readable output
+(`--output json`/`yaml`/`csv`) down to just the fields you want, in the order
+you list them. This avoids a post-processing step with `jq`/`cut` and gives
+you a stable, minimal shape for automation.
+
+```bash
+# Only the id and shortname of every course, as JSON, in that order.
+py-moodle courses list --output json --fields id,shortname
+
+# The same projection as CSV (the selected fields become the columns).
+py-moodle courses list --output csv --fields id,shortname > courses.csv
+
+# Field order follows what you pass, so this puts shortname first.
+py-moodle courses list --output json --fields shortname,id
+```
+
+Notes:
+
+- `--fields` only affects machine-readable output; it is ignored for the
+  default `--output table`.
+- An unknown field name is a hard error (non-zero exit, the offending field
+  and the available fields are printed to stderr), so a typo fails loudly
+  instead of silently returning empty columns.
+- Passing an empty value (`--fields ""`) is treated as "no filtering",
+  identical to omitting the flag.
+
 ## Automate `py-moodle` in scripts and CI jobs
 
 Combine `--quiet`, `--no-color`, and `--output csv`/`--output json` to keep
