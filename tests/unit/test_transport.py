@@ -83,6 +83,37 @@ def test_webservice_call_raises_transport_unavailable_on_invalid_token():
         )
 
 
+def test_webservice_call_raises_transport_unavailable_on_context_error():
+    """A 'cannot execute functions in the course context' error signals fallback.
+
+    Regression test for a Moodle webservice quirk observed in CI: a call to
+    a generic, non-course-scoped function like ``core_course_get_courses``
+    can still fail with a stale/invalid course-context validation error
+    unrelated to the token itself. This must be treated the same as an
+    invalid token -- fall back to another transport -- rather than
+    surfacing immediately, since the AJAX transport re-derives context from
+    the current session instead of a cached webservice-side lookup.
+    """
+    session = StubSession(
+        post_result=StubResponse(
+            json_data={
+                "exception": "invalid_parameter_exception",
+                "errorcode": "invalidparameter",
+                "message": (
+                    "You cannot execute functions in the course context "
+                    "(course id:8). The context error message was: Invalid "
+                    "parameter value detected (Context does not exist)"
+                ),
+            }
+        )
+    )
+
+    with pytest.raises(TransportUnavailableError):
+        webservice_transport.call(
+            session, BASE_URL, "core_course_get_courses", FAKE_TOKEN
+        )
+
+
 def test_webservice_call_raises_transport_error_on_other_moodle_exception():
     """A non-token Moodle exception raises a plain TransportError."""
     session = StubSession(
@@ -173,6 +204,37 @@ def test_list_courses_falls_back_to_ajax_on_invalid_token():
     )
 
     result = list_courses(session, BASE_URL, token="bad-token", sesskey=FAKE_SESSKEY)
+
+    assert result == [{"id": 1}, {"id": 2}]
+
+
+def test_list_courses_falls_back_to_ajax_on_context_error():
+    """list_courses() falls back to AJAX on a course-context validation error.
+
+    Same regression as test_webservice_call_raises_transport_unavailable_on_context_error,
+    exercised through the public list_courses() entry point.
+    """
+    session = StubSession(
+        get_result=StubResponse(text="<html></html>"),
+        post_dispatch={
+            f"{BASE_URL}/webservice/rest/server.php": StubResponse(
+                json_data={
+                    "exception": "invalid_parameter_exception",
+                    "errorcode": "invalidparameter",
+                    "message": (
+                        "You cannot execute functions in the course context "
+                        "(course id:8). The context error message was: Invalid "
+                        "parameter value detected (Context does not exist)"
+                    ),
+                }
+            ),
+            f"{BASE_URL}/lib/ajax/service.php": StubResponse(
+                json_data=[{"error": False, "data": [{"id": 2}, {"id": 1}]}]
+            ),
+        },
+    )
+
+    result = list_courses(session, BASE_URL, token=FAKE_TOKEN, sesskey=FAKE_SESSKEY)
 
     assert result == [{"id": 1}, {"id": 2}]
 
