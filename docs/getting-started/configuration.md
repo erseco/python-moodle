@@ -1,6 +1,6 @@
 # Configuration
 
-py-moodle uses environment variables for configuration, typically stored in a `.env` file.
+python-moodle uses environment variables for configuration, typically stored in a `.env` file.
 
 ## Setting Up Credentials
 
@@ -42,9 +42,9 @@ py-moodle uses environment variables for configuration, typically stored in a `.
 Choose which environment configuration to use with the `--env` option or by setting `MOODLE_ENV`.
 
 ```bash
-MOODLE_ENV=prod py-moodle courses list
+MOODLE_ENV=prod python-moodle courses list
 # or
-py-moodle --env prod courses list
+python-moodle --env prod courses list
 ```
 
 If omitted, the environment defaults to `local`.
@@ -54,7 +54,7 @@ If omitted, the environment defaults to `local`.
 Verify your credentials work:
 
 ```bash
-py-moodle courses list
+python-moodle courses list
 ```
 
 If configured correctly, you should see a list of available courses.

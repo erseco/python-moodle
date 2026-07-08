@@ -1,6 +1,6 @@
 # Quick Start
 
-Get up and running with py-moodle in minutes!
+Get up and running with python-moodle in minutes!
 
 ## Prerequisites
 
@@ -14,7 +14,7 @@ Get up and running with py-moodle in minutes!
 pip install python-moodle
 ```
 
-The CLI is then available as either `py-moodle` or `python-moodle` (the examples use `py-moodle`).
+The CLI is then available as `python-moodle` (used in the examples below) or its shorter alias `py-moodle`.
 
 ## 2. Configure Credentials
 
@@ -42,7 +42,7 @@ Select this environment by running commands with `--env prod` or by setting `MOO
 List all available courses:
 
 ```bash
-py-moodle courses list
+python-moodle courses list
 ```
 
 You should see output like:
@@ -60,22 +60,22 @@ You should see output like:
 
 **Show course details:**
 ```bash
-py-moodle courses show 2
+python-moodle courses show 2
 ```
 
 **Create a new course:**
 ```bash
-py-moodle courses create --fullname "Test Course" --shortname "test-001"
+python-moodle courses create --fullname "Test Course" --shortname "test-001"
 ```
 
 **Add content to a course:**
 ```bash
-py-moodle modules add label --course-id 2 --section-id 1 --name "Welcome" --intro "Welcome to the course!"
+python-moodle modules add label --course-id 2 --section-id 1 --name "Welcome" --intro "Welcome to the course!"
 ```
 
-## 5. Use py-moodle as a Library
+## 5. Use python-moodle as a Library
 
-Besides the CLI, py-moodle can be used directly from Python scripts.
+Besides the CLI, python-moodle can be used directly from Python scripts.
 
 The low-level modules (`course.py`, `section.py`, `folder.py`, etc.) expose
 plain functions that take `session`, `base_url`, `token` and `sesskey`
@@ -117,7 +117,7 @@ resource namespaces.
 
 - Check out the [CLI Reference](../cli.md) for all available commands
 - Read the [Configuration](configuration.md) guide for advanced setup
-- Browse [API Reference](../api/client.md) to use py-moodle as a library
+- Browse [API Reference](../api/client.md) to use python-moodle as a library
 
 !!! tip "Need Help?"
-    Use `py-moodle --help` or `py-moodle COMMAND --help` for detailed command information.
+    Use `python-moodle --help` or `python-moodle COMMAND --help` for detailed command information.

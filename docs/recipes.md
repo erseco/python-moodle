@@ -1,6 +1,6 @@
 # Recipes
 
-This page collects task-oriented workflows for common `py-moodle` jobs.
+This page collects task-oriented workflows for common `python-moodle` jobs.
 Use these recipes when you want a copy/paste starting point instead of a full
 command reference.
 
@@ -11,7 +11,7 @@ different Moodle environment.
 
 ```bash
 # Use the environment from MOODLE_ENV or pass one explicitly.
-py-moodle --env local site info
+python-moodle --env local site info
 ```
 
 If the command succeeds, your credentials, session bootstrap, and base URL are
@@ -33,13 +33,13 @@ login, sesskey, webservice token, webservice reachability, upload endpoint,
 and a few other derived facts.
 
 ```bash
-py-moodle --env prod doctor run
+python-moodle --env prod doctor run
 ```
 
 Machine-readable output is useful in CI or before running bulk operations:
 
 ```bash
-py-moodle --env prod doctor run --output json
+python-moodle --env prod doctor run --output json
 ```
 
 Each row is one independent check with a `pass`, `warn`, or `fail` status:
@@ -64,13 +64,13 @@ before creating or deleting content.
 
 ```bash
 # Find the course ID you want to work with.
-py-moodle courses list
+python-moodle courses list
 
 # Inspect one course in detail.
-py-moodle courses show 2
+python-moodle courses show 2
 
 # List its sections before adding modules.
-py-moodle sections list 2
+python-moodle sections list 2
 ```
 
 This flow is useful for scripts and manual operations because it reduces the
@@ -85,10 +85,10 @@ it can be redirected straight into a file or another tool.
 
 ```bash
 # Save the course list as a CSV file for a spreadsheet.
-py-moodle courses list --output csv > courses.csv
+python-moodle courses list --output csv > courses.csv
 
 # Pipe user emails into another shell tool.
-py-moodle users list --course-id 2 --output csv | cut -d, -f3
+python-moodle users list --course-id 2 --output csv | cut -d, -f3
 ```
 
 ## Select only the fields you need with `--fields`
@@ -101,13 +101,13 @@ you a stable, minimal shape for automation.
 
 ```bash
 # Only the id and shortname of every course, as JSON, in that order.
-py-moodle courses list --output json --fields id,shortname
+python-moodle courses list --output json --fields id,shortname
 
 # The same projection as CSV (the selected fields become the columns).
-py-moodle courses list --output csv --fields id,shortname > courses.csv
+python-moodle courses list --output csv --fields id,shortname > courses.csv
 
 # Field order follows what you pass, so this puts shortname first.
-py-moodle courses list --output json --fields shortname,id
+python-moodle courses list --output json --fields shortname,id
 ```
 
 Notes:
@@ -120,7 +120,7 @@ Notes:
 - Passing an empty value (`--fields ""`) is treated as "no filtering",
   identical to omitting the flag.
 
-## Automate `py-moodle` in scripts and CI jobs
+## Automate `python-moodle` in scripts and CI jobs
 
 Combine `--quiet`, `--no-color`, and `--output csv`/`--output json` to keep
 automated output clean and machine-readable. `--quiet` suppresses incidental
@@ -130,16 +130,16 @@ strips ANSI styling from table output.
 
 ```bash
 # A CI-friendly invocation: no banners, no color, CSV on stdout.
-py-moodle --quiet --no-color courses list --output csv
+python-moodle --quiet --no-color courses list --output csv
 
 # Diagnose a failing login without leaking secrets into logs: tokens,
 # session keys, and passwords are always redacted from --verbose/--debug
 # output.
-py-moodle --debug site info
+python-moodle --debug site info
 ```
 
 Errors are always written to stderr, never mixed into `--output json`/`csv`
-stdout, so `courses=$(py-moodle courses list --output json)` is safe to use
+stdout, so `courses=$(python-moodle courses list --output json)` is safe to use
 even when the command fails.
 
 ## Create a course and add a welcome label
@@ -148,15 +148,15 @@ This is a minimal end-to-end content bootstrap workflow.
 
 ```bash
 # 1. Create the course.
-py-moodle courses create \
+python-moodle courses create \
   --fullname "Automation Demo" \
   --shortname "automation-demo"
 
 # 2. Create a section if you need one beyond the default course layout.
-py-moodle sections create 2 --name "Getting Started"
+python-moodle sections create 2 --name "Getting Started"
 
 # 3. Add a welcome label to the first section.
-py-moodle modules add label \
+python-moodle modules add label \
   --course-id 2 \
   --section-id 1 \
   --name "Welcome" \
@@ -195,16 +195,16 @@ materials area.
 
 ```bash
 # Create a folder activity in the course.
-py-moodle folders add \
+python-moodle folders add \
   --course-id 2 \
   --section-id 1 \
   --name "Course Materials"
 
 # Upload a file into the folder activity.
-py-moodle folders add-file 15 ./docs/syllabus.pdf
+python-moodle folders add-file 15 ./docs/syllabus.pdf
 
 # Confirm the folder contents.
-py-moodle folders list-content 15
+python-moodle folders list-content 15
 ```
 
 In this recipe, `15` is the folder module ID returned by the add command.
@@ -218,16 +218,16 @@ plan before running it for real.
 
 ```bash
 # Preview a course creation without calling Moodle.
-py-moodle courses create \
+python-moodle courses create \
   --fullname "Automation Demo" \
   --shortname "automation-demo" \
   --dry-run --output json
 
 # Preview a deletion; no confirmation prompt is shown in dry-run mode.
-py-moodle courses delete 42 --dry-run --output json
+python-moodle courses delete 42 --dry-run --output json
 
 # Preview a SCORM upload without uploading the package.
-py-moodle modules add scorm \
+python-moodle modules add scorm \
   --course-id 2 \
   --section-id 1 \
   --name "SCORM 1" \
@@ -247,7 +247,7 @@ provision a course without failing (or creating duplicates) on repeat runs.
 
 ```bash
 # Safe to run every time: creates the course only if it is missing.
-py-moodle courses ensure \
+python-moodle courses ensure \
   --shortname "ci-smoke-test" \
   --fullname "CI Smoke Test" \
   --category-id 1
@@ -260,7 +260,7 @@ different `--fullname`/`--category-id`, the command reports
 letting you inspect the `differences` before deciding what to do:
 
 ```bash
-py-moodle courses ensure \
+python-moodle courses ensure \
   --shortname "ci-smoke-test" \
   --fullname "Renamed CI Smoke Test" \
   --category-id 1 \
@@ -271,7 +271,7 @@ Pass `--update` to have the command bring `fullname`/`--category-id` in line
 with the request instead of reporting a conflict:
 
 ```bash
-py-moodle courses ensure \
+python-moodle courses ensure \
   --shortname "ci-smoke-test" \
   --fullname "Renamed CI Smoke Test" \
   --category-id 1 \

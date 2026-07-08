@@ -1,6 +1,6 @@
 # Development
 
-Welcome to py-moodle development! This guide covers everything you need to contribute to the project.
+Welcome to python-moodle development! This guide covers everything you need to contribute to the project.
 
 ## Development Setup
 
@@ -8,7 +8,7 @@ Welcome to py-moodle development! This guide covers everything you need to contr
 
 ```bash
 git clone https://github.com/erseco/python-moodle.git
-cd py-moodle
+cd python-moodle
 
 # Create virtual environment
 python -m venv env
@@ -117,7 +117,7 @@ modules is tracked as follow-up work.
 
 ### Transport Strategies
 
-`src/py_moodle/transport/` formalizes the three ways `py-moodle` talks to
+`src/py_moodle/transport/` formalizes the three ways `python-moodle` talks to
 Moodle as explicit, independently testable strategy modules built on top
 of `http.py`:
 

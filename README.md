@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/erseco/python-moodle/main/docs/images/py-moodle-icon.png" alt="py-moodle logo" width="128">
+  <img src="https://raw.githubusercontent.com/erseco/python-moodle/main/docs/images/py-moodle-icon.png" alt="python-moodle logo" width="128">
 </p>
 
 # python-moodle
@@ -39,15 +39,15 @@
 pip install python-moodle
 cp .env.example .env
 # Edit .env with your Moodle URL and credentials
-py-moodle courses list
+python-moodle courses list
 ```
 
 ### Typical automation tasks
 
 | Task                          | Command / Use case                            |
 | ----------------------------- | --------------------------------------------- |
-| Bulk course creation          | `py-moodle courses create`                    |
-| SCORM upload pipelines        | `py-moodle modules add scorm`                 |
+| Bulk course creation          | `python-moodle courses create`                    |
+| SCORM upload pipelines        | `python-moodle modules add scorm`                 |
 | Content migration             | Script with `list_courses` + `create_course`  |
 | Moodle smoke tests in CI      | `pytest` + `MoodleSession` fixture            |
 | Admin scripting across instances | `--env` flag with multiple `.env` profiles |
@@ -57,7 +57,7 @@ py-moodle courses list
 !!! warning "Experimental"
     This library is under active development. Use a test Moodle instance and back up data before running commands that create, modify, or delete content.
 
-`py-moodle` allows you to automate tedious Moodle tasks—like creating courses, uploading content, and managing modules—directly from your terminal or in your Python scripts. It works by simulating a real user's web session, so it doesn't require API tokens or special Moodle plugins.
+`python-moodle` allows you to automate tedious Moodle tasks—like creating courses, uploading content, and managing modules—directly from your terminal or in your Python scripts. It works by simulating a real user's web session, so it doesn't require API tokens or special Moodle plugins.
 
 ---
 
@@ -69,7 +69,7 @@ py-moodle courses list
 -   **Authentication**: Supports standard Moodle login and SSO/CAS authentication.
 -   **Dual Use**: Can be used as a powerful CLI or imported as a library into your own Python projects.
 -   **High-level `MoodleClient` facade**: A discoverable, object-oriented API (`moodle.courses.list()`, `moodle.scorm.add(...)`) over the function-based library, plus opt-in typed domain models (`Course`, `User`, `Folder`, ...) for IDE autocompletion.
--   **Diagnostics**: `py-moodle doctor run` checks base URL reachability, login, sesskey/webservice token availability, and more in one command.
+-   **Diagnostics**: `python-moodle doctor run` checks base URL reachability, login, sesskey/webservice token availability, and more in one command.
 -   **Idempotent automation**: `courses ensure` creates a course only if it doesn't already exist, safe to run repeatedly in CI/onboarding scripts.
 -   **Safe previews**: `--dry-run` on `courses create`, `courses delete`, and `modules add scorm` shows the planned action without touching Moodle.
 -   **Scripting-friendly output**: `--output table|json|yaml|csv`, plus `--quiet`, `--no-color`, `--verbose`, and `--debug` (with automatic secret redaction) for CI pipelines and shell automation.
@@ -80,7 +80,7 @@ py-moodle courses list
 
 ## Moodle Compatibility
 
-`py-moodle` interacts with Moodle through authenticated web sessions, HTML forms, and page parsing. To make those flows more resilient across Moodle releases, the library now centralizes version-sensitive logic in `py_moodle.compat`.
+`python-moodle` interacts with Moodle through authenticated web sessions, HTML forms, and page parsing. To make those flows more resilient across Moodle releases, the library now centralizes version-sensitive logic in `py_moodle.compat`.
 
 -   **Version detection** happens during login/session initialization. The library first tries `core_webservice_get_site_info` when a webservice token is available, then falls back to probing the dashboard HTML (`/my/`) for Moodle release metadata.
 -   **Version-aware strategies** are grouped into compatibility ranges instead of scattering selectors throughout the codebase. The current built-in strategies cover legacy Moodle 3.x layouts and modern Moodle 4.x/5.x layouts.
@@ -136,17 +136,17 @@ MOODLE_PROD_PASSWORD=your_super_secret_password
 # MOODLE_PROD_WS_TOKEN=your_webservice_token
 ```
 
-Use the `--env` flag or the `MOODLE_ENV` variable to select the environment, e.g. `py-moodle --env prod courses list`.
+Use the `--env` flag or the `MOODLE_ENV` variable to select the environment, e.g. `python-moodle --env prod courses list`.
 
 > **Note**: For local development, you can quickly spin up a Moodle instance using the provided `docker-compose.yml`: `docker-compose up -d`.
 
-If something is not working for a given environment, run `py-moodle --env prod doctor run` to check base URL reachability, login, sesskey/webservice token availability, and a few other diagnostics in one command (see the [Recipes](https://erseco.github.io/python-moodle/recipes/#diagnosing-a-broken-environment) page for details).
+If something is not working for a given environment, run `python-moodle --env prod doctor run` to check base URL reachability, login, sesskey/webservice token availability, and a few other diagnostics in one command (see the [Recipes](https://erseco.github.io/python-moodle/recipes/#diagnosing-a-broken-environment) page for details).
 
 ---
 
 ## CLI Usage
 
-Once installed, all functionality is available through the `py-moodle` command. Every command and subcommand includes detailed help with the `-h` or `--help` flag.
+Once installed, all functionality is available through the `python-moodle` command (or its shorter alias `py-moodle`). Every command and subcommand includes detailed help with the `-h` or `--help` flag.
 
 ### Common Commands
 
@@ -155,7 +155,7 @@ Here are a few examples of common commands:
 **List all available courses:**
 
 ```bash
-py-moodle courses list
+python-moodle courses list
 ```
 
 *Output:*
@@ -172,32 +172,32 @@ py-moodle courses list
 **Show the structure of a single course:**
 
 ```bash
-py-moodle courses show 2
+python-moodle courses show 2
 ```
 
 **Create a new course:**
 
 ```bash
-py-moodle courses create --fullname "My New Automated Course" --shortname "auto-course-01"
+python-moodle courses create --fullname "My New Automated Course" --shortname "auto-course-01"
 ```
 
 **Add a label to a course section:**
 
 ```bash
-py-moodle modules add label --course-id 2 --section-id 1 --name "Welcome" --intro "<h1>Welcome to the course!</h1>"
+python-moodle modules add label --course-id 2 --section-id 1 --name "Welcome" --intro "<h1>Welcome to the course!</h1>"
 ```
 
 **Upload a SCORM package to a course:**
 
 ```bash
-py-moodle modules add scorm --course-id 2 --section-id 1 --name "My SCORM Package" --path "path/to/your/scorm.zip"
+python-moodle modules add scorm --course-id 2 --section-id 1 --name "My SCORM Package" --path "path/to/your/scorm.zip"
 ```
 
 ---
 
 ## Library Usage (Automation Scripting)
 
-You can also import `py-moodle`'s functions into your own Python scripts to automate complex workflows. The `example_script.py` file provides a comprehensive tutorial.
+You can also import `python-moodle`'s functions into your own Python scripts to automate complex workflows. The `example_script.py` file provides a comprehensive tutorial.
 
 ### Quick Example
 

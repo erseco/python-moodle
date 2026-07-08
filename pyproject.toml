@@ -64,9 +64,9 @@ Issues = "https://github.com/erseco/python-moodle/issues"
 Changelog = "https://github.com/erseco/python-moodle/releases"
 
 [project.scripts]
-py-moodle = "py_moodle.cli:app"
-# Alias so the command matches the distribution name; both are equivalent.
+# Canonical command matches the distribution name; py-moodle is a shorter alias.
 python-moodle = "py_moodle.cli:app"
+py-moodle = "py_moodle.cli:app"
 
 [tool.setuptools.packages.find]
 where = ["src"]

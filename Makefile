@@ -45,7 +45,7 @@ lint:
 	flake8
 
 docs:
-	python -m typer py_moodle.cli.app utils docs --output docs/cli.md --name py-moodle
+	python -m typer py_moodle.cli.app utils docs --output docs/cli.md --name python-moodle
 	zensical build
 
 test-unit:

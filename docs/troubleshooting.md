@@ -1,7 +1,7 @@
 # Troubleshooting
 
 This guide covers the most common authentication, session, and test setup
-problems when working with `py-moodle`.
+problems when working with `python-moodle`.
 
 ## Authentication and Session Errors
 

@@ -5,8 +5,8 @@
 !!! note "Package name vs. command name"
     The package is published as **`python-moodle`** (that's what you `pip install`
     and `import py_moodle`), and the CLI is available under **two equivalent
-    command names**: **`py-moodle`** and **`python-moodle`**. Use whichever you
-    prefer — every example in these docs uses `py-moodle`.
+    command names**: **`python-moodle`** (used throughout these docs) and the
+    shorter alias **`py-moodle`**. Use whichever you prefer.
 
 ## Method 1: PyPI (Recommended)
 
@@ -24,7 +24,7 @@ cd python-moodle
 pip install .
 ```
 
-This makes the `py-moodle` (and `python-moodle`) command available system-wide.
+This makes the `python-moodle` command (and its `py-moodle` alias) available system-wide.
 
 ## Method 3: Development Installation
 
@@ -43,9 +43,9 @@ The `-e` flag installs in "editable" mode, so changes to the source code are imm
 Test that the CLI is properly installed (either command works):
 
 ```bash
-py-moodle --help
-# or, equivalently:
 python-moodle --help
+# or, equivalently, the shorter alias:
+py-moodle --help
 ```
 
 You should see the main help screen with available commands.
