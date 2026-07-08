@@ -1,6 +1,7 @@
 """Unit tests for the centralized HTTP layer in ``py_moodle.http``."""
 
 import json
+import logging
 
 import pytest
 import requests
@@ -409,3 +410,52 @@ def test_request_html_get_uses_scrape_timeout_by_default():
     request_html_get(session, "https://moodle.example.test/course/view.php?id=1")
 
     assert session.get_calls[0]["kwargs"]["timeout"] == DEFAULT_SCRAPE_TIMEOUT
+
+
+# ---------------------------------------------------------------------------
+# Redacted HTTP debug tracing
+# ---------------------------------------------------------------------------
+
+
+def test_send_request_emits_debug_trace_with_status(caplog):
+    """A request logs a method/URL trace and the response status at DEBUG."""
+    session = StubSession(get_result=StubResponse(status_code=200, text="<html>"))
+
+    with caplog.at_level(logging.DEBUG, logger="py_moodle.http"):
+        request_html_get(session, "https://moodle.example.test/course/view.php?id=1")
+
+    messages = [r.getMessage() for r in caplog.records if r.name == "py_moodle.http"]
+    assert any("HTTP GET" in m for m in messages)
+    assert any("-> 200" in m for m in messages)
+
+
+def test_send_request_debug_trace_redacts_url_secrets(caplog):
+    """URL query secrets are redacted from the debug trace, never logged raw."""
+    session = StubSession(get_result=StubResponse(status_code=200, text="<html>"))
+    url = (
+        "https://moodle.example.test/course/view.php"
+        f"?id=1&sesskey={FAKE_SESSKEY}&wstoken={FAKE_TOKEN}"
+    )
+
+    with caplog.at_level(logging.DEBUG, logger="py_moodle.http"):
+        request_html_get(session, url)
+
+    messages = [r.getMessage() for r in caplog.records if r.name == "py_moodle.http"]
+    assert messages, "expected at least one py_moodle.http debug record"
+    joined = "\n".join(messages)
+    assert FAKE_SESSKEY not in joined
+    assert FAKE_TOKEN not in joined
+    # The redaction marker survives URL-encoding as its bare word (the
+    # asterisks are percent-encoded by urlencode), which is enough to prove
+    # the secret values were replaced rather than logged verbatim.
+    assert "REDACTED" in joined
+
+
+def test_send_request_no_debug_trace_when_level_above_debug(caplog):
+    """No trace is emitted when the logger is above DEBUG (opt-in via --debug)."""
+    session = StubSession(get_result=StubResponse(status_code=200, text="<html>"))
+
+    with caplog.at_level(logging.INFO, logger="py_moodle.http"):
+        request_html_get(session, "https://moodle.example.test/course/view.php?id=1")
+
+    assert [r for r in caplog.records if r.name == "py_moodle.http"] == []
