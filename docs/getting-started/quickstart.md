@@ -8,11 +8,13 @@ Get up and running with py-moodle in minutes!
 - Access to a Moodle instance
 - Valid Moodle credentials
 
-## 1. Install py-moodle
+## 1. Install python-moodle
 
 ```bash
-pip install py-moodle
+pip install python-moodle
 ```
+
+The CLI is then available as either `py-moodle` or `python-moodle` (the examples use `py-moodle`).
 
 ## 2. Configure Credentials
 
