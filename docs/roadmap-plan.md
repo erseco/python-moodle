@@ -77,9 +77,12 @@ plan can be read against reality.
   `config.py`, #22/#39), Subtask 9 (bounded, backoff retry for idempotent
   GET-style requests only — mutations are never auto-retried, #39).
 - **Phase D** — Subtask 12/13 (typed `Course`, `CourseSection`,
-  `CourseModule`, `User`, `UploadResult` dataclasses in `models.py`), plus the
-  `MoodleClient` facade, `doctor`, and `ensure_course`/dry-run work
-  (#37–#57, #62, #64).
+  `CourseModule`, `User`, `UploadResult` dataclasses in `models.py`),
+  Subtask 14 (ship `py.typed` / PEP 561, #78/#79), Subtasks 18–20 (ensure-style
+  API extended: `ensure_section`, `ensure_label`, `ensure_resource`,
+  `ensure_folder`, `create_or_update_course` in `ensure.py`/`course.py`,
+  #77/#80), plus the `MoodleClient` facade, `doctor`, and
+  `ensure_course`/dry-run work (#37–#57, #62, #64).
 - **Phase G** — Subtask 15 (`--dry-run` for mutating commands),
   partial Subtask 16 (`--force` / `ConfirmationRequired` on ensure paths).
 - **Reliability/infra (not a numbered subtask)** — de-flaked the Docker-backed
@@ -92,10 +95,8 @@ plan can be read against reality.
 
 - **Phase B** — Subtask 34 (CLI help/option consistency), 35 (exit codes &
   batch summaries), 36 (shell completion).
-- **Phase D** — Subtask 14 (ship `py.typed` now that the typed surface is
-  real), 17–20 (extend the ensure-style API beyond `ensure_course`:
-  `ensure_section`, `ensure_label`, `ensure_resource`, `ensure_folder`,
-  `create_or_update_course`).
+- **Phase D** — the ensure-style API and `py.typed` have landed; remaining
+  polish is wiring the new `ensure_*` functions into CLI commands.
 - **Phase E/F** — compatibility-flow audit, hybrid backend selection, and the
   module registration system remain largely greenfield.
 

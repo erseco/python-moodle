@@ -28,28 +28,73 @@ It is designed for both human developers and AI agents that will generate, revie
 python-moodle/
 ├── src/
 │   └── py_moodle/
-│       ├── __init__.py
+│       ├── __init__.py         # Re-exports MoodleClient, models, MoodleSession, Settings
 │       ├── __main__.py
-│       ├── cli/
-│       │   ├── __init__.py
-│       │   ├── app.py
-│       │   └── ...         # CLI modules
-│       ├── auth.py
-│       ├── course.py
-│       ├── folder.py
-│       ├── label.py
-│       ├── scorm.py
-│       ├── draftfile.py
-│       └── ...         # Other modules
+│       ├── py.typed            # PEP 561 marker (the package ships type information)
+│       ├── cli/                # Typer CLI layer (thin wrappers over the library)
+│       │   ├── app.py          # Root Typer app + global flags (--output/--quiet/--verbose/...)
+│       │   ├── output.py       # OutputFormat, emit(), --fields, console + logging helpers
+│       │   ├── courses.py, sections.py, modules.py, users.py, categories.py,
+│       │   ├── folders.py, pages.py, resources.py, urls.py, site.py, doctor.py, admin.py
+│       ├── client.py           # MoodleClient facade (courses/sections/modules/... namespaces)
+│       ├── session.py          # MoodleSession: cached auth + token/sesskey
+│       ├── auth.py             # login / CAS SSO (redacted --debug tracing)
+│       ├── http.py             # Centralized requests: timeouts, bounded GET retry, redaction, tracing
+│       ├── transport/          # webservice.py / ajax.py / html.py strategies
+│       ├── compat.py           # Version-sensitive HTML parsing strategies (4.x/5.x)
+│       ├── config.py           # Shared HTTP timeout policy
+│       ├── models.py           # Typed dataclasses: Course, CourseSection, CourseModule, User, ...
+│       ├── ensure.py           # Idempotent ensure_module/label/resource/folder/section
+│       ├── doctor.py           # Environment self-diagnostics
+│       ├── course.py, section.py, label.py, resource.py, folder.py, page.py,
+│       ├── url.py, module.py, user.py, category.py, scorm.py, draftfile.py,
+│       ├── upload.py, permissions.py, settings.py, site.py, assign.py
 ├── tests/
-│   ├── test_auth.py
-│   ├── test_course.py
-│   └── ...             # One test file per module
-├── README.md
-├── LICENSE
-├── pyproject.toml
-├── .env.example
+│   ├── unit/                   # No Moodle needed; run in CI on every push (make test-unit)
+│   │   ├── fixtures/html/       # Captured HTML for compat-parser regression tests
+│   │   └── test_*.py
+│   ├── conftest.py             # Shared fixtures: create_temporary_course, course_creation_lock, login warmup
+│   ├── test_course.py, ...     # Integration tests (need --integration + a live Moodle)
+├── docs/                       # MkDocs/Zensical site (recipes.md, api/, roadmap-plan.md, ...)
+├── README.md, LICENSE, pyproject.toml, .env.example, docker-compose.yml, Makefile
 ```
+
+---
+
+## Architecture (current layering)
+
+New code MUST fit this layering — do not call `requests`/`session.get` directly from
+feature modules, and do not put Moodle logic in the CLI.
+
+1. **CLI layer (`cli/`)** — Typer sub-apps, one file per entity, each command a thin
+   wrapper that calls a public library function and renders via `cli/output.py`.
+   * Machine-readable output is unified: every `list` command supports
+     `--output table|json|yaml|csv` and `--fields field1,field2` (order-preserving
+     projection for json/yaml/csv). Use `emit(data, output_format, table_fn=..., csv_fields=..., fields=...)`.
+   * Global flags on the root app: `--quiet`, `--no-color` (also `NO_COLOR`),
+     `--verbose`/`-v` (INFO), `--debug` (DEBUG). Diagnostics go to **stderr** only, so
+     they never contaminate `--output json`/`csv` on stdout.
+2. **Library layer** — one module per Moodle entity (`course.py`, `section.py`, `label.py`,
+   `resource.py`, `folder.py`, `page.py`, `url.py`, `module.py`, `user.py`, `category.py`,
+   `scorm.py`, `draftfile.py`, `upload.py`). Every public function is import-friendly and
+   CLI-agnostic, takes an explicit `session`/`base_url`/`sesskey`, and raises a typed
+   `Moodle<Entity>Error`.
+3. **HTTP / transport layer** — all new HTTP goes through `http.py`
+   (`request_webservice`/`request_html_get`/`request_form_post`/`request_ajax`/`upload_file`):
+   it applies the shared timeout policy from `config.py`, retries **only** idempotent
+   GET-style requests with bounded backoff (mutations are never auto-retried), redacts
+   secrets from any exception message, and emits redacted `DEBUG` request traces on the
+   `py_moodle.http` logger. `transport/` splits the webservice / AJAX / HTML strategies;
+   `compat.py` centralizes version-sensitive HTML parsing (add fixtures under
+   `tests/unit/fixtures/html/` when you touch it).
+4. **High-level API** — `client.py` (`MoodleClient` facade with `.courses`, `.sections`,
+   `.modules`, ... namespaces), `models.py` (typed dataclasses with `from_dict`), `doctor.py`.
+5. **Idempotent provisioning** — prefer the ensure-style API for "make it exist" flows:
+   `ensure_course`/`create_or_update_course` (`course.py`) and
+   `ensure_module`/`ensure_label`/`ensure_resource`/`ensure_folder`/`ensure_section`
+   (`ensure.py`). Each keys on a natural identifier (shortname / `(name, modname)` /
+   section name) and returns a typed `Ensure*Result` with a `status`
+   (`created`/`reused`/`updated`/`conflict`).
 
 ---
 
@@ -77,31 +122,61 @@ python-moodle/
 ### CLI
 
 * Use [typer](https://typer.tiangolo.com/) to define the CLI.
-* **Structure commands into sub-applications.** For each major entity (e.g., `courses`, `users`), create a separate file in the `commands/` directory (e.g., `commands/courses.py`) containing a `typer.Typer()` app. This keeps the main `cli.py` clean.
-* All CLI options and commands must map to functions in the `py_moodle` library.
-* CLI help and error messages must be concise, explicit, and in English.
+* **Structure commands into sub-applications.** For each major entity (e.g., `courses`,
+  `users`), there is a file in the `src/py_moodle/cli/` package (e.g.
+  `cli/courses.py`) containing a `typer.Typer()` app, wired into the root app in
+  `cli/app.py`. This keeps the root app clean.
+* All CLI options and commands must map to functions in the `py_moodle` library — the
+  command function resolves a `MoodleSession` (`MoodleSession.get(ctx.obj["env"])`),
+  calls the library function, and renders through `cli/output.py`'s `emit()`.
+* Reuse the shared output plumbing: `--output`, `--fields`, `--quiet`/`--no-color`
+  (via `get_console(ctx)`), and `--verbose`/`--debug` (via `configure_logging`). Do not
+  hand-roll JSON/CSV formatting or `print()` in a command.
+* CLI help and error messages must be concise, explicit, and in English. Never `print()`
+  a secret; diagnostics use the `py_moodle*` loggers, which redact tokens/sesskeys/passwords.
 
 ### Environment and Secrets
 
 * Never hardcode secrets or credentials.
 * Use `python-dotenv` and load `.env` automatically (see `.env.example`).
-* Support the following (minimum) environment variables:
+* Credentials are grouped per named environment (`local`, `staging`, `prod`), selected
+  with the CLI `--env`/`--moodle-env` option; each uses a prefix:
 
-  * `MOODLE_URL`
-  * `MOODLE_USERNAME`
-  * `MOODLE_PASSWORD`
-  * (Optionally) `CAS_URL` for CAS SSO
+  * `MOODLE_<ENV>_URL`
+  * `MOODLE_<ENV>_USERNAME`
+  * `MOODLE_<ENV>_PASSWORD`
+  * `MOODLE_<ENV>_WS_TOKEN` (optional webservice token)
+  * (Optionally) a CAS URL for CAS SSO
+
+  The Docker integration container is the `local` environment (`http://localhost`).
 
 ### Testing
 
-* Place all tests in the `tests/` directory.
-* Use [pytest](https://pytest.readthedocs.io/) as the default runner.
-* Mock HTTP requests when possible; use sandbox sites for integration.
-* Provide at least one test per public function.
-* **Test** all supported Moodle versions (see `.env.example` for sandboxes):
+The suite has two layers (see `docs/development.md` for the full contract):
 
-  * [https://sandbox.moodledemo.net/](https://sandbox.moodledemo.net/)
-  * [https://sandbox405.moodledemo.net/](https://sandbox405.moodledemo.net/)
+* **Unit tests — `tests/unit/`**: no Moodle instance, no network, no Docker. They run
+  on every push across Python 3.9–3.13 (`make test-unit` / `pytest tests/unit`). New
+  behavior in the library, CLI, `http.py`, transports, or `compat.py` MUST have unit
+  tests here, mocking HTTP with the `StubSession`/`StubResponse` patterns already in
+  `tests/unit/test_http.py` / `test_transport.py`. Brittle HTML parsing is covered by
+  fixture files in `tests/unit/fixtures/html/` (`test_html_fixtures.py`).
+* **Integration tests — `tests/test_*.py`**: require `--integration` and a live Moodle,
+  provided in CI by a Dockerized [`erseco/alpine-moodle`](https://github.com/erseco/alpine-moodle)
+  container (`make test-local`, or `pytest --integration --moodle-env local -m integration -n auto`).
+  The CI matrix exercises Moodle 4.5.5 / 5.0.1 / 5.1.5.
+
+Rules for integration tests:
+
+* A temporary course MUST be created through the shared **`create_temporary_course`**
+  factory fixture (or the `course_creation_lock`) in `tests/conftest.py` — never call
+  `create_course()` directly from a new fixture. Course creation is serialized across
+  `pytest-xdist` workers to avoid a Moodle-side context race; a per-session login
+  warmup absorbs the post-boot login race.
+* Reliable CI gates are `unit` / `lint` / `docs` / `CodeQL`. The Docker `integration`
+  legs are occasionally flaky under parallel execution; a failed leg is usually cleared
+  with `gh run rerun --failed`, not a code change.
+* Provide at least one test per public function; prefer fast mocked unit tests, and add
+  an integration test only when the behavior genuinely needs a live Moodle.
 
 ---
 
@@ -151,15 +226,20 @@ This style should be extended to other modules (`folder`, `scorm`, ...).
 
 ## Extending the CLI
 
-* Each new Moodle entity (e.g., `quiz`, `assign`) should have its own file in the `py_moodle/` directory (e.g., `py_moodle/quiz.py`) and a corresponding test file (`tests/test_quiz.py`).
+* Each new Moodle entity (e.g., `quiz`, `assign`) should have its own module in
+  `src/py_moodle/` (e.g., `src/py_moodle/quiz.py`) with a unit test in `tests/unit/`.
 * All module functions must be designed for both CLI use and programmatic import.
 * To add a new command group (e.g., for `quiz`):
-  1.  Create a new file `commands/quiz.py`.
+  1.  Create `src/py_moodle/cli/quiz.py`.
   2.  Inside, define a `typer.Typer()` app: `app = typer.Typer(help="Manage quizzes.")`.
-  3.  Add commands to this new app (e.g., `@app.command("list")`).
-  4.  In `cli.py`, import the app and add it: `from commands import quiz; app.add_typer(quiz.app, name="quizzes")`.
-  5.  Implement the core logic in `py_moodle/quiz.py` and call it from your command function.
-  6.  Write at least one test for the new function in `tests/test_quiz.py`.
+  3.  Add commands (e.g., `@app.command("list")`), rendering via `emit()` and honoring
+      `--output`/`--fields`.
+  4.  In `src/py_moodle/cli/app.py`, import and register it:
+      `from . import quiz; app.add_typer(quiz.app, name="quizzes")`.
+  5.  Implement the core logic in `src/py_moodle/quiz.py` (HTTP via `http.py`) and call it
+      from the command.
+  6.  Add unit tests in `tests/unit/` (mocked) and, if it needs a live Moodle, an
+      integration test using the shared `create_temporary_course` fixture.
 
 ---
 
@@ -175,10 +255,10 @@ This style should be extended to other modules (`folder`, `scorm`, ...).
         return course_data
     ```
 
-2.  **Define the command in `commands/courses.py`:**
+2.  **Define the command in `src/py_moodle/cli/courses.py`:**
 
     ```python
-    # commands/courses.py
+    # src/py_moodle/cli/courses.py
     import typer
     from py_moodle.course import create_course
     from py_moodle.session import MoodleSession
@@ -193,9 +273,14 @@ This style should be extended to other modules (`folder`, `scorm`, ...).
     ):
         """Creates a new course."""
         ms = MoodleSession.get(ctx.obj["env"])
-        course = create_course(ms.session, fullname, shortname)
+        course = create_course(
+            ms.session, ms.settings.url, ms.sesskey,
+            fullname=fullname, shortname=shortname, categoryid=1,
+        )
         typer.echo(f"Course created: {course['id']}")
     ```
+
+    (Registered in `cli/app.py` via `app.add_typer(courses.app, name="courses")`.)
 
 3.  **Add a test in `tests/test_course.py`:**
 
@@ -228,10 +313,19 @@ This style should be extended to other modules (`folder`, `scorm`, ...).
 ## Example .env.example
 
 ```
-MOODLE_URL=https://sandbox.moodledemo.net
-MOODLE_USERNAME=admin
-MOODLE_PASSWORD=sandbox24
-# CAS_URL=https://cas.your-institution.org/cas
+# Per-environment credentials, selected with --env local|staging|prod
+MOODLE_LOCAL_URL=http://localhost
+MOODLE_LOCAL_USERNAME=moodleuser
+MOODLE_LOCAL_PASSWORD=PLEASE_CHANGEME
+
+MOODLE_STAGING_URL=https://sandbox.moodledemo.net
+MOODLE_STAGING_USERNAME=admin
+MOODLE_STAGING_PASSWORD=sandbox24
+
+MOODLE_PROD_URL=https://your.moodle.site
+MOODLE_PROD_USERNAME=your_admin_user
+MOODLE_PROD_PASSWORD=***
+MOODLE_PROD_WS_TOKEN=***
 ```
 
 ---
