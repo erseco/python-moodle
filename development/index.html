@@ -2967,7 +2967,11 @@ the <code>--verbose</code>/<code>--debug</code> flags:</p>
   milestone messages (e.g. "Logging in to ...", "Login completed: ...").</li>
 <li><code>--debug</code>: the logger is raised to <code>DEBUG</code>, which additionally enables
   HTTP-level tracing from <code>src/py_moodle/auth.py</code> (requests, status codes,
-  response URLs).</li>
+  response URLs) and from the centralized HTTP layer
+  <code>src/py_moodle/http.py</code> (the <code>py_moodle.http</code> logger traces every request
+  it sends as <code>HTTP &lt;METHOD&gt; &lt;redacted-url&gt; -&gt; &lt;status&gt;</code>, including retry
+  attempts). Only the method, the <strong>redacted</strong> URL, and the response status
+  are ever traced — never params, request/response bodies, or headers.</li>
 </ul>
 <p>All diagnostic output is written to stderr (never stdout), so it never mixes
 with the machine-readable payload of <code>--output json</code>/<code>csv</code>.</p>

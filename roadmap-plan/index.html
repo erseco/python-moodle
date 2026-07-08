@@ -1781,6 +1781,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#progress-update-2026-07-08" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Progress update (2026-07-08)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#phase-a-lock-in-the-baseline-and-smooth-contributor-workflows" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -1984,6 +1995,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#progress-update-2026-07-08" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Progress update (2026-07-08)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#phase-a-lock-in-the-baseline-and-smooth-contributor-workflows" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -2168,6 +2190,47 @@ maintainability without forcing broad refactors.</p>
 <h2 id="prioritized-execution-plan">Prioritized Execution Plan<a class="headerlink" href="#prioritized-execution-plan" title="Permanent link">&para;</a></h2>
 <p>The sequence below starts with the smallest changes that reduce risk and unlock
 later work.</p>
+<h3 id="progress-update-2026-07-08">Progress update (2026-07-08)<a class="headerlink" href="#progress-update-2026-07-08" title="Permanent link">&para;</a></h3>
+<p>The phased plan below is the original forward-looking design and is kept intact
+for reference. This section records what has actually landed so far, so the
+plan can be read against reality.</p>
+<p><strong>Done:</strong></p>
+<ul>
+<li><strong>Phase A</strong> — Subtask 1 (this roadmap document), Subtask 2 (CI matrix now
+  covers Moodle 4.5.5 / 5.0.1 / 5.1.5 across Python 3.9–3.13), Subtask 3
+  (test-layer &amp; shared-fixture docs, #67/#69), Subtask 25 (HTML-fixture
+  regression scaffolding, #68/#70), Subtask 10 (task-oriented recipes,
+  including the <code>--fields</code> recipe).</li>
+<li><strong>Phase B</strong> — Subtask 4 (<code>--output table|json|yaml</code>, plus <code>csv</code>, #25/#55),
+  Subtask 5 (<code>--fields</code> machine-readable field selection, #66/#71).</li>
+<li><strong>Phase C</strong> — Subtask 6 (exception wording + <code>troubleshooting.md</code>, first
+  pass, #23), Subtask 7 (redacted <code>--debug</code> HTTP tracing, in <code>auth.py</code> and the
+  centralized <code>http.py</code> layer), Subtask 8 (centralized timeout policy in
+  <code>config.py</code>, #22/#39), Subtask 9 (bounded, backoff retry for idempotent
+  GET-style requests only — mutations are never auto-retried, #39).</li>
+<li><strong>Phase D</strong> — Subtask 12/13 (typed <code>Course</code>, <code>CourseSection</code>,
+  <code>CourseModule</code>, <code>User</code>, <code>UploadResult</code> dataclasses in <code>models.py</code>), plus the
+  <code>MoodleClient</code> facade, <code>doctor</code>, and <code>ensure_course</code>/dry-run work
+  (#37–#57, #62, #64).</li>
+<li><strong>Phase G</strong> — Subtask 15 (<code>--dry-run</code> for mutating commands),
+  partial Subtask 16 (<code>--force</code> / <code>ConfirmationRequired</code> on ensure paths).</li>
+<li><strong>Reliability/infra (not a numbered subtask)</strong> — de-flaked the Docker-backed
+  integration suite (cross-worker course-creation lock #62; AJAX fallback on
+  webservice context errors #64; post-boot login warmup #74; ephemeral CI
+  containers + boot diagnostics #73) and fixed the Moodle 5.1 image boot
+  (moosh <code>public/</code> dir, erseco/alpine-moodle#149).</li>
+</ul>
+<p><strong>Partially done / next up:</strong></p>
+<ul>
+<li><strong>Phase B</strong> — Subtask 34 (CLI help/option consistency), 35 (exit codes &amp;
+  batch summaries), 36 (shell completion).</li>
+<li><strong>Phase D</strong> — Subtask 14 (ship <code>py.typed</code> now that the typed surface is
+  real), 17–20 (extend the ensure-style API beyond <code>ensure_course</code>:
+  <code>ensure_section</code>, <code>ensure_label</code>, <code>ensure_resource</code>, <code>ensure_folder</code>,
+  <code>create_or_update_course</code>).</li>
+<li><strong>Phase E/F</strong> — compatibility-flow audit, hybrid backend selection, and the
+  module registration system remain largely greenfield.</li>
+</ul>
 <h3 id="phase-a-lock-in-the-baseline-and-smooth-contributor-workflows">Phase A: Lock in the baseline and smooth contributor workflows<a class="headerlink" href="#phase-a-lock-in-the-baseline-and-smooth-contributor-workflows" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>Subtask 1: Publish the technical baseline and roadmap plan.</strong></li>
