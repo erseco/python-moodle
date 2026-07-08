@@ -54,9 +54,6 @@ python-moodle courses list
 
 ---
 
-!!! warning "Experimental"
-    This library is under active development. Use a test Moodle instance and back up data before running commands that create, modify, or delete content.
-
 `python-moodle` allows you to automate tedious Moodle tasks—like creating courses, uploading content, and managing modules—directly from your terminal or in your Python scripts. It works by simulating a real user's web session, so it doesn't require API tokens or special Moodle plugins.
 
 ---
