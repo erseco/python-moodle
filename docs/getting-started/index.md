@@ -1,16 +1,16 @@
 # Getting Started
 
-Welcome to py-moodle! This section will help you get up and running quickly.
+Welcome to python-moodle! This section will help you get up and running quickly.
 
-## What is py-moodle?
+## What is python-moodle?
 
-py-moodle is a modern Pythonic CLI and library that allows you to manage Moodle instances via web sessions. It provides both a command-line interface and a Python library for automating Moodle tasks.
+python-moodle is a modern Pythonic CLI and library that allows you to manage Moodle instances via web sessions. It provides both a command-line interface and a Python library for automating Moodle tasks.
 
 ## Quick Navigation
 
-- **[Installation](installation.md)** - Install py-moodle on your system
+- **[Installation](installation.md)** - Install python-moodle on your system
 - **[Configuration](configuration.md)** - Set up your Moodle credentials
-- **[Quick Start](quickstart.md)** - Your first py-moodle commands
+- **[Quick Start](quickstart.md)** - Your first python-moodle commands
 
 ## Key Features
 
@@ -21,4 +21,4 @@ py-moodle is a modern Pythonic CLI and library that allows you to manage Moodle 
 - ✅ **Multiple content types** - Folders, assignments, SCORM, and more
 
 !!! tip "New to Moodle automation?"
-    Start with the [Quick Start](quickstart.md) guide to see py-moodle in action within minutes.
+    Start with the [Quick Start](quickstart.md) guide to see python-moodle in action within minutes.

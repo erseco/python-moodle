@@ -1,6 +1,6 @@
 # Examples
 
-This page contains practical examples of using py-moodle for common tasks.
+This page contains practical examples of using python-moodle for common tasks.
 
 ## Course Management Examples
 
@@ -9,7 +9,7 @@ This page contains practical examples of using py-moodle for common tasks.
 ```bash
 # Create courses from a list
 for course in "Math 101" "Physics 201" "Chemistry 301"; do
-    py-moodle courses create --fullname "$course" --shortname "$(echo $course | tr ' ' '-' | tr '[:upper:]' '[:lower:]')"
+    python-moodle courses create --fullname "$course" --shortname "$(echo $course | tr ' ' '-' | tr '[:upper:]' '[:lower:]')"
 done
 ```
 
@@ -19,7 +19,7 @@ done
 # Add welcome labels to all sections of a course
 course_id=2
 for section in {1..5}; do
-    py-moodle modules add label \
+    python-moodle modules add label \
         --course-id $course_id \
         --section-id $section \
         --name "Section $section Welcome" \
@@ -38,11 +38,11 @@ section_id=1
 folder_name="Course Materials"
 
 # Create the folder first
-py-moodle modules add folder --course-id $course_id --section-id $section_id --name "$folder_name"
+python-moodle modules add folder --course-id $course_id --section-id $section_id --name "$folder_name"
 
 # Upload files (you'll need to get the folder ID from the output above)
 for file in *.pdf; do
-    py-moodle files upload --course-id $course_id --file "$file"
+    python-moodle files upload --course-id $course_id --file "$file"
 done
 ```
 
@@ -50,7 +50,7 @@ done
 
 ```bash
 # Upload and configure a SCORM package
-py-moodle modules add scorm \
+python-moodle modules add scorm \
     --course-id 2 \
     --section-id 1 \
     --name "Interactive Lesson 1" \

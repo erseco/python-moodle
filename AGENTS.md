@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This document provides **implementation and contribution guidelines** for developing new features, modules, or commands within the `py-moodle` project.
+This document provides **implementation and contribution guidelines** for developing new features, modules, or commands within the `python-moodle` project.
 It is designed for both human developers and AI agents that will generate, review, or maintain code in this repository.
 
 ---
@@ -182,23 +182,23 @@ Rules for integration tests:
 
 ## Supported Commands and Features
 
-The CLI uses a subcommand structure. For example, `py-moodle courses list`.
+The CLI uses a subcommand structure. For example, `python-moodle courses list`.
 
 ```sh
 # List all courses
-py-moodle courses list
+python-moodle courses list
 
 # Show details for a specific course
-py-moodle courses show <course-id>
+python-moodle courses show <course-id>
 
 # Create a new course
-py-moodle courses create --fullname "My New Course" --shortname "mynewcourse"
+python-moodle courses create --fullname "My New Course" --shortname "mynewcourse"
 
 # Delete a course
-py-moodle courses delete <course-id>
+python-moodle courses delete <course-id>
 
 # Add a new label to a course section
-py-moodle modules add label <course-id> <section-id> --name "My Label" --intro "Label content"
+python-moodle modules add label <course-id> <section-id> --name "My Label" --intro "Label content"
 ```
 
 ### Capabilities and Webservice Limitations
@@ -342,7 +342,7 @@ MOODLE_PROD_WS_TOKEN=***
 
 ## Naming
 
-The project name is `py-moodle`. If you later publish to PyPI, ensure the name does not clash with Selenium- or API token-based Moodle tools.
+The project name is `python-moodle`. If you later publish to PyPI, ensure the name does not clash with Selenium- or API token-based Moodle tools.
 
 ---
 
