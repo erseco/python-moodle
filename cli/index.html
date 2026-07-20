@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../images/favicon.png">
-      <meta name="generator" content="zensical-0.0.47">
+      <meta name="generator" content="zensical-0.0.51">
     
     
       
@@ -36,7 +36,7 @@
       
         
       
-      <link rel="stylesheet" href="../assets/stylesheets/modern/main.5e19f6ca.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/modern/main.62c9b9cc.min.css">
       
         
           
@@ -3154,7 +3154,7 @@
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
-<li><code>-e, --env TEXT</code>: Environment to use: local | staging | prod (also respects MOODLE_ENV)  [default: local]</li>
+<li><code>-e, --env &lt;str&gt;</code>: Environment to use: local | staging | prod (also respects MOODLE_ENV)  [default: local]</li>
 <li><code>-q, --quiet</code>: Suppress incidental status output (banners, progress/confirmation messages). The command&#x27;s primary result and any errors are still shown.</li>
 <li><code>--no-color</code>: Disable ANSI colors in table output. The NO_COLOR environment variable is also respected.</li>
 <li><code>-v, --verbose</code>: Enable verbose (INFO-level) diagnostics on stderr.</li>
@@ -3202,22 +3202,22 @@
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
-<li><code>--output [table|json|yaml|csv]</code>: Output format: table, json, yaml, or csv.  [default: table]</li>
-<li><code>--fields TEXT</code>: Comma-separated top-level fields to keep in machine-readable output (json/yaml/csv), in the given order. Ignored for table output; an unknown field is an error.</li>
+<li><code>--output &lt;table|json|yaml|csv&gt;</code>: Output format: table, json, yaml, or csv.  [default: table]</li>
+<li><code>--fields &lt;str&gt;</code>: Comma-separated top-level fields to keep in machine-readable output (json/yaml/csv), in the given order. Ignored for table output; an unknown field is an error.</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h3 id="python-moodle-courses-show"><code>python-moodle courses show</code><a class="headerlink" href="#python-moodle-courses-show" title="Permanent link">&para;</a></h3>
 <p>Shows a detailed summary of a specific course, including its sections and modules.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="gp">$ </span>python-moodle<span class="w"> </span>courses<span class="w"> </span>show<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COURSE_ID
+<div class="language-console highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="gp">$ </span>python-moodle<span class="w"> </span>courses<span class="w"> </span>show<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">{</span>course_id<span class="o">}</span>
 </span></code></pre></div>
 <p><strong>Arguments</strong>:</p>
 <ul>
-<li><code>COURSE_ID</code>: ID of the course to show.  [required]</li>
+<li><code>course_id</code>: ID of the course to show.  [required]</li>
 </ul>
 <p><strong>Options</strong>:</p>
 <ul>
-<li><code>--output [table|json|yaml|csv]</code>: Output format: table, json, yaml, or csv.  [default: table]</li>
+<li><code>--output &lt;table|json|yaml|csv&gt;</code>: Output format: table, json, yaml, or csv.  [default: table]</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h3 id="python-moodle-courses-create"><code>python-moodle courses create</code><a class="headerlink" href="#python-moodle-courses-create" title="Permanent link">&para;</a></h3>
@@ -3227,12 +3227,12 @@
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
-<li><code>--fullname TEXT</code>: Full name for the new course.  [required]</li>
-<li><code>--shortname TEXT</code>: Short name for the new course.  [required]</li>
-<li><code>--categoryid INTEGER</code>: Category ID for the new course.  [default: 1]</li>
-<li><code>--visible INTEGER</code>: 1 for visible, 0 for hidden.  [default: 1]</li>
-<li><code>--summary TEXT</code>: Course summary.</li>
-<li><code>--output [table|json|yaml|csv]</code>: Output format: table, json, or yaml.  [default: table]</li>
+<li><code>--fullname &lt;str&gt;</code>: Full name for the new course.  [required]</li>
+<li><code>--shortname &lt;str&gt;</code>: Short name for the new course.  [required]</li>
+<li><code>--categoryid &lt;int&gt;</code>: Category ID for the new course.  [default: 1]</li>
+<li><code>--visible &lt;int&gt;</code>: 1 for visible, 0 for hidden.  [default: 1]</li>
+<li><code>--summary &lt;str&gt;</code>: Course summary.</li>
+<li><code>--output &lt;table|json|yaml|csv&gt;</code>: Output format: table, json, or yaml.  [default: table]</li>
 <li><code>--dry-run</code>: Preview the course that would be created without calling Moodle.</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
@@ -3243,26 +3243,26 @@
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
-<li><code>--shortname TEXT</code>: Unique shortname to look up or create.  [required]</li>
-<li><code>--fullname TEXT</code>: Desired full name of the course.  [required]</li>
-<li><code>--category-id INTEGER</code>: Desired category ID.  [required]</li>
+<li><code>--shortname &lt;str&gt;</code>: Unique shortname to look up or create.  [required]</li>
+<li><code>--fullname &lt;str&gt;</code>: Desired full name of the course.  [required]</li>
+<li><code>--category-id &lt;int&gt;</code>: Desired category ID.  [required]</li>
 <li><code>--update / --no-update</code>: Update fullname/category if the course already exists.  [default: no-update]</li>
-<li><code>--output [table|json|yaml|csv]</code>: Output format: table, json, or yaml.  [default: table]</li>
+<li><code>--output &lt;table|json|yaml|csv&gt;</code>: Output format: table, json, or yaml.  [default: table]</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h3 id="python-moodle-courses-delete"><code>python-moodle courses delete</code><a class="headerlink" href="#python-moodle-courses-delete" title="Permanent link">&para;</a></h3>
 <p>Deletes a course by its ID.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="gp">$ </span>python-moodle<span class="w"> </span>courses<span class="w"> </span>delete<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COURSE_ID
+<div class="language-console highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="gp">$ </span>python-moodle<span class="w"> </span>courses<span class="w"> </span>delete<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">{</span>course_id<span class="o">}</span>
 </span></code></pre></div>
 <p><strong>Arguments</strong>:</p>
 <ul>
-<li><code>COURSE_ID</code>: ID of the course to delete.  [required]</li>
+<li><code>course_id</code>: ID of the course to delete.  [required]</li>
 </ul>
 <p><strong>Options</strong>:</p>
 <ul>
 <li><code>--force</code>: Delete without asking for confirmation.</li>
-<li><code>--output [table|json|yaml|csv]</code>: Output format: table, json, or yaml.  [default: table]</li>
+<li><code>--output &lt;table|json|yaml|csv&gt;</code>: Output format: table, json, or yaml.  [default: table]</li>
 <li><code>--dry-run</code>: Preview the deletion without calling Moodle or prompting for confirmation.</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
@@ -3288,8 +3288,8 @@
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
-<li><code>--output [table|json|yaml|csv]</code>: Output format: table, json, yaml, or csv.  [default: table]</li>
-<li><code>--fields TEXT</code>: Comma-separated top-level fields to keep in machine-readable output (json/yaml/csv), in the given order. Ignored for table output; an unknown field is an error.</li>
+<li><code>--output &lt;table|json|yaml|csv&gt;</code>: Output format: table, json, yaml, or csv.  [default: table]</li>
+<li><code>--fields &lt;str&gt;</code>: Comma-separated top-level fields to keep in machine-readable output (json/yaml/csv), in the given order. Ignored for table output; an unknown field is an error.</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h3 id="python-moodle-categories-create"><code>python-moodle categories create</code><a class="headerlink" href="#python-moodle-categories-create" title="Permanent link">&para;</a></h3>
@@ -3300,19 +3300,19 @@ This operation uses a session key (sesskey) and does not require a webservice to
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
-<li><code>--name TEXT</code>: Name for the new category.  [required]</li>
-<li><code>--parent-id INTEGER</code>: Parent category ID (default: 0 for top level).  [default: 0]</li>
+<li><code>--name &lt;str&gt;</code>: Name for the new category.  [required]</li>
+<li><code>--parent-id &lt;int&gt;</code>: Parent category ID (default: 0 for top level).  [default: 0]</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h3 id="python-moodle-categories-delete"><code>python-moodle categories delete</code><a class="headerlink" href="#python-moodle-categories-delete" title="Permanent link">&para;</a></h3>
 <p>Deletes a course category by its ID. The category must be empty.
 This operation uses a session key (sesskey).</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="gp">$ </span>python-moodle<span class="w"> </span>categories<span class="w"> </span>delete<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>CATEGORY_ID
+<div class="language-console highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="gp">$ </span>python-moodle<span class="w"> </span>categories<span class="w"> </span>delete<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">{</span>category_id<span class="o">}</span>
 </span></code></pre></div>
 <p><strong>Arguments</strong>:</p>
 <ul>
-<li><code>CATEGORY_ID</code>: ID of the category to delete.  [required]</li>
+<li><code>category_id</code>: ID of the category to delete.  [required]</li>
 </ul>
 <p><strong>Options</strong>:</p>
 <ul>
@@ -3342,24 +3342,24 @@ This operation uses a session key (sesskey).</p>
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
-<li><code>--course-id INTEGER</code>: ID of the course to list sections from.  [required]</li>
-<li><code>--output [table|json|yaml|csv]</code>: Output format: table, json, yaml, or csv.  [default: table]</li>
-<li><code>--fields TEXT</code>: Comma-separated top-level fields to keep in machine-readable output (json/yaml/csv), in the given order. Ignored for table output; an unknown field is an error.</li>
+<li><code>--course-id &lt;int&gt;</code>: ID of the course to list sections from.  [required]</li>
+<li><code>--output &lt;table|json|yaml|csv&gt;</code>: Output format: table, json, yaml, or csv.  [default: table]</li>
+<li><code>--fields &lt;str&gt;</code>: Comma-separated top-level fields to keep in machine-readable output (json/yaml/csv), in the given order. Ignored for table output; an unknown field is an error.</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h3 id="python-moodle-sections-show"><code>python-moodle sections show</code><a class="headerlink" href="#python-moodle-sections-show" title="Permanent link">&para;</a></h3>
 <p>Shows detailed information of a specific section, including its modules.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="gp">$ </span>python-moodle<span class="w"> </span>sections<span class="w"> </span>show<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>SECTION_ID
+<div class="language-console highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="gp">$ </span>python-moodle<span class="w"> </span>sections<span class="w"> </span>show<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">{</span>section_id<span class="o">}</span>
 </span></code></pre></div>
 <p><strong>Arguments</strong>:</p>
 <ul>
-<li><code>SECTION_ID</code>: ID of the section to show.  [required]</li>
+<li><code>section_id</code>: ID of the section to show.  [required]</li>
 </ul>
 <p><strong>Options</strong>:</p>
 <ul>
-<li><code>--course-id INTEGER</code>: ID of the course the section belongs to.  [required]</li>
-<li><code>--output [table|json|yaml|csv]</code>: Output format: table, json, yaml, or csv.  [default: table]</li>
+<li><code>--course-id &lt;int&gt;</code>: ID of the course the section belongs to.  [required]</li>
+<li><code>--output &lt;table|json|yaml|csv&gt;</code>: Output format: table, json, yaml, or csv.  [default: table]</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h3 id="python-moodle-sections-create"><code>python-moodle sections create</code><a class="headerlink" href="#python-moodle-sections-create" title="Permanent link">&para;</a></h3>
@@ -3369,21 +3369,21 @@ This operation uses a session key (sesskey).</p>
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
-<li><code>--course-id INTEGER</code>: ID of the course where to create the section.  [required]</li>
+<li><code>--course-id &lt;int&gt;</code>: ID of the course where to create the section.  [required]</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h3 id="python-moodle-sections-delete"><code>python-moodle sections delete</code><a class="headerlink" href="#python-moodle-sections-delete" title="Permanent link">&para;</a></h3>
 <p>Deletes a specific section by its ID.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="gp">$ </span>python-moodle<span class="w"> </span>sections<span class="w"> </span>delete<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>SECTION_ID
+<div class="language-console highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="gp">$ </span>python-moodle<span class="w"> </span>sections<span class="w"> </span>delete<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">{</span>section_id<span class="o">}</span>
 </span></code></pre></div>
 <p><strong>Arguments</strong>:</p>
 <ul>
-<li><code>SECTION_ID</code>: ID of the section to delete.  [required]</li>
+<li><code>section_id</code>: ID of the section to delete.  [required]</li>
 </ul>
 <p><strong>Options</strong>:</p>
 <ul>
-<li><code>--course-id INTEGER</code>: ID of the course the section belongs to.  [required]</li>
+<li><code>--course-id &lt;int&gt;</code>: ID of the course the section belongs to.  [required]</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h2 id="python-moodle-modules"><code>python-moodle modules</code><a class="headerlink" href="#python-moodle-modules" title="Permanent link">&para;</a></h2>
@@ -3407,11 +3407,11 @@ This operation uses a session key (sesskey).</p>
 <p>Deletes any module (label, SCORM, folder, etc.) by its ID.
 This uses the centralized delete function from the library.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="gp">$ </span>python-moodle<span class="w"> </span>modules<span class="w"> </span>delete<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>CMID
+<div class="language-console highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="gp">$ </span>python-moodle<span class="w"> </span>modules<span class="w"> </span>delete<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">{</span>cmid<span class="o">}</span>
 </span></code></pre></div>
 <p><strong>Arguments</strong>:</p>
 <ul>
-<li><code>CMID</code>: ID of the module (cmid) to delete.  [required]</li>
+<li><code>cmid</code>: ID of the module (cmid) to delete.  [required]</li>
 </ul>
 <p><strong>Options</strong>:</p>
 <ul>
@@ -3420,15 +3420,15 @@ This uses the centralized delete function from the library.</p>
 <h3 id="python-moodle-modules-show"><code>python-moodle modules show</code><a class="headerlink" href="#python-moodle-modules-show" title="Permanent link">&para;</a></h3>
 <p>Shows detailed information for a specific module.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="gp">$ </span>python-moodle<span class="w"> </span>modules<span class="w"> </span>show<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>CMID
+<div class="language-console highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="gp">$ </span>python-moodle<span class="w"> </span>modules<span class="w"> </span>show<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">{</span>cmid<span class="o">}</span>
 </span></code></pre></div>
 <p><strong>Arguments</strong>:</p>
 <ul>
-<li><code>CMID</code>: ID of the module (cmid) to show.  [required]</li>
+<li><code>cmid</code>: ID of the module (cmid) to show.  [required]</li>
 </ul>
 <p><strong>Options</strong>:</p>
 <ul>
-<li><code>--output [table|json|yaml|csv]</code>: Output format: table, json, or yaml.  [default: table]</li>
+<li><code>--output &lt;table|json|yaml|csv&gt;</code>: Output format: table, json, or yaml.  [default: table]</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h3 id="python-moodle-modules-list-types"><code>python-moodle modules list-types</code><a class="headerlink" href="#python-moodle-modules-list-types" title="Permanent link">&para;</a></h3>
@@ -3438,8 +3438,8 @@ This uses the centralized delete function from the library.</p>
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
-<li><code>--course-id INTEGER</code>: Course ID to check available modules for. Defaults to 1.  [default: 1]</li>
-<li><code>--output [table|json|yaml|csv]</code>: Output format: table, json, or yaml.  [default: table]</li>
+<li><code>--course-id &lt;int&gt;</code>: Course ID to check available modules for. Defaults to 1.  [default: 1]</li>
+<li><code>--output &lt;table|json|yaml|csv&gt;</code>: Output format: table, json, or yaml.  [default: table]</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h3 id="python-moodle-modules-add"><code>python-moodle modules add</code><a class="headerlink" href="#python-moodle-modules-add" title="Permanent link">&para;</a></h3>
@@ -3464,10 +3464,10 @@ This uses the centralized delete function from the library.</p>
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
-<li><code>--course-id INTEGER</code>: ID of the course to add the label to.  [required]</li>
-<li><code>--section-id INTEGER</code>: ID of the section to add the label to.  [required]</li>
-<li><code>--html TEXT</code>: HTML content of the label.  [required]</li>
-<li><code>--name TEXT</code>: Internal name for the label.  [default: Label (from CLI)]</li>
+<li><code>--course-id &lt;int&gt;</code>: ID of the course to add the label to.  [required]</li>
+<li><code>--section-id &lt;int&gt;</code>: ID of the section to add the label to.  [required]</li>
+<li><code>--html &lt;str&gt;</code>: HTML content of the label.  [required]</li>
+<li><code>--name &lt;str&gt;</code>: Internal name for the label.  [default: Label (from CLI)]</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h4 id="python-moodle-modules-add-scorm"><code>python-moodle modules add scorm</code><a class="headerlink" href="#python-moodle-modules-add-scorm" title="Permanent link">&para;</a></h4>
@@ -3477,12 +3477,12 @@ This uses the centralized delete function from the library.</p>
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
-<li><code>--course-id INTEGER</code>: ID of the course to add the SCORM to.  [required]</li>
-<li><code>--section-id INTEGER</code>: ID of the section to add the SCORM to.  [required]</li>
-<li><code>--name TEXT</code>: Name of the SCORM package.  [required]</li>
-<li><code>--file FILENAME</code>: Path to the SCORM package .zip file.  [required]</li>
-<li><code>--intro TEXT</code>: Introduction or description for the SCORM.</li>
-<li><code>--output [table|json|yaml|csv]</code>: Output format: table, json, or yaml.  [default: table]</li>
+<li><code>--course-id &lt;int&gt;</code>: ID of the course to add the SCORM to.  [required]</li>
+<li><code>--section-id &lt;int&gt;</code>: ID of the section to add the SCORM to.  [required]</li>
+<li><code>--name &lt;str&gt;</code>: Name of the SCORM package.  [required]</li>
+<li><code>--file &lt;filename&gt;</code>: Path to the SCORM package .zip file.  [required]</li>
+<li><code>--intro &lt;str&gt;</code>: Introduction or description for the SCORM.</li>
+<li><code>--output &lt;table|json|yaml|csv&gt;</code>: Output format: table, json, or yaml.  [default: table]</li>
 <li><code>--dry-run</code>: Preview the SCORM package that would be added without uploading it.</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
@@ -3493,10 +3493,10 @@ This uses the centralized delete function from the library.</p>
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
-<li><code>--course-id INTEGER</code>: ID of the course to add the assignment to.  [required]</li>
-<li><code>--section-id INTEGER</code>: ID of the section to add the assignment to.  [required]</li>
-<li><code>--name TEXT</code>: Name of the new assignment.  [required]</li>
-<li><code>--intro TEXT</code>: Introduction or description for the assignment (HTML supported).</li>
+<li><code>--course-id &lt;int&gt;</code>: ID of the course to add the assignment to.  [required]</li>
+<li><code>--section-id &lt;int&gt;</code>: ID of the section to add the assignment to.  [required]</li>
+<li><code>--name &lt;str&gt;</code>: Name of the new assignment.  [required]</li>
+<li><code>--intro &lt;str&gt;</code>: Introduction or description for the assignment (HTML supported).</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h3 id="python-moodle-modules-edit"><code>python-moodle modules edit</code><a class="headerlink" href="#python-moodle-modules-edit" title="Permanent link">&para;</a></h3>
@@ -3516,31 +3516,31 @@ This uses the centralized delete function from the library.</p>
 <h4 id="python-moodle-modules-edit-label"><code>python-moodle modules edit label</code><a class="headerlink" href="#python-moodle-modules-edit-label" title="Permanent link">&para;</a></h4>
 <p>Edits an existing label module.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="gp">$ </span>python-moodle<span class="w"> </span>modules<span class="w"> </span>edit<span class="w"> </span>label<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>CMID
+<div class="language-console highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="gp">$ </span>python-moodle<span class="w"> </span>modules<span class="w"> </span>edit<span class="w"> </span>label<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">{</span>cmid<span class="o">}</span>
 </span></code></pre></div>
 <p><strong>Arguments</strong>:</p>
 <ul>
-<li><code>CMID</code>: ID of the label module to edit.  [required]</li>
+<li><code>cmid</code>: ID of the label module to edit.  [required]</li>
 </ul>
 <p><strong>Options</strong>:</p>
 <ul>
-<li><code>--html TEXT</code>: New HTML content for the label.</li>
-<li><code>--name TEXT</code>: New internal name for the label.</li>
-<li><code>--visible INTEGER</code>: Set visibility (1 for visible, 0 for hidden).</li>
+<li><code>--html &lt;str&gt;</code>: New HTML content for the label.</li>
+<li><code>--name &lt;str&gt;</code>: New internal name for the label.</li>
+<li><code>--visible &lt;int&gt;</code>: Set visibility (1 for visible, 0 for hidden).</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h4 id="python-moodle-modules-edit-name"><code>python-moodle modules edit name</code><a class="headerlink" href="#python-moodle-modules-edit-name" title="Permanent link">&para;</a></h4>
 <p>Edits the name of any module (label, assign, SCORM, etc.).</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="gp">$ </span>python-moodle<span class="w"> </span>modules<span class="w"> </span>edit<span class="w"> </span>name<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>CMID
+<div class="language-console highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="gp">$ </span>python-moodle<span class="w"> </span>modules<span class="w"> </span>edit<span class="w"> </span>name<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">{</span>cmid<span class="o">}</span>
 </span></code></pre></div>
 <p><strong>Arguments</strong>:</p>
 <ul>
-<li><code>CMID</code>: ID of the module (cmid) to rename.  [required]</li>
+<li><code>cmid</code>: ID of the module (cmid) to rename.  [required]</li>
 </ul>
 <p><strong>Options</strong>:</p>
 <ul>
-<li><code>-n, --name TEXT</code>: The new name for the module.  [required]</li>
+<li><code>-n, --name &lt;str&gt;</code>: The new name for the module.  [required]</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h2 id="python-moodle-users"><code>python-moodle users</code><a class="headerlink" href="#python-moodle-users" title="Permanent link">&para;</a></h2>
@@ -3565,9 +3565,9 @@ This uses the centralized delete function from the library.</p>
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
-<li><code>--course-id INTEGER</code>: ID of the course to list users from.  [required]</li>
-<li><code>--output [table|json|yaml|csv]</code>: Output format: table, json, yaml, or csv.  [default: table]</li>
-<li><code>--fields TEXT</code>: Comma-separated top-level fields to keep in machine-readable output (json/yaml/csv), in the given order. Ignored for table output; an unknown field is an error.</li>
+<li><code>--course-id &lt;int&gt;</code>: ID of the course to list users from.  [required]</li>
+<li><code>--output &lt;table|json|yaml|csv&gt;</code>: Output format: table, json, yaml, or csv.  [default: table]</li>
+<li><code>--fields &lt;str&gt;</code>: Comma-separated top-level fields to keep in machine-readable output (json/yaml/csv), in the given order. Ignored for table output; an unknown field is an error.</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h3 id="python-moodle-users-create"><code>python-moodle users create</code><a class="headerlink" href="#python-moodle-users-create" title="Permanent link">&para;</a></h3>
@@ -3577,21 +3577,21 @@ This uses the centralized delete function from the library.</p>
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
-<li><code>--username TEXT</code>: Username (must be unique).  [required]</li>
-<li><code>--password TEXT</code>: Password (must meet site policy).  [required]</li>
-<li><code>--firstname TEXT</code>: First name.  [required]</li>
-<li><code>--lastname TEXT</code>: Last name.  [required]</li>
-<li><code>--email TEXT</code>: Email address (must be unique).  [required]</li>
+<li><code>--username &lt;str&gt;</code>: Username (must be unique).  [required]</li>
+<li><code>--password &lt;str&gt;</code>: Password (must meet site policy).  [required]</li>
+<li><code>--firstname &lt;str&gt;</code>: First name.  [required]</li>
+<li><code>--lastname &lt;str&gt;</code>: Last name.  [required]</li>
+<li><code>--email &lt;str&gt;</code>: Email address (must be unique).  [required]</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h3 id="python-moodle-users-delete"><code>python-moodle users delete</code><a class="headerlink" href="#python-moodle-users-delete" title="Permanent link">&para;</a></h3>
 <p>Deletes a user from Moodle by their ID.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="gp">$ </span>python-moodle<span class="w"> </span>users<span class="w"> </span>delete<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>USER_ID
+<div class="language-console highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="gp">$ </span>python-moodle<span class="w"> </span>users<span class="w"> </span>delete<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">{</span>user_id<span class="o">}</span>
 </span></code></pre></div>
 <p><strong>Arguments</strong>:</p>
 <ul>
-<li><code>USER_ID</code>: ID of the user to delete.  [required]</li>
+<li><code>user_id</code>: ID of the user to delete.  [required]</li>
 </ul>
 <p><strong>Options</strong>:</p>
 <ul>
@@ -3618,7 +3618,7 @@ This uses the centralized delete function from the library.</p>
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
-<li><code>--service-id INTEGER</code>: Web service ID to activate (default: 1 for &#x27;Moodle mobile app&#x27;).  [default: 1]</li>
+<li><code>--service-id &lt;int&gt;</code>: Web service ID to activate (default: 1 for &#x27;Moodle mobile app&#x27;).  [default: 1]</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h2 id="python-moodle-folders"><code>python-moodle folders</code><a class="headerlink" href="#python-moodle-folders" title="Permanent link">&para;</a></h2>
@@ -3646,21 +3646,21 @@ This uses the centralized delete function from the library.</p>
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
-<li><code>--course-id INTEGER</code>: ID of the course to add the folder to.  [required]</li>
-<li><code>--section-id INTEGER</code>: ID of the section to add the folder to.  [required]</li>
-<li><code>--name TEXT</code>: Name of the new folder.  [required]</li>
-<li><code>--intro TEXT</code>: Introduction or description for the folder (HTML supported).</li>
-<li><code>--file FILENAME</code>: Path to a file to include. Can be used multiple times.</li>
+<li><code>--course-id &lt;int&gt;</code>: ID of the course to add the folder to.  [required]</li>
+<li><code>--section-id &lt;int&gt;</code>: ID of the section to add the folder to.  [required]</li>
+<li><code>--name &lt;str&gt;</code>: Name of the new folder.  [required]</li>
+<li><code>--intro &lt;str&gt;</code>: Introduction or description for the folder (HTML supported).</li>
+<li><code>--file &lt;filename&gt;</code>: Path to a file to include. Can be used multiple times.</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h3 id="python-moodle-folders-delete"><code>python-moodle folders delete</code><a class="headerlink" href="#python-moodle-folders-delete" title="Permanent link">&para;</a></h3>
 <p>Deletes a folder module from a course.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="gp">$ </span>python-moodle<span class="w"> </span>folders<span class="w"> </span>delete<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>CMID
+<div class="language-console highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="gp">$ </span>python-moodle<span class="w"> </span>folders<span class="w"> </span>delete<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">{</span>cmid<span class="o">}</span>
 </span></code></pre></div>
 <p><strong>Arguments</strong>:</p>
 <ul>
-<li><code>CMID</code>: ID of the folder module (cmid) to delete.  [required]</li>
+<li><code>cmid</code>: ID of the folder module (cmid) to delete.  [required]</li>
 </ul>
 <p><strong>Options</strong>:</p>
 <ul>
@@ -3670,11 +3670,11 @@ This uses the centralized delete function from the library.</p>
 <h3 id="python-moodle-folders-list-content"><code>python-moodle folders list-content</code><a class="headerlink" href="#python-moodle-folders-list-content" title="Permanent link">&para;</a></h3>
 <p>Lists the files and subdirectories inside a folder.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="gp">$ </span>python-moodle<span class="w"> </span>folders<span class="w"> </span>list-content<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>CMID
+<div class="language-console highlight"><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="gp">$ </span>python-moodle<span class="w"> </span>folders<span class="w"> </span>list-content<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">{</span>cmid<span class="o">}</span>
 </span></code></pre></div>
 <p><strong>Arguments</strong>:</p>
 <ul>
-<li><code>CMID</code>: ID of the folder module (cmid) to inspect.  [required]</li>
+<li><code>cmid</code>: ID of the folder module (cmid) to inspect.  [required]</li>
 </ul>
 <p><strong>Options</strong>:</p>
 <ul>
@@ -3687,9 +3687,9 @@ This uses the centralized delete function from the library.</p>
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
-<li><code>--cmid INTEGER</code>: ID of the folder to add the file to.  [required]</li>
-<li><code>--file FILENAME</code>: Path of the local file to upload.  [required]</li>
-<li><code>--subfolder TEXT</code>: Path to the subfolder inside the Moodle folder (e.g., &#x27;/scorms/&#x27;). Must start and end with &#x27;/&#x27;.  [default: /]</li>
+<li><code>--cmid &lt;int&gt;</code>: ID of the folder to add the file to.  [required]</li>
+<li><code>--file &lt;filename&gt;</code>: Path of the local file to upload.  [required]</li>
+<li><code>--subfolder &lt;str&gt;</code>: Path to the subfolder inside the Moodle folder (e.g., &#x27;/scorms/&#x27;). Must start and end with &#x27;/&#x27;.  [default: /]</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h3 id="python-moodle-folders-delete-file"><code>python-moodle folders delete-file</code><a class="headerlink" href="#python-moodle-folders-delete-file" title="Permanent link">&para;</a></h3>
@@ -3699,8 +3699,8 @@ This uses the centralized delete function from the library.</p>
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
-<li><code>--cmid INTEGER</code>: ID of the folder containing the file.  [required]</li>
-<li><code>--filename TEXT</code>: Name of the file to delete from the folder.  [required]</li>
+<li><code>--cmid &lt;int&gt;</code>: ID of the folder containing the file.  [required]</li>
+<li><code>--filename &lt;str&gt;</code>: Name of the file to delete from the folder.  [required]</li>
 <li><code>-f, --force</code>: Delete without confirmation.</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
@@ -3711,9 +3711,9 @@ This uses the centralized delete function from the library.</p>
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
-<li><code>--cmid INTEGER</code>: ID of the folder containing the file.  [required]</li>
-<li><code>--old-name TEXT</code>: The current name of the file.  [required]</li>
-<li><code>--new-name TEXT</code>: The new name for the file.  [required]</li>
+<li><code>--cmid &lt;int&gt;</code>: ID of the folder containing the file.  [required]</li>
+<li><code>--old-name &lt;str&gt;</code>: The current name of the file.  [required]</li>
+<li><code>--new-name &lt;str&gt;</code>: The new name for the file.  [required]</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h2 id="python-moodle-pages"><code>python-moodle pages</code><a class="headerlink" href="#python-moodle-pages" title="Permanent link">&para;</a></h2>
@@ -3737,21 +3737,21 @@ This uses the centralized delete function from the library.</p>
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
-<li><code>--course-id INTEGER</code>: ID of the course to add the page to.  [required]</li>
-<li><code>--section-id INTEGER</code>: ID of the section to add the page to.  [required]</li>
-<li><code>--name TEXT</code>: Name/title of the page.  [required]</li>
-<li><code>--file FILENAME</code>: Path to a file containing the HTML content.  [required]</li>
-<li><code>--intro TEXT</code>: Introduction or description for the page.</li>
+<li><code>--course-id &lt;int&gt;</code>: ID of the course to add the page to.  [required]</li>
+<li><code>--section-id &lt;int&gt;</code>: ID of the section to add the page to.  [required]</li>
+<li><code>--name &lt;str&gt;</code>: Name/title of the page.  [required]</li>
+<li><code>--file &lt;filename&gt;</code>: Path to a file containing the HTML content.  [required]</li>
+<li><code>--intro &lt;str&gt;</code>: Introduction or description for the page.</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h3 id="python-moodle-pages-delete"><code>python-moodle pages delete</code><a class="headerlink" href="#python-moodle-pages-delete" title="Permanent link">&para;</a></h3>
 <p>Delete a page module from a course.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-42-1"><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a><span class="gp">$ </span>python-moodle<span class="w"> </span>pages<span class="w"> </span>delete<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>CMID
+<div class="language-console highlight"><pre><span></span><code><span id="__span-42-1"><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a><span class="gp">$ </span>python-moodle<span class="w"> </span>pages<span class="w"> </span>delete<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">{</span>cmid<span class="o">}</span>
 </span></code></pre></div>
 <p><strong>Arguments</strong>:</p>
 <ul>
-<li><code>CMID</code>: ID of the page module (cmid) to delete.  [required]</li>
+<li><code>cmid</code>: ID of the page module (cmid) to delete.  [required]</li>
 </ul>
 <p><strong>Options</strong>:</p>
 <ul>
@@ -3779,21 +3779,21 @@ This uses the centralized delete function from the library.</p>
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
-<li><code>--course-id INTEGER</code>: ID of the course to add the resource to.  [required]</li>
-<li><code>--section-id INTEGER</code>: ID of the section to add the resource to.  [required]</li>
-<li><code>--name TEXT</code>: Name/title of the resource.  [required]</li>
-<li><code>--file FILENAME</code>: Path to the file to upload.  [required]</li>
-<li><code>--intro TEXT</code>: Introduction or description for the resource.</li>
+<li><code>--course-id &lt;int&gt;</code>: ID of the course to add the resource to.  [required]</li>
+<li><code>--section-id &lt;int&gt;</code>: ID of the section to add the resource to.  [required]</li>
+<li><code>--name &lt;str&gt;</code>: Name/title of the resource.  [required]</li>
+<li><code>--file &lt;filename&gt;</code>: Path to the file to upload.  [required]</li>
+<li><code>--intro &lt;str&gt;</code>: Introduction or description for the resource.</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h3 id="python-moodle-resources-delete"><code>python-moodle resources delete</code><a class="headerlink" href="#python-moodle-resources-delete" title="Permanent link">&para;</a></h3>
 <p>Delete a resource module from a course.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-45-1"><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a><span class="gp">$ </span>python-moodle<span class="w"> </span>resources<span class="w"> </span>delete<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>CMID
+<div class="language-console highlight"><pre><span></span><code><span id="__span-45-1"><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a><span class="gp">$ </span>python-moodle<span class="w"> </span>resources<span class="w"> </span>delete<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">{</span>cmid<span class="o">}</span>
 </span></code></pre></div>
 <p><strong>Arguments</strong>:</p>
 <ul>
-<li><code>CMID</code>: ID of the resource module (cmid) to delete.  [required]</li>
+<li><code>cmid</code>: ID of the resource module (cmid) to delete.  [required]</li>
 </ul>
 <p><strong>Options</strong>:</p>
 <ul>
@@ -3821,21 +3821,21 @@ This uses the centralized delete function from the library.</p>
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
-<li><code>--course-id INTEGER</code>: ID of the course to add the URL to.  [required]</li>
-<li><code>--section-id INTEGER</code>: ID of the section to add the URL to.  [required]</li>
-<li><code>--name TEXT</code>: Name/title of the URL.  [required]</li>
-<li><code>--url TEXT</code>: The external URL to link.  [required]</li>
-<li><code>--intro TEXT</code>: Introduction or description.</li>
+<li><code>--course-id &lt;int&gt;</code>: ID of the course to add the URL to.  [required]</li>
+<li><code>--section-id &lt;int&gt;</code>: ID of the section to add the URL to.  [required]</li>
+<li><code>--name &lt;str&gt;</code>: Name/title of the URL.  [required]</li>
+<li><code>--url &lt;str&gt;</code>: The external URL to link.  [required]</li>
+<li><code>--intro &lt;str&gt;</code>: Introduction or description.</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 <h3 id="python-moodle-urls-delete"><code>python-moodle urls delete</code><a class="headerlink" href="#python-moodle-urls-delete" title="Permanent link">&para;</a></h3>
 <p>Delete a URL module from a course.</p>
 <p><strong>Usage</strong>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-48-1"><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a><span class="gp">$ </span>python-moodle<span class="w"> </span>urls<span class="w"> </span>delete<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>CMID
+<div class="language-console highlight"><pre><span></span><code><span id="__span-48-1"><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a><span class="gp">$ </span>python-moodle<span class="w"> </span>urls<span class="w"> </span>delete<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">{</span>cmid<span class="o">}</span>
 </span></code></pre></div>
 <p><strong>Arguments</strong>:</p>
 <ul>
-<li><code>CMID</code>: ID of the URL module (cmid) to delete.  [required]</li>
+<li><code>cmid</code>: ID of the URL module (cmid) to delete.  [required]</li>
 </ul>
 <p><strong>Options</strong>:</p>
 <ul>
@@ -3885,7 +3885,7 @@ This uses the centralized delete function from the library.</p>
 </span></code></pre></div>
 <p><strong>Options</strong>:</p>
 <ul>
-<li><code>-o, --output [table|json|yaml|csv]</code>: Output format.  [default: table]</li>
+<li><code>-o, --output &lt;table|json|yaml|csv&gt;</code>: Output format.  [default: table]</li>
 <li><code>--help</code>: Show this message and exit.</li>
 </ul>
 
@@ -3969,7 +3969,7 @@ This uses the centralized delete function from the library.</p>
       <script id="__config" type="application/json">{"annotate":null,"base":"..","features":["content.code.copy","content.code.annotate","navigation.sections","navigation.tabs","navigation.top","navigation.tracking","search.highlight","search.share","toc.follow"],"search":"../assets/javascripts/workers/search.b6b7e04f.min.js","tags":null,"translations":{"clipboard.copied":"Copied to clipboard","clipboard.copy":"Copy to clipboard","search.result.more.one":"1 more on this page","search.result.more.other":"# more on this page","search.result.none":"No matching documents","search.result.one":"1 matching document","search.result.other":"# matching documents","search.result.placeholder":"Type to start searching","search.result.term.missing":"Missing","select.version":"Select version"},"version":null}</script>
     
     
-      <script src="../assets/javascripts/bundle.0df4f2d0.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7f30b55.min.js"></script>
       
     
   </body>
