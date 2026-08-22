@@ -52,10 +52,10 @@ test-unit:
 	pytest tests/unit
 
 test-local: ensure-env
-	pytest --integration --moodle-env local -m integration -n auto
+	pytest --integration --moodle-env local -m integration -n auto --dist loadfile
 
 test-staging: ensure-env
-	pytest --integration --moodle-env staging -m integration -n auto
+	pytest --integration --moodle-env staging -m integration -n auto --dist loadfile
 
 test: upd test-local
 
@@ -64,7 +64,7 @@ help:
 	@echo ""
 	@echo "Environment:"
 	@echo "  ensure-env         - Create .env file from .env.example if it does not exist"
-	@echo "  check-docker       - Check if Docker is running"
+	@echo "  check-docker       - Check if Docker is running. Please ensure Docker is installed and running."
 	@echo ""
 	@echo "Startup:"
 	@echo "  up                 - Run Docker containers in foreground mode"
@@ -79,8 +79,8 @@ help:
 	@echo ""
 	@echo "Testing:"
 	@echo "  test-unit          - Run fast smoke tests that do not require Moodle"
-	@echo "  test-local         - Run local tests (in parallel) using pytest with moodle-env=local"
-	@echo "  test-staging       - Run tests (in parallel) using moodle-env=staging"
+	@echo "  test-local         - Run local tests (parallel by file) using pytest with moodle-env=local"
+	@echo "  test-staging       - Run tests (parallel by file) using moodle-env=staging"
 	@echo "  test               - Start containers (detached) and run local tests"
 	@echo ""
 	@echo "  help               - Show this help message"
