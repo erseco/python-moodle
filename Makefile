@@ -64,7 +64,7 @@ help:
 	@echo ""
 	@echo "Environment:"
 	@echo "  ensure-env         - Create .env file from .env.example if it does not exist"
-	@echo "  check-docker       - Check if Docker is running. Please ensure Docker is installed and running."
+	@echo "  check-docker       - Check if Docker is running"
 	@echo ""
 	@echo "Startup:"
 	@echo "  up                 - Run Docker containers in foreground mode"
