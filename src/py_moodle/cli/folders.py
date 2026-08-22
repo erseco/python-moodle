@@ -247,7 +247,10 @@ def rename_file(
             rename_file_in_folder(
                 ms.session, ms.settings.url, ms.sesskey, cmid, old_name, new_name
             )
-        success(ctx, f"File renamed from '{old_name}' to '{new_name}' in folder {cmid}.")
+        success(
+            ctx,
+            f"File renamed from '{old_name}' to '{new_name}' in folder {cmid}.",
+        )
     except MoodleFolderError as e:
         error(ctx, f"Error renaming file: {e}")
         raise typer.Exit(1)
