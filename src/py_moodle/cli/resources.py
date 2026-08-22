@@ -2,6 +2,7 @@
 
 import typer
 
+from py_moodle.cli.feedback import error, success, upload_progress
 from py_moodle.resource import MoodleResourceError, add_resource, delete_resource
 from py_moodle.session import MoodleSession
 
@@ -31,21 +32,21 @@ def add_a_resource(
     """Add a new resource (single file) to a course section."""
     ms = MoodleSession.get(ctx.obj["env"])
     try:
-        new_cmid = add_resource(
-            session=ms.session,
-            base_url=ms.settings.url,
-            sesskey=ms.sesskey,
-            course_id=course_id,
-            section_id=section_id,
-            name=name,
-            file_path=file.name,
-            intro=intro,
-        )
-        typer.echo(
-            f"Resource '{name}' created successfully. New module ID (cmid): {new_cmid}"
-        )
+        with upload_progress(ctx, file.name) as progress_callback:
+            new_cmid = add_resource(
+                session=ms.session,
+                base_url=ms.settings.url,
+                sesskey=ms.sesskey,
+                course_id=course_id,
+                section_id=section_id,
+                name=name,
+                file_path=file.name,
+                intro=intro,
+                progress_callback=progress_callback,
+            )
+        success(ctx, f"Resource '{name}' created. New module ID (cmid): {new_cmid}")
     except MoodleResourceError as e:
-        typer.echo(f"Error creating resource: {e}", err=True)
+        error(ctx, f"Error creating resource: {e}")
         raise typer.Exit(1)
 
 
@@ -66,9 +67,9 @@ def delete_a_resource(
         )
     try:
         delete_resource(ms.session, ms.settings.url, ms.sesskey, cmid)
-        typer.echo(f"Resource {cmid} deleted successfully.")
+        success(ctx, f"Resource {cmid} deleted successfully.")
     except MoodleResourceError as e:
-        typer.echo(f"Error deleting resource: {e}", err=True)
+        error(ctx, f"Error deleting resource: {e}")
         raise typer.Exit(1)
 
 
