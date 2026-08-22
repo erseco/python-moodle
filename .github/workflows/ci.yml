@@ -130,7 +130,45 @@ jobs:
         run: MOODLE_DOCKER_IMAGE="${{ matrix.moodle-image }}" make upd
 
       - name: Run tests
-        run: make test-local
+        run: |
+          set -uo pipefail
+          max_attempts=2
+          retry_delay=15
+
+          for attempt in $(seq 1 "$max_attempts"); do
+            log_file="$(mktemp)"
+            make test-local 2>&1 | tee "$log_file"
+            test_status=${PIPESTATUS[0]}
+
+            if [ "$test_status" -eq 0 ]; then
+              rm -f "$log_file"
+              exit 0
+            fi
+
+            known_race=0
+            if grep -Fq 'duplicate key value violates unique constraint "mdl_cont_conins_uix"' "$log_file"; then
+              known_race=1
+            fi
+            if grep -Fq "Can't find data record in database table course" "$log_file"; then
+              known_race=1
+            fi
+
+            if [ "$known_race" -ne 1 ]; then
+              echo "Integration tests failed for a non-flaky reason; not retrying."
+              rm -f "$log_file"
+              exit "$test_status"
+            fi
+
+            if [ "$attempt" -eq "$max_attempts" ]; then
+              echo "Known Moodle race persisted after $max_attempts attempts."
+              rm -f "$log_file"
+              exit "$test_status"
+            fi
+
+            echo "Known Moodle database race detected; retrying in ${retry_delay}s..."
+            rm -f "$log_file"
+            sleep "$retry_delay"
+          done
 
       - name: Run example_script.py
         if: matrix.run-examples
