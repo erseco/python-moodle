@@ -132,13 +132,16 @@ jobs:
       - name: Run tests
         run: |
           set -uo pipefail
-          max_attempts=2
-          retry_delay=15
+          max_attempts=3
 
           for attempt in $(seq 1 "$max_attempts"); do
+            echo "Moodle integration attempt ${attempt}/${max_attempts}"
             log_file="$(mktemp)"
-            make test-local 2>&1 | tee "$log_file"
+
+            set +e
+            make test-local-ci 2>&1 | tee "$log_file"
             test_status=${PIPESTATUS[0]}
+            set -e
 
             if [ "$test_status" -eq 0 ]; then
               rm -f "$log_file"
@@ -165,9 +168,10 @@ jobs:
               exit "$test_status"
             fi
 
-            echo "Known Moodle database race detected; retrying in ${retry_delay}s..."
+            echo "Known Moodle database race detected. Resetting Moodle before retry..."
             rm -f "$log_file"
-            sleep "$retry_delay"
+            docker compose down -v
+            MOODLE_DOCKER_IMAGE="${{ matrix.moodle-image }}" make upd
           done
 
       - name: Run example_script.py
