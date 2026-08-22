@@ -1,6 +1,6 @@
 ENV_FILE=.env
 
-.PHONY: ensure-env check-docker up format lint docs docs-generate test test-unit test-local test-staging
+.PHONY: ensure-env check-docker up format lint docs docs-generate test test-unit test-local test-local-ci test-staging
 
 ensure-env:
 	@if [ ! -f $(ENV_FILE) ]; then cp .env.example $(ENV_FILE); fi
@@ -54,6 +54,9 @@ test-unit:
 test-local: ensure-env
 	pytest --integration --moodle-env local -m integration -n auto --dist loadfile
 
+test-local-ci: ensure-env
+	pytest --integration --moodle-env local -m integration
+
 test-staging: ensure-env
 	pytest --integration --moodle-env staging -m integration -n auto --dist loadfile
 
@@ -79,8 +82,9 @@ help:
 	@echo ""
 	@echo "Testing:"
 	@echo "  test-unit          - Run fast smoke tests that do not require Moodle"
-	@echo "  test-local         - Run local tests (parallel by file) using pytest with moodle-env=local"
-	@echo "  test-staging       - Run tests (parallel by file) using moodle-env=staging"
+	@echo "  test-local         - Run local tests (parallel by file) using moodle-env=local"
+	@echo "  test-local-ci      - Run local Moodle integration tests serially for CI stability"
+	@echo "  test-staging       - Run staging tests (parallel by file) using moodle-env=staging"
 	@echo "  test               - Start containers (detached) and run local tests"
 	@echo ""
 	@echo "  help               - Show this help message"
