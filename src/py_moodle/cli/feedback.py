@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import sys
 from contextlib import contextmanager, nullcontext
 from pathlib import Path
 from typing import Callable, Iterator, Optional
@@ -48,7 +49,7 @@ def error(ctx: Optional[typer.Context], message: str) -> None:
     console = get_console(ctx)
     original_file = console.file
     try:
-        console.file = typer.get_text_stderr()
+        console.file = sys.stderr
         console.print(f"[red]✗[/red] {message}")
     finally:
         console.file = original_file
