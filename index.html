@@ -2383,7 +2383,7 @@
 
 <h1 id="python-moodle">python-moodle<a class="headerlink" href="#python-moodle" title="Permanent link">&para;</a></h1>
 <p><a href="https://github.com/erseco/python-moodle/blob/main/LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/License-MIT-blue.svg" /></a>
-<a href="https://www.python.org/downloads/"><img alt="Python Version" src="https://img.shields.io/badge/python-3.8+-blue.svg" /></a>
+<a href="https://www.python.org/downloads/"><img alt="Python Version" src="https://img.shields.io/badge/python-3.9%20to%203.14-blue.svg" /></a>
 <a href="https://github.com/erseco/python-moodle/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/erseco/python-moodle/actions/workflows/ci.yml/badge.svg" /></a>
 <a href="https://pypi.org/project/python-moodle/"><img alt="PyPI downloads" src="https://img.shields.io/pypi/dm/python-moodle" /></a>
 <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg" /></a>
@@ -2397,7 +2397,7 @@
 <li><strong>Works with web sessions</strong> — simulates a real user browser session, no Moodle plugins needed</li>
 <li><strong>CLI for admins</strong> and <strong>library for automation scripts</strong></li>
 <li><strong>Handles courses, sections, labels, folders, assignments and SCORM</strong> out of the box</li>
-<li><strong>Tested against Moodle 4.x and 5.x</strong> on Python 3.8–3.13</li>
+<li><strong>Tested against Moodle 4.x and 5.x</strong> on supported Python 3.9–3.14 releases, with Python 3.15 pre-releases validated in CI</li>
 </ul>
 <h3 id="python-moodle-vs-moodle-webservice-wrappers">python-moodle vs. Moodle webservice wrappers<a class="headerlink" href="#python-moodle-vs-moodle-webservice-wrappers" title="Permanent link">&para;</a></h3>
 <table>
@@ -2504,7 +2504,7 @@
 <p>At the moment, representative compatibility handling has been wired into login/session bootstrap, generic module form parsing, and folder page scraping. When a new Moodle release changes one of these flows, the recommended fix is to update <code>py_moodle.compat</code> and add a regression test for the new selector or workflow.</p>
 <hr />
 <h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
-<p>You will need Python 3.8+ and <code>pip</code>.</p>
+<p>You will need Python 3.9+ and <code>pip</code>. Stable support currently covers Python 3.9–3.14; Python 3.15 pre-releases are continuously tested in CI ahead of the final release.</p>
 <h3 id="install-from-pypi-recommended">Install from PyPI (Recommended)<a class="headerlink" href="#install-from-pypi-recommended" title="Permanent link">&para;</a></h3>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>pip<span class="w"> </span>install<span class="w"> </span>python-moodle
 </span></code></pre></div>
@@ -2625,12 +2625,12 @@ for the full list of resource namespaces.</p>
 </span></code></pre></div>
 <p>GitHub Actions automatically runs:</p>
 <ul>
-<li>linting on Python 3.13</li>
-<li>smoke tests on Python 3.9 through 3.13</li>
+<li>linting on Python 3.14</li>
+<li>smoke tests on supported Python 3.9 through 3.14, plus Python 3.15 pre-releases</li>
 <li>Docker-backed integration tests on representative Python/Moodle combinations:</li>
 <li>Python 3.9 with Moodle 4.5.5</li>
 <li>Python 3.13 with Moodle 5.0.1</li>
-<li>Python 3.13 with Moodle 5.1.5</li>
+<li>Python 3.14 with Moodle 5.1.5</li>
 </ul>
 <h2 id="development">Development<a class="headerlink" href="#development" title="Permanent link">&para;</a></h2>
 <p>Use the Makefile to format code, run linters, or build the documentation:</p>
