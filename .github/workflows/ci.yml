@@ -22,7 +22,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v7
         with:
-          python-version: '3.13'
+          python-version: '3.14'
           cache: 'pip'
 
       - name: Install dependencies
@@ -55,7 +55,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ['3.9', '3.10', '3.11', '3.12', '3.13']
+        python-version: ['3.9', '3.10', '3.11', '3.12', '3.13', '3.14', '3.15']
 
     steps:
       - name: Checkout code
@@ -65,6 +65,7 @@ jobs:
         uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python-version }}
+          allow-prereleases: true
           cache: 'pip'
 
       - name: Install dependencies
@@ -92,7 +93,7 @@ jobs:
             moodle-label: Moodle 5.0.1
             moodle-cache-key: moodle-5-0-1
             run-examples: true
-          - python-version: '3.13'
+          - python-version: '3.14'
             moodle-image: erseco/alpine-moodle:v5.1.5
             moodle-label: Moodle 5.1.5
             moodle-cache-key: moodle-5-1-5

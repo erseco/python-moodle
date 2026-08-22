@@ -5,7 +5,7 @@
 # python-moodle
 
 [![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/erseco/python-moodle/blob/main/LICENSE)
-[![Python Version](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![Python Version](https://img.shields.io/badge/python-3.9%20to%203.14-blue.svg)](https://www.python.org/downloads/)
 [![CI](https://github.com/erseco/python-moodle/actions/workflows/ci.yml/badge.svg)](https://github.com/erseco/python-moodle/actions/workflows/ci.yml)
 [![PyPI downloads](https://img.shields.io/pypi/dm/python-moodle)](https://pypi.org/project/python-moodle/)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
@@ -19,7 +19,7 @@
 - **Works with web sessions** — simulates a real user browser session, no Moodle plugins needed
 - **CLI for admins** and **library for automation scripts**
 - **Handles courses, sections, labels, folders, assignments and SCORM** out of the box
-- **Tested against Moodle 4.x and 5.x** on Python 3.8–3.13
+- **Tested against Moodle 4.x and 5.x** on supported Python 3.9–3.14 releases, with Python 3.15 pre-releases validated in CI
 
 ### python-moodle vs. Moodle webservice wrappers
 
@@ -90,7 +90,7 @@ At the moment, representative compatibility handling has been wired into login/s
 
 ## Installation
 
-You will need Python 3.8+ and `pip`.
+You will need Python 3.9+ and `pip`. Stable support currently covers Python 3.9–3.14; Python 3.15 pre-releases are continuously tested in CI ahead of the final release.
 
 ### Install from PyPI (Recommended)
 
@@ -281,12 +281,12 @@ make test
 
 GitHub Actions automatically runs:
 
-- linting on Python 3.13
-- smoke tests on Python 3.9 through 3.13
+- linting on Python 3.14
+- smoke tests on supported Python 3.9 through 3.14, plus Python 3.15 pre-releases
 - Docker-backed integration tests on representative Python/Moodle combinations:
   - Python 3.9 with Moodle 4.5.5
   - Python 3.13 with Moodle 5.0.1
-  - Python 3.13 with Moodle 5.1.5
+  - Python 3.14 with Moodle 5.1.5
 
 ## Development
 
