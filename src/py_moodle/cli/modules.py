@@ -152,7 +152,9 @@ def add_a_scorm_cmd(
 
     ms = MoodleSession.get(ctx.obj["env"])
     try:
-        with upload_progress(ctx, file_path.name, output_format=output) as progress_callback:
+        with upload_progress(
+            ctx, file_path.name, output_format=output
+        ) as progress_callback:
             new_cmid = add_scorm(
                 session=ms.session,
                 base_url=ms.settings.url,
