@@ -99,9 +99,9 @@ jobs:
             moodle-cache-key: moodle-5-1-5
             run-examples: false
           - python-version: '3.14'
-            moodle-image: erseco/alpine-moodle:v5.3.0-rc1
-            moodle-label: Moodle 5.3.0 RC1
-            moodle-cache-key: moodle-5-3-0-rc1
+            moodle-image: erseco/alpine-moodle:v5.3.0
+            moodle-label: Moodle 5.3.0
+            moodle-cache-key: moodle-5-3-0
             run-examples: false
 
     steps:
