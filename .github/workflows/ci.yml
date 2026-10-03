@@ -87,21 +87,25 @@ jobs:
             moodle-image: erseco/alpine-moodle:v4.5.5
             moodle-label: Moodle 4.5.5
             moodle-cache-key: moodle-4-5-5
+            postgres-image: postgres:16-alpine
             run-examples: false
           - python-version: '3.13'
             moodle-image: erseco/alpine-moodle:v5.0.1
             moodle-label: Moodle 5.0.1
             moodle-cache-key: moodle-5-0-1
+            postgres-image: postgres:16-alpine
             run-examples: true
           - python-version: '3.14'
             moodle-image: erseco/alpine-moodle:v5.1.5
             moodle-label: Moodle 5.1.5
             moodle-cache-key: moodle-5-1-5
+            postgres-image: postgres:16-alpine
             run-examples: false
           - python-version: '3.14'
             moodle-image: erseco/alpine-moodle:v5.3.0
             moodle-label: Moodle 5.3.0
             moodle-cache-key: moodle-5-3-0
+            postgres-image: postgres:17-alpine
             run-examples: false
 
     steps:
@@ -133,7 +137,7 @@ jobs:
           fi
 
       - name: Start ${{ matrix.moodle-label }} with Docker Compose
-        run: MOODLE_DOCKER_IMAGE="${{ matrix.moodle-image }}" make upd
+        run: POSTGRES_DOCKER_IMAGE="${{ matrix.postgres-image }}" MOODLE_DOCKER_IMAGE="${{ matrix.moodle-image }}" make upd
 
       - name: Run tests
         run: |
@@ -177,7 +181,7 @@ jobs:
             echo "Known Moodle database race detected. Resetting Moodle before retry..."
             rm -f "$log_file"
             docker compose down -v
-            MOODLE_DOCKER_IMAGE="${{ matrix.moodle-image }}" make upd
+            POSTGRES_DOCKER_IMAGE="${{ matrix.postgres-image }}" MOODLE_DOCKER_IMAGE="${{ matrix.moodle-image }}" make upd
           done
 
       - name: Run example_script.py
@@ -188,5 +192,5 @@ jobs:
         if: always()
         run: |
           mkdir -p /tmp/docker-cache/${{ matrix.moodle-cache-key }}
-          docker save postgres:16-alpine -o /tmp/docker-cache/${{ matrix.moodle-cache-key }}/postgres.tar
+          docker save "${{ matrix.postgres-image }}" -o /tmp/docker-cache/${{ matrix.moodle-cache-key }}/postgres.tar
           docker save "${{ matrix.moodle-image }}" -o /tmp/docker-cache/${{ matrix.moodle-cache-key }}/moodle.tar
