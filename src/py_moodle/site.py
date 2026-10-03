@@ -1,7 +1,7 @@
 """Site information."""
 
-from dataclasses import dataclass
-from typing import List
+from dataclasses import dataclass, fields
+from typing import Any, Dict, List, Optional
 
 from py_moodle.session import MoodleSession
 
@@ -54,6 +54,29 @@ class SiteInfo:
     theme: str
     limitconcurrentlogins: int
     policyagreed: int
+    usercanchangeconfig: Optional[bool] = None
+    usercanviewconfig: Optional[bool] = None
+    sitesecret: Optional[str] = None
+    usersessionscount: Optional[int] = None
+
+    @classmethod
+    def from_moodle(cls, data: Dict[str, Any]) -> "SiteInfo":
+        """Build site information from a Moodle webservice response.
+
+        Unknown fields are ignored so new Moodle versions can extend
+        ``core_webservice_get_site_info`` without breaking the client.
+
+        Args:
+            data: Raw site-info payload returned by Moodle.
+
+        Returns:
+            SiteInfo: Parsed site information.
+        """
+        known_fields = {field.name for field in fields(cls)}
+        values = {
+            key: value for key, value in data.items() if key in known_fields
+        }
+        return cls(**values)
 
 
 def get_site_info(session: MoodleSession) -> SiteInfo:
@@ -72,4 +95,4 @@ def get_site_info(session: MoodleSession) -> SiteInfo:
     response["advancedfeatures"] = [
         AdvancedFeature(**feature) for feature in response["advancedfeatures"]
     ]
-    return SiteInfo(**response)
+    return SiteInfo.from_moodle(response)
