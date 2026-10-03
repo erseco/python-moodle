@@ -4,61 +4,43 @@
         <loc>https://erseco.github.io/python-moodle/</loc>
       </url>
       <url>
-        <loc>https://erseco.github.io/python-moodle/getting-started/</loc>
-      </url>
-      <url>
-        <loc>https://erseco.github.io/python-moodle/getting-started/installation/</loc>
-      </url>
-      <url>
-        <loc>https://erseco.github.io/python-moodle/getting-started/configuration/</loc>
-      </url>
-      <url>
-        <loc>https://erseco.github.io/python-moodle/getting-started/quickstart/</loc>
-      </url>
-      <url>
-        <loc>https://erseco.github.io/python-moodle/cli/</loc>
-      </url>
-      <url>
-        <loc>https://erseco.github.io/python-moodle/api/client/</loc>
-      </url>
-      <url>
-        <loc>https://erseco.github.io/python-moodle/api/session/</loc>
-      </url>
-      <url>
-        <loc>https://erseco.github.io/python-moodle/api/http/</loc>
-      </url>
-      <url>
-        <loc>https://erseco.github.io/python-moodle/api/transport/</loc>
-      </url>
-      <url>
-        <loc>https://erseco.github.io/python-moodle/api/settings/</loc>
+        <loc>https://erseco.github.io/python-moodle/api/assign/</loc>
       </url>
       <url>
         <loc>https://erseco.github.io/python-moodle/api/auth/</loc>
       </url>
       <url>
-        <loc>https://erseco.github.io/python-moodle/api/doctor/</loc>
+        <loc>https://erseco.github.io/python-moodle/api/category/</loc>
       </url>
       <url>
-        <loc>https://erseco.github.io/python-moodle/api/models/</loc>
+        <loc>https://erseco.github.io/python-moodle/api/client/</loc>
       </url>
       <url>
         <loc>https://erseco.github.io/python-moodle/api/course/</loc>
       </url>
       <url>
-        <loc>https://erseco.github.io/python-moodle/api/category/</loc>
+        <loc>https://erseco.github.io/python-moodle/api/doctor/</loc>
       </url>
       <url>
-        <loc>https://erseco.github.io/python-moodle/api/section/</loc>
+        <loc>https://erseco.github.io/python-moodle/api/draftfile/</loc>
       </url>
       <url>
         <loc>https://erseco.github.io/python-moodle/api/ensure/</loc>
       </url>
       <url>
-        <loc>https://erseco.github.io/python-moodle/api/module/</loc>
+        <loc>https://erseco.github.io/python-moodle/api/folder/</loc>
+      </url>
+      <url>
+        <loc>https://erseco.github.io/python-moodle/api/http/</loc>
       </url>
       <url>
         <loc>https://erseco.github.io/python-moodle/api/label/</loc>
+      </url>
+      <url>
+        <loc>https://erseco.github.io/python-moodle/api/models/</loc>
+      </url>
+      <url>
+        <loc>https://erseco.github.io/python-moodle/api/module/</loc>
       </url>
       <url>
         <loc>https://erseco.github.io/python-moodle/api/page/</loc>
@@ -67,39 +49,57 @@
         <loc>https://erseco.github.io/python-moodle/api/resource/</loc>
       </url>
       <url>
-        <loc>https://erseco.github.io/python-moodle/api/folder/</loc>
-      </url>
-      <url>
-        <loc>https://erseco.github.io/python-moodle/api/url/</loc>
-      </url>
-      <url>
         <loc>https://erseco.github.io/python-moodle/api/scorm/</loc>
       </url>
       <url>
-        <loc>https://erseco.github.io/python-moodle/api/assign/</loc>
+        <loc>https://erseco.github.io/python-moodle/api/section/</loc>
+      </url>
+      <url>
+        <loc>https://erseco.github.io/python-moodle/api/session/</loc>
+      </url>
+      <url>
+        <loc>https://erseco.github.io/python-moodle/api/settings/</loc>
+      </url>
+      <url>
+        <loc>https://erseco.github.io/python-moodle/api/transport/</loc>
       </url>
       <url>
         <loc>https://erseco.github.io/python-moodle/api/upload/</loc>
       </url>
       <url>
-        <loc>https://erseco.github.io/python-moodle/api/draftfile/</loc>
+        <loc>https://erseco.github.io/python-moodle/api/url/</loc>
       </url>
       <url>
         <loc>https://erseco.github.io/python-moodle/api/user/</loc>
       </url>
       <url>
-        <loc>https://erseco.github.io/python-moodle/examples/</loc>
-      </url>
-      <url>
-        <loc>https://erseco.github.io/python-moodle/recipes/</loc>
+        <loc>https://erseco.github.io/python-moodle/cli/</loc>
       </url>
       <url>
         <loc>https://erseco.github.io/python-moodle/development/</loc>
       </url>
       <url>
-        <loc>https://erseco.github.io/python-moodle/troubleshooting/</loc>
+        <loc>https://erseco.github.io/python-moodle/examples/</loc>
+      </url>
+      <url>
+        <loc>https://erseco.github.io/python-moodle/getting-started/</loc>
+      </url>
+      <url>
+        <loc>https://erseco.github.io/python-moodle/getting-started/configuration/</loc>
+      </url>
+      <url>
+        <loc>https://erseco.github.io/python-moodle/getting-started/installation/</loc>
+      </url>
+      <url>
+        <loc>https://erseco.github.io/python-moodle/getting-started/quickstart/</loc>
+      </url>
+      <url>
+        <loc>https://erseco.github.io/python-moodle/recipes/</loc>
       </url>
       <url>
         <loc>https://erseco.github.io/python-moodle/roadmap-plan/</loc>
+      </url>
+      <url>
+        <loc>https://erseco.github.io/python-moodle/troubleshooting/</loc>
       </url>
 </urlset>
