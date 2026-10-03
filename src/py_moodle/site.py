@@ -73,9 +73,7 @@ class SiteInfo:
             SiteInfo: Parsed site information.
         """
         known_fields = {field.name for field in fields(cls)}
-        values = {
-            key: value for key, value in data.items() if key in known_fields
-        }
+        values = {key: value for key, value in data.items() if key in known_fields}
         return cls(**values)
 
 
