@@ -84,21 +84,21 @@ jobs:
       matrix:
         include:
           - python-version: '3.9'
-            moodle-image: erseco/alpine-moodle:v4.5.5
-            moodle-label: Moodle 4.5.5
-            moodle-cache-key: moodle-4-5-5
+            moodle-image: erseco/alpine-moodle:v4.5.15
+            moodle-label: Moodle 4.5.15
+            moodle-cache-key: moodle-4-5-15
             postgres-image: postgres:16-alpine
             run-examples: false
           - python-version: '3.13'
-            moodle-image: erseco/alpine-moodle:v5.0.1
-            moodle-label: Moodle 5.0.1
-            moodle-cache-key: moodle-5-0-1
+            moodle-image: erseco/alpine-moodle:v5.0.11
+            moodle-label: Moodle 5.0.11
+            moodle-cache-key: moodle-5-0-11
             postgres-image: postgres:16-alpine
             run-examples: true
           - python-version: '3.14'
-            moodle-image: erseco/alpine-moodle:v5.1.5
-            moodle-label: Moodle 5.1.5
-            moodle-cache-key: moodle-5-1-5
+            moodle-image: erseco/alpine-moodle:v5.1.8
+            moodle-label: Moodle 5.1.8
+            moodle-cache-key: moodle-5-1-8
             postgres-image: postgres:16-alpine
             run-examples: false
           - python-version: '3.14'
